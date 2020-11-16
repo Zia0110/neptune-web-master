@@ -1,0 +1,16 @@
+<div *ngIf="currentOrder">
+  <div style="width: 95%;" class="row">
+    <div class="col-md-6">Confirm return {{ currentOrder.OrderNo }} order</div>
+    <div class="col-md-6">
+      Status: {{ currentOrder.Status | OrderStatusPipe }}<br /><br />
+      <span class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</span>
+    </div>
+  </div>
+  <br /><br />
+  <div style="width: 95%;" class="form-group">
+    <label for="exampleFormControlTextarea1">Cancel Reason</label>
+    <textarea class="form-control" [(ngModel)]="cancelReason" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+
+  <button mat-raised-button [disabled]="errorMessage" (click)="confirmCancel()" color="primary">Confirm</button>
+</div>

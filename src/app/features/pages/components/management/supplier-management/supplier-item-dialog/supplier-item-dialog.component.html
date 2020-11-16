@@ -1,0 +1,21 @@
+<div>
+  <span>Enter name：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <input type="text" matInput [formControl]="nameFormControl" />
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-checkbox style="margin: 0 1rem 0 0;" [(ngModel)]="checked" labelPosition="before">
+      Whether to show
+    </mat-checkbox>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Confirm
+  </button>
+</div>

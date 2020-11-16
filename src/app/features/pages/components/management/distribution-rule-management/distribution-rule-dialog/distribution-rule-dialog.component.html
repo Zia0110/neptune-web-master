@@ -1,0 +1,28 @@
+<div>
+  <span>Rule Type：</span>
+  <div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input type="number" matInput [(ngModel)]="ruleType" />
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>Name：</span>
+  <div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input type="text" matInput [(ngModel)]="ruleName" />
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>Warehouse：</span>
+  <app-search-selection [data]="3" [selectionPlaceholder]="" [formControl]="warehouseFormControl"></app-search-selection>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Save
+  </button>
+</div>

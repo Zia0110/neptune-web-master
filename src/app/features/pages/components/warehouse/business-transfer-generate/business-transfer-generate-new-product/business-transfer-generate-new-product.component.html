@@ -1,0 +1,89 @@
+<div class="mat-elevation-z8" *ngIf="showTable">
+  <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal">
+    <ng-container matColumnDef="productName">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        <button type="button" class="btn btn-sm mr-1" (click)="newData()">
+          <p style="font-size: xx-large;">+</p>
+        </button>
+        Product Name
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <app-search-selection
+          [data]="1"
+          [formControl]="element.ProductControl"
+          (click)="getProduct(element)"
+          [isBaseProduct]="true"
+        ></app-search-selection>
+        <!-- <button (click)="TEST()">TEST</button> -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="warehouseTransfer">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Warehouse transfer (warehouse/available inventory)</th>
+      <td mat-cell *matCellDef="let element">
+        <!--        <app-transfer-warehouse-transport-->
+        <!--          [outCustomerId]="outCustomerId"-->
+        <!--          [ProductId]="element.ProductId"-->
+        <!--          [isWarehouse]="true"-->
+        <!--          (outputData)="getOutputDataForStock(element, $event)"-->
+        <!--        ></app-transfer-warehouse-transport>-->
+        <app-search-selection
+          [data]="3"
+          [isStockWarehouse]="true"
+          [baseProductIdStockWarehouse]="element.ProductId"
+          [fromCustomerIdStockWarehouse]="outCustomerId"
+          [formControl]="element.WarehouseControl"
+        ></app-search-selection>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="warehouseQuantity">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Quantity
+      </th>
+      <td mat-cell *matCellDef="let element; let index = index">
+        <app-product-quantity (outputData)="getWarehouseQuantity(element, $event)"></app-product-quantity>
+      </td>
+    </ng-container>
+
+    <!--    <ng-container matColumnDef="transportTransfer">-->
+    <!--      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Transport transfer (warehouse/available inventory)</th>-->
+    <!--      <td mat-cell *matCellDef="let element">-->
+    <!--        <app-transfer-warehouse-transport-->
+    <!--          [outCustomerId]="outCustomerId"-->
+    <!--          [ProductId]="element.ProductId"-->
+    <!--          [isWarehouse]="false"-->
+    <!--          (outputData)="getOutputDataForTransport(element, $event)"-->
+    <!--        ></app-transfer-warehouse-transport>-->
+    <!--        &lt;!&ndash; <app-search-selection-->
+    <!--                    [data]="3"-->
+    <!--                    [isStockWarehouse]="true"-->
+    <!--                    [productIdStockWarehouse]="element.ProductId"-->
+    <!--                    [isShowLabel]="false"-->
+    <!--        ></app-search-selection> &ndash;&gt;-->
+    <!--        &lt;!&ndash; <app-business-transfer-warehouse-list [row]="element" [isWarehouse]="false"></app-business-transfer-warehouse-list> &ndash;&gt;-->
+    <!--      </td>-->
+    <!--    </ng-container>-->
+
+    <!--    <ng-container matColumnDef="transportQuantity">-->
+    <!--      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>-->
+    <!--        Transport Quantity-->
+    <!--      </th>-->
+    <!--      <td mat-cell *matCellDef="let element; let index = index">-->
+    <!--        <app-product-quantity (outputData)="getTransportQuantity(element, $event)"></app-product-quantity>-->
+    <!--      </td>-->
+    <!--    </ng-container>-->
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Delete
+      </th>
+      <td mat-cell *matCellDef="let element; let index = index">
+        <button mat-raised-button (click)="removeRow(element)" color="warn">Delete</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

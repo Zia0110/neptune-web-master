@@ -1,0 +1,187 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+    <ng-container matColumnDef="baseProductId">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Product</th>
+      <td class="p-1" mat-cell style="padding-top: 17px !important;" *matCellDef="let i = index; let element">
+        <app-search-selection
+          [ngClass]="{ highlight: element.controls.baseProductId.errors && element.controls.baseProductId.touched }"
+          [isReadOnly]="formIsDisabled"
+          [selectionPlaceholder]="element.controls.productName.value"
+          [data]="1"
+          [isBaseProduct]="true"
+          [formControl]="element.controls.baseProductId"
+        ></app-search-selection>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantityOfProduct">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Quantity</th>
+      <td class="p-1" mat-cell *matCellDef="let element">
+        <input
+          [ngClass]="{ highlight: element.controls.quantityOfProduct.errors }"
+          type="text"
+          [ngModel]="element.controls.quantityPackage.value * element.controls.quantityPerPackage.value"
+          [formControl]="element.controls.quantityOfProduct"
+          placeholder=" Quantity "
+          class="form-control"
+          readonly
+        />
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="productExp">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>productExp</th>
+      <td class="p-1" mat-cell *matCellDef="let element">
+        <mat-form-field appearance="outline">
+          <mat-label>Choose a date</mat-label>
+          <input [disabled]="formIsDisabled" [formControl]="element.controls.productExp" matInput [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <!--        {{ element.controls.productExp.value }}-->
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <!--    <ng-container matColumnDef="availableStock">-->
+    <!--      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Available Stock</th>-->
+    <!--      <td class="p-1" mat-cell *matCellDef="let element">-->
+    <!--        <span *ngIf="isShowTable">{{ element.controls.baseProductId.value && element.controls.customerId.value ? getAvailableStock(element) : 0 }}</span>-->
+    <!--      </td>-->
+    <!--      <td mat-footer-cell *matFooterCellDef></td>-->
+    <!--    </ng-container>-->
+
+    <ng-container matColumnDef="customerId">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Customer</th>
+      <td class="p-1" style="padding-top: 17px !important;" mat-cell *matCellDef="let element">
+        <app-search-selection
+          [ngClass]="{ highlight: element.controls.customerId.errors && element.controls.customerId.touched }"
+          [selectionPlaceholder]="element.controls.customerName.value"
+          [isStockCustomer]="true"
+          [data]="2"
+          [isReadOnly]="formIsDisabled"
+          [formControl]="element.controls.customerId"
+          [isStockCustomerAvailableStock]="true"
+          [baseProductIdStockCustomerAvailableStock]="element.controls.baseProductId.value"
+          [warehouseIdStockCustomerAvailableStock]="warehouseId"
+          (customerStock)="getCustomerStock($event)"
+        ></app-search-selection>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantityPerPackage">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Package (number of goods / box)</th>
+      <td class="p-1" mat-cell *matCellDef="let element">
+        <input
+          [ngClass]="{ highlight: element.controls.quantityPerPackage.errors }"
+          type="number"
+          max="9999999"
+          [formControl]="element.controls.quantityPerPackage"
+          placeholder="Number of goods/carton"
+          class="form-control"
+          [readonly]="formIsDisabled"
+        />
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantityPackage">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Total package</th>
+      <td class="p-1" mat-cell *matCellDef="let element">
+        <input
+          [ngClass]="{ highlight: element.controls.quantityPackage.errors }"
+          type="number"
+          [formControl]="element.controls.quantityPackage"
+          placeholder="Total package"
+          class="form-control"
+          [readonly]="formIsDisabled"
+        />
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="grossWeight">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Total weight</th>
+      <td class="p-1" mat-cell *matCellDef="let element">
+        <input
+          [ngClass]="{ highlight: element.controls.grossWeight.errors }"
+          type="number"
+          [formControl]="element.controls.grossWeight"
+          placeholder="Total weight"
+          step=".001"
+          class="form-control"
+          [readonly]="formIsDisabled"
+        />
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="grossWeightOfUnit">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Unit Weight</th>
+      <td class="p-1" mat-cell *matCellDef="let element">
+        <input
+          [ngClass]="{ highlight: element.controls.grossWeightOfUnit.errors }"
+          type="number"
+          [formControl]="element.controls.grossWeightOfUnit"
+          placeholder="Unit Weight"
+          step=".001"
+          class="form-control"
+          [readonly]="formIsDisabled"
+        />
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="netWeight">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Weight
+      </th>
+      <td class="p-1" mat-cell *matCellDef="let element">
+        <input
+          [ngClass]="{ highlight: element.controls.netWeight.errors }"
+          type="number"
+          [formControl]="element.controls.netWeight"
+          placeholder="Weight"
+          step=".001"
+          class="form-control"
+          [readonly]="formIsDisabled"
+        />
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="placeOfOriginId">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Place of Origin
+      </th>
+      <td class="p-1" mat-cell *matCellDef="let element">
+        <select [formControl]="element.controls.placeOfOriginId" class="form-control" [readonly]="formIsDisabled">
+          <option selected disabled value="0">Default</option>
+          <option *ngFor="let option of originTypes" [value]="option.PlaceOfOriginId"> {{ option.PlaceOfOrigin1 }} </option>
+        </select>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th class="p-1" mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Actions
+      </th>
+      <td class="p-1" mat-cell *matCellDef="let element; let index = index">
+        <button mat-raised-button (click)="removeRow(index)" [disabled]="formIsDisabled" color="warn">Delete</button>
+      </td>
+      <td mat-footer-cell *matFooterCellDef>
+        <button mat-raised-button (click)="addNewFormRow(index)" [disabled]="formIsDisabled" color="primary">Add row</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
+</div>

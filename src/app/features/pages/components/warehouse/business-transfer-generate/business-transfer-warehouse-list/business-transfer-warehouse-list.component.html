@@ -1,0 +1,43 @@
+<div *ngIf="isWarehouse">
+  <div *ngIf="row.WarehouseList.length != 0">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-description>
+            Please click to select transferred products
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div *ngFor="let stock of row.WarehouseList" class="row">
+          <p>{{ stock.WarehouseName }}/{{ stock.AvaliableStock }}</p>
+          &nbsp;&nbsp;&nbsp;
+          <app-product-quantity (outputData)="getStockQuantity(stock, $event)"></app-product-quantity>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <span *ngIf="row.WarehouseList.length == 0">No warehouse inventory available</span>
+</div>
+
+<div *ngIf="!isWarehouse">
+  <div *ngIf="row.TransportList.length != 0">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-description>
+            Please click to select transferred products
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div *ngFor="let transport of row.TransportList" class="row">
+          <p>{{ transport.WarehouseName }}/{{ transport.Quantity }}</p>
+          &nbsp;&nbsp;&nbsp;
+          <app-product-quantity (outputData)="getTransportQuantity(transport, $event)"></app-product-quantity>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <span *ngIf="row.TransportList.length == 0">No transport inventory available</span>
+</div>
+
+<!-- <button (click)="test()">test</button> -->

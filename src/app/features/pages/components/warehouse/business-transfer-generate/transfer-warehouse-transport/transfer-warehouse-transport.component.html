@@ -1,0 +1,39 @@
+<form class="example-form" *ngIf="isWarehouse">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <input
+      type="text"
+      placeholder="Pick one"
+      aria-label="Number"
+      matInput
+      [formControl]="stockControl"
+      [matAutocomplete]="auto"
+      (click)="getWarehouseFromStock()"
+    />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of stockOptions" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+
+<form class="example-form" *ngIf="!isWarehouse">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <input
+      type="text"
+      placeholder="Pick one"
+      aria-label="Number"
+      matInput
+      [formControl]="transportControl"
+      [matAutocomplete]="auto"
+      (click)="getWarehouseFromTransport()"
+    />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of transportOptions" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+
+<!-- <button (click)="test()">test</button> -->

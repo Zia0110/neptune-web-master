@@ -1,0 +1,11 @@
+<mat-icon class="close" mat-button mat-dialog-close>clear</mat-icon>
+
+<h2 mat-dialog-title>个人设置 &nbsp;</h2>
+
+<span *ngIf="data && data.UserInfo">
+  用户名: {{ data.UserInfo.UserName }}
+  <br />
+  部门名: {{ data.UserInfo.DeptName }}
+  <br />
+  角色名: {{ data.UserInfo.RoleName }}
+</span>

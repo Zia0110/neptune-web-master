@@ -1,0 +1,64 @@
+<mat-icon class="close" mat-button mat-dialog-close>clear</mat-icon>
+<h2 style="padding-bottom: 0px; float: left;" class="section-title">
+  <span *ngIf="data.Status == 1">
+    Transportation plan manager modification
+  </span>
+  <span *ngIf="data.Status == 2">
+    Transportation plan Confirm
+  </span>
+  <span *ngIf="data.Status == 3">
+    Transportation plan departured
+  </span>
+  <span *ngIf="data.Status == 4">
+    Transportation plan arrived
+  </span>
+  &nbsp; &nbsp;
+</h2>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between;" class="">
+  <span>
+    Status: {{ data.Status | TransportStatusPipe }} &nbsp; &nbsp; &nbsp; Applied UserName: {{ data.AppliedUserName }} &nbsp; &nbsp; &nbsp;
+    CreatedAt:{{ data.CreatedAt ? (getLocateDateString(data.CreatedAt) | date) : '' }}
+  </span>
+  <span>
+    <mat-checkbox class="text-danger" *ngIf="!transportIsConfirm.disabled" [(ngModel)]="transportIsConfirm.value">
+      Confirm delivery of this transportation plan, destination {{ data.WarehouseId | WarehousePipe }}</mat-checkbox
+    >
+    <span class="text-danger" *ngIf="transportIsConfirm.disabled"> Transportation plan has been {{ data.Status | TransportStatusPipe }} </span>
+    &nbsp; &nbsp;
+    <button [disabled]="!transportFormIsDisabled || data.Status == 4" (click)="enableChanges()" mat-flat-button color="warn">
+      Edit
+    </button>
+
+    &nbsp; &nbsp;
+    <button [disabled]="transportFormIsDisabled" (click)="clearChanges()" mat-flat-button color="warn">Cancel</button>
+    &nbsp; &nbsp;
+    <button (click)="save()" [disabled]="data.Status == 4" mat-flat-button color="warn">Save</button> &nbsp; &nbsp;
+  </span>
+</div>
+<div style="display: flex; flex-wrap: wrap;">
+  <span *ngIf="data.Comment">Comment： {{ data.Comment }} &nbsp; &nbsp; &nbsp; &nbsp; </span>
+  <span *ngIf="data.UpdatedComments">Updated Comments： {{ data.UpdatedComments }} &nbsp; &nbsp; &nbsp; &nbsp; </span>
+  <span *ngIf="data.ConfirmedComments">Confirmed Comments： {{ data.ConfirmedComments }} &nbsp; &nbsp; &nbsp; &nbsp; </span>
+</div>
+<br />
+
+<app-transport-plan-edit
+  (formValueChange)="getFormWarehouseId($event)"
+  [isInTransit]="productsDisabled"
+  [formIsDisabled]="transportFormIsDisabled"
+  [transportData]="data"
+  #transportPlanEdit
+>
+</app-transport-plan-edit>
+
+<br />
+<!-- </mat-card-content>
+</mat-card> -->
+<!-- <button mat-raised-button [disabled]="productsDisabled" (click)="transportTable.addNewFormRow()" color="primary">增加运输项目</button> -->
+<app-transport-product-table
+  [warehouseId]="formWarehouseId"
+  [formIsDisabled]="productsDisabled"
+  #transportTable
+  [tableData]="data.FreightInfo"
+></app-transport-product-table>

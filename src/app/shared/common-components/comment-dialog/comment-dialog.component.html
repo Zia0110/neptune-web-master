@@ -1,0 +1,5 @@
+<div class="form-group">
+  <label for="exampleFormControlTextarea1">{{ data.label }} </label>
+  <textarea class="form-control" [(ngModel)]="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div>
+<button (click)="submit()" mat-flat-button color="warn">complete</button>

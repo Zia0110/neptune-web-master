@@ -1,0 +1,21 @@
+#table {
+  margin-top: 20px;
+  width: 100%;
+}
+mat-card {
+  width: 80%;
+}
+mat-form-field {
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+}
+textarea {
+  height: 50px;
+}
+td > mat-form-field {
+  width: 80%;
+}
+p {
+  font-weight: bold;
+  color: #a8a8a8;
+}

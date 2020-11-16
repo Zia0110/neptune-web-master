@@ -1,0 +1,51 @@
+<div *ngIf="data">
+  <div class="row">
+    <div class="col-md-4">订单号: {{ data.OrderNo }}</div>
+    <div class="col-md-4">录入日期: {{ data.EnterDate | date }}</div>
+    <div class="col-md-4">财务日期: {{ data.BillingDate | date }}</div>
+    <div class="col-md-4">订单情况: {{ data.Status | OrderStatusPipe }}</div>
+  </div>
+  <!-- <div class="col-md-4">UOM: {{ data.Uom }}</div> -->
+  <br />
+  <app-order-change #orderChange [data]="data"></app-order-change>
+  <!-- <div class="row">
+  <div class="col-md-6">
+    产品
+    <app-search-selection [data]="1" [isStockWarehouse]="true" [productIdStockWarehouse]="data.StockCustomerId"
+      [formControl]="form.controls.ProductId">
+    </app-search-selection>
+  </div>
+  <div class="col-md-6">
+    订单价格 <input class="form-control" [formControl]="form.controls.OrderPrice" />
+  </div>
+</div>
+<div class="form-group">
+  <label for="exampleFormControlSelect1">库存客户</label>
+  <select class="form-control" [formControl]="form.controls.StockCustomerId" id="exampleFormControlSelect1">
+    <option [value]="stockCustomer.CustomerId" *ngFor="let stockCustomer of stockCustomerSelection; let index = index">
+      {{index}} &nbsp; {{ stockCustomer.CustomerName }} &nbsp; &nbsp;
+      {{ stockCustomer.stockAmount }}个产品 </option>
+  </select>
+</div>
+
+<div *ngIf="stockCustomerSelection && displayStockCustomer" class="form-group">
+  <label for="exampleFormControlSelect2">库存客户 仓库库存</label>
+  <select multiple class="form-control" id="exampleFormControlSelect2">
+    <option *ngFor="let info of stockCustomerSelection[displayStockCustomer].StockInfos"> {{info.WarehouseName}} &nbsp;
+      &nbsp; &nbsp; {{info.AvaliableQuantity}} </option>
+  </select>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    备注<textarea class="form-control" [formControl]="form.controls.Comment1" rows="3"></textarea>
+  </div>
+  <div class="col-md-6">
+    特殊情况<textarea class="form-control" [formControl]="form.controls.Comment2" rows="3"></textarea>
+  </div>
+</div>
+<br>
+ -->
+  <br />
+  <button style="display: inline-block;" [disabled]="isClicked" (click)="save()" mat-raised-button color="primary">保存</button>
+</div>

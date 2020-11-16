@@ -1,0 +1,15 @@
+table {
+  width: 100%;
+}
+
+td {
+  font-size: 12px !important;
+}
+
+.warn {
+  background-color: red !important;
+  color: red !important;
+}
+.popover-link {
+  color: #0088ff;
+}

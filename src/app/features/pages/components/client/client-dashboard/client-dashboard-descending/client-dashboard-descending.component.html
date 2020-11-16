@@ -1,0 +1,4 @@
+<div style="flex-wrap: wrap; display: flex; justify-content: flex-start;">
+  <app-product-quantity (outputData)="getDescendingClientQuantity($event)"></app-product-quantity>
+  <button (click)="descendingByTotalPrice()" mat-raised-button color="warn" class="m-2">Filter total</button>
+</div>

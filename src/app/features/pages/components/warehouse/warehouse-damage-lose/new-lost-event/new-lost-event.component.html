@@ -1,0 +1,37 @@
+<mat-icon class="close" style="cursor: pointer;" mat-button mat-dialog-close>clear</mat-icon>
+
+<h1 mat-dialog-title>New Local Sale & Lost</h1>
+<br />
+
+<mat-card-content class="mat-card">
+  <button style="float: right;" (click)="confirmLostEvent()" mat-raised-button color="warn" class="m-2">Confirm Local Sale & Lost</button>
+  <div style="flex-wrap: wrap; display: flex;">
+    <app-search-selection [data]="3" [formControl]="pickedWarehouseFormControl"></app-search-selection>
+    &nbsp; &nbsp; &nbsp; &nbsp;
+    <app-simple-dropdown [data]="lostTypeDropDown" [label]="'Lost Type'" (outputData)="getLostType($event)"> </app-simple-dropdown>
+    &nbsp; &nbsp; &nbsp; &nbsp;
+    <app-search-selection
+      [selectionPlaceholder]="'select stock customer'"
+      [isStockCustomer]="true"
+      [data]="2"
+      [isOnlyDal]="dalOrNot"
+      [formControl]="stockCustomerIdControl"
+    >
+    </app-search-selection>
+  </div>
+
+  <form class="example-form" [formGroup]="contentForm">
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Please Provide Reason</mat-label>
+      <textarea matInput placeholder="Content" formControlName="content"></textarea>
+    </mat-form-field>
+  </form>
+  <br />
+  <app-new-product
+    #newProductTable
+    [tableData]="initTableData"
+    [pickedWarehouseId]="this.pickedWarehouseFormControl.value"
+    [pickedStockCustomerId]="this.stockCustomerIdControl.value"
+  ></app-new-product>
+  <button style="float: right;" (click)="newProductTable.addNewFormRow()" mat-raised-button color="accent" class="m-2">Add product</button>
+</mat-card-content>

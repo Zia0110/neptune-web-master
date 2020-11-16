@@ -1,0 +1,80 @@
+<mat-card>
+  <mat-card-content>
+    <h1>Inbound Warehouse</h1>
+    <div style="display: flex; justify-content: flex-start;">
+      <div class="info-div w-75">
+        <div class="w-100" style="flex-wrap: nowrap;">
+          <div style="display: flex; align-items: baseline;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem;">Supplier (required)：</div>
+            <div class="inputDiv">
+              <mat-form-field appearance="outline" floatLabel="never">
+                <mat-select [(value)]="supplierValue">
+                  <mat-option *ngFor="let supplier of suppliers" [value]="supplier.SupplierId">
+                    {{ supplier.SupplierName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div style="display: flex; align-items: baseline;">
+            <div style="font-weight: 600; margin-left: 1.5rem; margin-bottom: 0.5rem; font-size: 1.1rem;">Warehouse (required)：</div>
+            <div>
+              <app-search-selection
+                [isOnlyShowAuAklWarehouse]="false"
+                [data]="3"
+                [isShowLabel]="false"
+                [formControl]="warehouse"
+              ></app-search-selection>
+            </div>
+          </div>
+        </div>
+        <div class="w-100" style="flex-wrap: nowrap;">
+          <div style="display: flex; align-items: baseline;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem;">Contact Person：</div>
+            <div class="inputDiv">
+              <mat-form-field appearance="outline" floatLabel="never">
+                <input matInput [(ngModel)]="contactPerson" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div style="display: flex; align-items: baseline;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem; margin-left: 1.5rem; font-size: 1.1rem;">Email：</div>
+            <div class="inputDiv">
+              <mat-form-field appearance="outline" floatLabel="never">
+                <input matInput [(ngModel)]="contactEmail" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div style="display: flex; align-items: baseline;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem; margin-left: 1.5rem; font-size: 1.1rem;">Contact Phone：</div>
+            <div class="inputDiv">
+              <mat-form-field appearance="outline" floatLabel="never">
+                <input matInput [(ngModel)]="contactPhone" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-div" style="width: 35%;">
+        <div class="w-100" style="flex-wrap: nowrap;">
+          <div style="display: flex; align-items: flex-start; width: 100%;">
+            <div
+              style="font-weight: 600; margin-bottom: 0.5rem; margin-left: 1.5rem; font-size: 1.1rem; position: relative; top: 1.2rem;"
+              class="commentDiv"
+            >
+              Comment：
+            </div>
+            <div class="w-75">
+              <mat-form-field appearance="outline" floatLabel="never">
+                <textarea matInput [rows]="7" [(ngModel)]="purchaseComment" placeholder="Comment content..."></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isShowTable">
+      <app-finance-purchase-create-table (tableResultEmit)="getTableResultEmit($event)"></app-finance-purchase-create-table>
+    </div>
+  </mat-card-content>
+</mat-card>

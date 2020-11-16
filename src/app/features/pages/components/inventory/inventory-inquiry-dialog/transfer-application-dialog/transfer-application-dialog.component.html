@@ -1,0 +1,63 @@
+<div>
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <mat-paginator [pageSizeOptions]="[5, 10, 30, 50]" showFirstLastButtons></mat-paginator>
+    <div>
+      <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close style="font-size: 1.5rem; color: rgba(0, 0, 0, 0.9);">X</button>
+      </mat-dialog-actions>
+    </div>
+  </div>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-3 tableDiv">
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef>No</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.position }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="summaryInfo">
+      <mat-header-cell *matHeaderCellDef>Base Info</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div>
+          <div>
+            <span>From：</span>
+            <app-card-customer
+              [id]="element.summaryInfo.FromCustomerId"
+              [name]="element.summaryInfo.FromCustomerCode + ' -- ' + element.summaryInfo.FromCustomerName"
+            ></app-card-customer>
+          </div>
+          <div>
+            <span>To：</span>
+            <app-card-customer
+              [id]="element.summaryInfo.ToCustomerId"
+              [name]="element.summaryInfo.ToCustomerCode + ' -- ' + element.summaryInfo.ToCustomerName"
+            ></app-card-customer>
+          </div>
+          <div><span>Created Date：</span>{{ getLocateDateString(element.summaryInfo.CreatedAt) | date }}</div>
+          <div><span>Created User Name：</span>{{ element.summaryInfo.CreatedUserName }}</div>
+          <div><span>Canceled User Name：</span>{{ element.summaryInfo.CanceledUserName }}</div>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="detailInfo">
+      <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div>
+          <div *ngFor="let row of element.detailInfo.Details; let i = index">
+            {{ i + 1 }}、 <span>Product：</span>
+            <app-card-product [id]="row.ProductId" [name]="row.ProductCode + ' -- ' + row.ProductName"></app-card-product>
+            <span style="margin-left: 0.5rem;"> Warehouse：</span>
+            <app-card-warehouse [id]="row.WarehouseId" [name]="row.WarehouseName"></app-card-warehouse>
+            <br />
+            <span style="margin-left: 1.3rem;">Quantity：</span>{{ row.Quantity }}
+            <div *ngIf="row.TransportNo">
+              <span style="margin-left: 1.3rem;">TransportNo：</span>{{ row.TransportNo }} <span style="margin-left: 0.5rem;">状态：</span
+              >{{ row.TransportStatusName }} <br />
+              <span style="margin-left: 1.3rem;">Departure / estimated time of arrival：</span>
+              {{ getLocateDateString(row.TransportDepartureTime) | date }} / {{ getLocateDateString(row.TransportEstimatedArrivalTime) | date }}
+            </div>
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>

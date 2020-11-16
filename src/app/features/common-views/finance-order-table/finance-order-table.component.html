@@ -1,0 +1,269 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+    <ng-container matColumnDef="OrderNo">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Order Number</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.OrderNo }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Reference">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Order Reference</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.Reference }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Cin7InvoiceNo">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Cin7 Invoice No</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.Cin7InvoiceNo }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sender">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Sender</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.Sender">Name：{{ element.Sender }}</div>
+        <div *ngIf="element.SenderAddr">Addr：{{ element.SenderAddr }}</div>
+        <div *ngIf="element.SenderPhone">Tel：{{ element.SenderPhone }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="recipient">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Recipient</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.Recipient">Name：{{ element.Recipient }}</div>
+        <div *ngIf="element.RecipientAddr">Addr：{{ element.RecipientAddr }}</div>
+        <div *ngIf="element.RecipientPhone">Tel：{{ element.RecipientPhone }}</div>
+        <div *ngIf="element.RecipientIdno">Identity No：{{ element.RecipientIdno }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="EnterDate">
+      <td mat-cell *matCellDef="let element">
+        {{ element.EnterDate | date }}
+      </td>
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Entry Date</th>
+    </ng-container>
+
+    <ng-container matColumnDef="BillingDate">
+      <td mat-cell *matCellDef="let element">
+        {{ element.BillingDate | date }}
+      </td>
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Financial Date</th>
+    </ng-container>
+
+    <ng-container matColumnDef="customer">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Client</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.BillingCustomerId">
+          Name：<app-card-customer class="popover-link" [name]="element.CustomerString" [id]="element.BillingCustomerId"> </app-card-customer>
+        </div>
+        <div [ngClass]="{ highLight: 'element.CurrentCredit < 0' }" *ngIf="element.CurrentCredit">当前 Credit: {{ element.CurrentCredit }}</div>
+        <div *ngIf="element.LastName">Last Name：{{ element.LastName }}</div>
+        <div *ngIf="element.FirstName">First Name：{{ element.FirstName }}</div>
+        <div *ngIf="element.Reference">Reference：{{ element.Reference }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="product">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Product</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.ProductId">
+          <span [ngClass]="{ highLight: element.ProductStatus == '停卖' }"
+            >Name：<app-card-product
+              [ngClass]="{ highLight: element.ProductStatus == '停卖' }"
+              class="popover-link"
+              [name]="element.ProductName"
+              [id]="element.ProductId"
+            >
+            </app-card-product>
+            &nbsp; {{ element.ProductStatus }}
+          </span>
+        </div>
+        <!-- <div *ngIf="element.ProductString">品名：{{ element.ProductName }}</div> -->
+        <div *ngIf="element.ProductCode">Product Code：{{ element.ProductCode }}</div>
+        <div *ngIf="element.Uom">UOM：{{ element.Uom }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Comment1">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Comment</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.Comment1 }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Comment2">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Comment2</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.Comment2 }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Comment3">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Financial Comment</th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          <mat-checkbox [checked]="element.Comment3 && element.Comment3.includes('暂扣')" (change)="onChangeCheckbox($event.checked, element)">
+          </mat-checkbox>
+          {{ element.Comment3 }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ProductCheck">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Product Check</th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          <div>
+            Overall：<b>{{ element.IsEnoughStock ? 'Enough' : 'Not-enough' }}</b>
+          </div>
+          <ol>
+            <li *ngFor="let item of element.FinancialCheckOrderProductStatistics">
+              <p>Name: {{ item.BaseProductName }}</p>
+              <p>Needed Quantity: {{ item.NeededQuantity }}</p>
+              <p>IsEnough: {{ item.IsEnough ? 'Yes' : 'No' }}</p>
+            </li>
+          </ol>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="SelfStock">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Self Stock</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="isShowSelfStock(element)">
+          <div>{{ getSelfStock(element) }}</div>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="payment">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Payment Info
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.UnitPrice">Unit Price：{{ element.UnitPrice | currency }}</div>
+        <div *ngIf="element.TotalPrice">Total Price：{{ element.TotalPrice | currency }}</div>
+        <div *ngIf="element.OrderPrice">Order Price：{{ element.OrderPrice | currency }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nzdollar">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>NZ Dollar</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.Nzd">{{ element.Nzd | currency }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="warehouse">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Warehouse Info
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.StockCustomerId && element.Stocks">
+          Stock: <app-card-customer class="popover-link" [name]="element.Stocks[0].CustomerName" [id]="element.StockCustomerId"></app-card-customer>
+        </div>
+
+        <span *ngFor="let stock of element.Stocks">
+          <span *ngIf="element.Stocks.length > 1">
+            <br />
+            <app-card-product
+              class="popover-link"
+              [isBaseProduct]="true"
+              [name]="stock.BaseProductId | BaseProductPipe"
+              [id]="stock.BaseProductId"
+            ></app-card-product>
+          </span>
+          <span [ngClass]="{ highLight: stock.Sum < 1 }"> {{ stock.Sum }} Stock </span>
+          <span class="highLight" *ngIf="stock.Alert"> {{ stock.Alert }} Stock </span>
+
+          &nbsp; &nbsp;
+        </span>
+
+        <div *ngIf="element.WarehouseId">
+          Warehouse: <app-card-warehouse class="popover-link" [name]="element.WarehouseName" [id]="element.WarehouseId"> </app-card-warehouse>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Cin7InterCode">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        CIN 7 inter Code
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.Cin7InterCode }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Order Status
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.Status">
+          {{ element.Status | OrderStatusPipe }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="error">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Error Info
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div style="color: red;" *ngIf="element.error">
+          {{ element.error }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Action
+      </th>
+      <td mat-cell *matCellDef="let index = index; let element">
+        <div *ngIf="element.Status && element.Status != 1">
+          <button (click)="editThisOrder(index, element)" mat-raised-button color="primary">Action</button>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="IsChecked">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Confirmation
+      </th>
+      <td mat-cell *matCellDef="let index = index; let element">
+        <mat-checkbox
+          #isChecked
+          [disabled]="element.IsChecked === 1 || (element.ProductStatus == '停卖' && !element.OrderPrice)"
+          [ngModel]="element.IsChecked"
+          (change)="confirmOrder($event.checked, [element])"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="IsApproved">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Approve
+      </th>
+      <td mat-cell *matCellDef="let index = index; let element">
+        <mat-checkbox
+          #isChecked
+          [disabled]="
+            (element.Comment3 ? element.Comment3.includes('暂扣') : false) ||
+            !element.IsChecked ||
+            (element.ProductStatus == '停卖' && !element.OrderPrice)
+          "
+          [ngModel]="element.IsApproved"
+          (change)="approveOrder($event.checked, [element])"
+        ></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>
+    <tr [ngClass]="{ editedRow: row.edited }" mat-row *matRowDef="let index = index; let row; columns: displayColumns"></tr>
+  </table>
+</div>
+<mat-paginator [pageSizeOptions]="[500, 10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

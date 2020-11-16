@@ -1,0 +1,32 @@
+<mat-icon class="close" style="cursor: pointer;" mat-button mat-dialog-close [mat-dialog-close]="ruleNameAndCommentForParent">clear</mat-icon>
+<h2>Modify Rule By Group</h2>
+<br />
+<p>Please select rule</p>
+<form class="example-form">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <input type="text" placeholder="select rule" aria-label="Number" matInput [formControl]="ruleFormControl" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let rule of rulesForOptions" [value]="rule" (click)="getRule(rule)">
+        {{ rule }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+
+<p>Repository notes</p>
+<form class="example-form">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <input matInput placeholder="Note" [formControl]="commentFormControl" />
+  </mat-form-field>
+</form>
+
+<p>Repository notes2</p>
+<form class="example-form">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <input matInput placeholder="Note2" [formControl]="comment2FormControl" />
+  </mat-form-field>
+</form>
+
+<div style="flex-wrap: wrap; display: flex; justify-content: flex-end;">
+  <button style="top: -8px;" (click)="confirmChangeRuleAndComment()" mat-raised-button color="warn" class="m-2">Modify</button>
+</div>

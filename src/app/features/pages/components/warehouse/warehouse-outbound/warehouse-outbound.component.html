@@ -1,0 +1,185 @@
+<mat-card>
+  <mat-card-content>
+    <h1>
+      Order outbound
+      <button style="float: right;" (click)="reset()" mat-flat-button color="warn">
+        Reset
+      </button>
+    </h1>
+    <div class="headerWrap">
+      <div *ngIf="isNotSubmit && isShowUpload" class="addOrderWrap">
+        <div>
+          <span class="addOrderSpan">Batch Import：</span>
+          <app-upload-text style="float: right;" (outputTextFileData)="uploadTextToArrayOrder($event)"></app-upload-text>
+        </div>
+        <div class="mb-2 mt-2 outbound-sigle-input">
+          <mat-form-field appearance="outline" floatLabel="never">
+            <mat-label style="padding-left: 2px;">Add single order</mat-label>
+            <input style="padding-left: 2px;" matInput [formControl]="sigleOrderNoFormControl" placeholder="Order no..." />
+            <button
+              mat-button
+              *ngIf="sigleOrderNoFormControl.value"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="sigleOrderNoFormControl.setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <button (click)="addSingleOrderNo()" mat-flat-button color="warn">Add</button>
+        </div>
+      </div>
+      <div *ngIf="isNotSubmit" class="mb-1 mt-2 orderFunctions">
+        <app-order-functions
+          [isShowCustomer]="false"
+          [isShowStockCustomer]="false"
+          [isShowUpload]="false"
+          [isExpand]="false"
+          [isSqueeze]="false"
+          (filteredValue)="getFilteredValue($event)"
+        ></app-order-functions>
+      </div>
+    </div>
+    <div class="mb-2" *ngIf="PostErrorELEMENT_DATA.length">
+      <div class="subTitle">Imported problem orders are：</div>
+      <app-export-excel [data]="PostError_DATA_ToTxt" [fileName]="'出库失败'" [label]="'Export Txt'" [isExportToTxt]="true"></app-export-excel>
+      <table mat-table [dataSource]="dataSourcePostError" class="mt-2 mat-elevation-z8">
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+        </ng-container>
+        <ng-container matColumnDef="error">
+          <th mat-header-cell *matHeaderCellDef>Error</th>
+          <td mat-cell *matCellDef="let element">{{ element.error }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsPostError"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsPostError"></tr>
+      </table>
+    </div>
+    <div class="mb-2" *ngIf="PutErrorELEMENT_DATA.length">
+      <div class="subTitle">Imported order comments：</div>
+      <table mat-table [dataSource]="dataSourcePutError" class="mat-elevation-z8">
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+        </ng-container>
+        <ng-container matColumnDef="error">
+          <th mat-header-cell *matHeaderCellDef>Error</th>
+          <td mat-cell *matCellDef="let element">{{ element.error }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsPutError"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsPutError"></tr>
+      </table>
+    </div>
+    <div class="mb-2" *ngIf="isNotSubmit">
+      <div class="list-table mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+          </ng-container>
+          <ng-container matColumnDef="order">
+            <th mat-header-cell *matHeaderCellDef>Order</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.order.OrderNo">Order No：{{ element.order.OrderNo }}</div>
+              <div *ngIf="element.order.Reference">reference：{{ element.order.Reference }}</div>
+              <div *ngIf="element.order.ProjectId">Project Name：{{ element.order.ProjectId }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="sender">
+            <th mat-header-cell *matHeaderCellDef>Sender</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.sender.Sender">name：{{ element.sender.Sender }}</div>
+              <div *ngIf="element.sender.SenderAddr">addr：{{ element.sender.SenderAddr }}</div>
+              <div *ngIf="element.sender.SenderPhone">tel：{{ element.sender.SenderPhone }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="recipient">
+            <th mat-header-cell *matHeaderCellDef>Recipient</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.recipient.Recipient">name：{{ element.recipient.Recipient }}</div>
+              <div *ngIf="element.recipient.RecipientAddr">addr：{{ element.recipient.RecipientAddr }}</div>
+              <div *ngIf="element.recipient.RecipientPhone">tel：{{ element.recipient.RecipientPhone }}</div>
+              <div *ngIf="element.recipient.RecipientIdno">id no：{{ element.recipient.RecipientIdno }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="product">
+            <th mat-header-cell *matHeaderCellDef>Product</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.product.ProductString">
+                name：
+                <app-card-product [id]="element.product.ProductId" [name]="element.product.ProductString"></app-card-product>
+              </div>
+              <div *ngIf="element.product.ProductCode">
+                Product Code：
+                <app-card-product [id]="element.product.ProductId" [name]="element.product.ProductCode"></app-card-product>
+              </div>
+              <div *ngIf="element.product.Uom">UOM：{{ element.product.Uom }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dates">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.dates.EnterDate">Entry date：{{ element.dates.EnterDate | date }}</div>
+              <div *ngIf="element.dates.BillingDate">Financial date：{{ element.dates.BillingDate | date }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="customer">
+            <th mat-header-cell *matHeaderCellDef>Client</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.customer.CustomerString">Info：{{ element.customer.CustomerString }}</div>
+              <div *ngIf="element.customer.LastName">Last Name：{{ element.customer.LastName }}</div>
+              <div *ngIf="element.customer.FirstName">First Name：{{ element.customer.FirstName }}</div>
+              <div *ngIf="element.customer.Reference">Ref：{{ element.customer.Reference }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Cin7InterCode">
+            <th mat-header-cell *matHeaderCellDef>CIN 7 inter Code</th>
+            <td mat-cell *matCellDef="let element">{{ element.Cin7InterCode }}</td>
+          </ng-container>
+          <ng-container matColumnDef="payment">
+            <th mat-header-cell *matHeaderCellDef>Payment Info</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.payment.Nzd">NZ Dollar：{{ element.payment.Nzd }}</div>
+              <div *ngIf="element.payment.UnitPrice">Unit Price：{{ element.payment.UnitPrice }}</div>
+              <div *ngIf="element.payment.TotalPrice">Real Price：{{ element.payment.TotalPrice }}</div>
+              <div *ngIf="element.payment.OrderPrice">Order Price：{{ element.payment.OrderPrice }}</div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+    <div *ngIf="isInit" style="display: flex; justify-content: flex-end;">
+      <div *ngIf="isNotSubmit" class="outbound-handle">
+        <div style="width: 100%;">
+          <app-search-selection [data]="3" [formControl]="warehouseFormControl"></app-search-selection>
+        </div>
+        <!--        <mat-form-field appearance="outline" class="outbound-handle-child" floatLabel="never">-->
+        <!--          <mat-label>选择出库批次</mat-label>-->
+        <!--          <mat-select [(value)]="batchValue">-->
+        <!--            <mat-option *ngFor="let batch of batches" [value]="batch.BatchId">-->
+        <!--              {{ batch.WarehouseName }} &#45;&#45; 批次 {{ batch.BatchNo }} &#45;&#45; 日期：{{ batch.PickupDate | date }}-->
+        <!--            </mat-option>-->
+        <!--          </mat-select>-->
+        <!--        </mat-form-field>-->
+        <mat-form-field appearance="outline" class="outbound-handle-child" floatLabel="never">
+          <mat-label>Choose outbound date</mat-label>
+          <input matInput [(ngModel)]="warehouseDate" [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="outbound-handle-child" floatLabel="never">
+          <mat-label>Comment</mat-label>
+          <textarea matInput rows="5" [(ngModel)]="warehouseComment" placeholder="Typing..."></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div *ngIf="isInit && isNotSubmit" style="display: flex; justify-content: flex-end; margin-right: 2rem;">
+      <button (click)="outboundPUT()" mat-flat-button color="warn">Submit</button>
+    </div>
+  </mat-card-content>
+</mat-card>

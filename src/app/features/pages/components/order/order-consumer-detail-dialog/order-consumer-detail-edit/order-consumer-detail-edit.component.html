@@ -1,0 +1,68 @@
+<!-- <div class="pl-1 pb-1 mb-4 w-80" style="border-bottom: 2px dotted;">
+      <h4>订单编号： {{ orderNo }}</h4>
+    </div> -->
+
+<app-dynamic-form #dynamicForm [formFields]="formConfig"></app-dynamic-form>
+<button
+  mat-raised-button
+  color="primary"
+  style="margin: 0.5rem;"
+  *ngIf="orderData.Status && orderData.Status <= 2"
+  (click)="openCustomerChangeDialog()"
+>
+  Customer Change
+</button>
+<button mat-raised-button color="warn" style="margin: 0.5rem;" (click)="submitChanges()">Save</button>
+
+<!-- <app-search-selection #billingCustomer [data]="2" [selectionPlaceholder]="orderData.BillingCustomerId"
+      [isStockCustomer]="false" [isShowLabel]="true" [formControl]="customerForm.controls.BillingCustomerId"
+      [isReadOnly]="!editMode"></app-search-selection>
+ -->
+<!-- <form [formGroup]="customerForm"> -->
+<!-- <mat-form-field appearance="outline" class="p-1 w-50">
+        <mat-label>客户信息</mat-label>
+        <input matInput formControlName="CustomerString" [readonly]="!editMode" />
+      </mat-form-field> -->
+<!-- <mat-form-field appearance="outline" class="p-1 w-25">
+        <mat-label>FirstName</mat-label>
+        <input matInput formControlName="FirstName" [readonly]="!editMode" />
+      </mat-form-field> -->
+<!-- <mat-form-field appearance="outline" class="p-1 w-25">
+        <mat-label>客户等级</mat-label>
+        <input matInput formControlName="CustomerGroupName" readonly />
+      </mat-form-field> -->
+<!-- </form> -->
+
+<!-- <app-order-change #orderChange [data]="orderData"></app-order-change> -->
+<!-- <button (click)="dynForm.click()">修改</button> -->
+<!-- <form [formGroup]="productForm">
+      <mat-form-field appearance="outline" class="p-1 w-25">
+        <mat-label>支付方式</mat-label>
+        <input matInput formControlName="CurrencyName" [readonly]="!editMode" />
+      </mat-form-field> -->
+<!-- <mat-form-field appearance="outline" class="p-1 w-25">
+        <mat-label>单价</mat-label>
+        <input matInput formControlName="UnitPrice" readonly class="example-right-align" />
+        <span matPrefix style="vertical-align: 50%;">¥&nbsp;</span>
+        <span matSuffix style="vertical-align: 50%;">.00</span>
+      </mat-form-field> -->
+<!-- <mat-form-field appearance="outline" class="p-1 w-25">
+        <mat-label>数量</mat-label>
+        <input matInput formControlName="Uom" type="number" [readonly]="!editMode" />
+      </mat-form-field> -->
+<!-- <mat-form-field appearance="outline" class="p-1 w-25">
+        <mat-label>总价</mat-label>
+        <input matInput formControlName="TotalPrice" readonly class="example-right-align" />
+        <span matPrefix style="vertical-align: 50%;">¥&nbsp;</span>
+        <span matSuffix style="vertical-align: 50%;">.00</span>
+      </mat-form-field> -->
+<!-- <mat-form-field appearance="outline" class="p-1 w-25">
+        <mat-label>NZD价格</mat-label>
+        <input matInput formControlName="Nzd" readonly class="example-right-align" />
+        <span matPrefix style="vertical-align: 50%;">$&nbsp;</span>
+        <span matSuffix style="vertical-align: 50%;">.00</span>
+      </mat-form-field> -->
+<!-- </form> -->
+<!-- <mat-card-action>
+    <button mat-raised-button color="primary" (click)="_submitUpdates()">Primary</button>
+  </mat-card-action> -->

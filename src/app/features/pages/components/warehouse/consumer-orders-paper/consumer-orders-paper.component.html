@@ -1,0 +1,35 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">纸单邮寄</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+      &nbsp; &nbsp;
+      <div style="max-width: 200px;" class="input-group">
+        <input [formControl]="orderNumInput" (keyup.enter)="searchByInput()" type="text" class="form-control" placeholder="输入订单号" />
+        <div class="input-group-append">
+          <button class="btn btn-outline-primary" type="button" (click)="searchByInput()">搜索</button>
+        </div>
+      </div>
+      &nbsp; &nbsp;
+      <app-upload-text (outputTextFileData)="txtOutput($event)"></app-upload-text>
+
+      <span style="display: flex;" *ngIf="normalData?.length">
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <app-search-datepicker [label]="'预计到达时间'" (outputData)="getEtaDate($event)"></app-search-datepicker>
+        &nbsp; &nbsp;
+        <app-simple-dropdown [data]="warehouseList" [label]="'邮寄目标仓库'" (outputData)="getWarehouse($event)"> </app-simple-dropdown>
+        &nbsp; &nbsp;
+        <button mat-raised-button color="warn" (click)="save()">提交</button>
+      </span>
+      <app-order-functions (filteredValue)="passFilteredValue($event)"></app-order-functions>
+    </div>
+  </div>
+
+  <mat-tab-group>
+    <mat-tab *ngIf="normalData" [label]="normalData.length + ' 个正常纸单'">
+      <app-order-table [filterData]="filteredValue" [tableData]="normalData"></app-order-table>
+    </mat-tab>
+    <mat-tab *ngIf="abnormalData" [label]="abnormalData.length + ' 个非正常纸单'">
+      <app-order-table [filterData]="filteredValue" [tableData]="abnormalData"></app-order-table>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

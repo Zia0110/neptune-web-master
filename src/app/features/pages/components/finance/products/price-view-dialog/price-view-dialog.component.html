@@ -1,0 +1,28 @@
+<div>
+  <mat-icon class="close" style="cursor: pointer;" (click)="closeDialog()">clear</mat-icon>
+  <h1 mat-dialog-title style="margin-bottom: 8px;">
+    Price View
+  </h1>
+  <div class="w-25">
+    <app-search-selection [data]="1" [formControl]="productFormControl"></app-search-selection>
+  </div>
+  <div *ngIf="isShowChart" style="display: flex; justify-content: center;">
+    <ngx-charts-line-chart
+      [view]="view"
+      [scheme]="colorScheme"
+      [legend]="legend"
+      [legendTitle]="'Client Class'"
+      [roundDomains]="true"
+      [curve]="curve"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [timeline]="timeline"
+      [results]="multi"
+    >
+    </ngx-charts-line-chart>
+  </div>
+</div>

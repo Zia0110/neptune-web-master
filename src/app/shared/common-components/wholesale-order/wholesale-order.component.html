@@ -1,0 +1,78 @@
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>X</button>
+</mat-dialog-actions>
+<h1 mat-dialog-title>批发订单信息详情</h1>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="客户代码">
+      <th mat-header-cell *matHeaderCellDef>客户代码</th>
+      <td mat-cell *matCellDef="let element">{{ element.CustomerCode }}</td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="客户名称">
+      <th mat-header-cell *matHeaderCellDef>客户名称</th>
+      <td mat-cell *matCellDef="let element">{{ element.CustomerName }}</td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="客户名称">
+      <th mat-header-cell *matHeaderCellDef>客户名称</th>
+      <td mat-cell *matCellDef="let element">
+        <app-card-customer class="popover-link" [name]="element.CustomerName" [id]="element.CustomerId"> </app-card-customer>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="创建日期">
+      <th mat-header-cell *matHeaderCellDef>创建日期</th>
+      <td mat-cell *matCellDef="let element">{{ element.CreatedAt }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="付款日期">
+      <th mat-header-cell *matHeaderCellDef>付款日期</th>
+      <td mat-cell *matCellDef="let element">{{ element.PaidAt }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="备注信息">
+      <th mat-header-cell *matHeaderCellDef>备注信息</th>
+      <td mat-cell *matCellDef="let element">{{ element.Comment }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="产品名称">
+      <th mat-header-cell *matHeaderCellDef>产品名称</th>
+      <!-- <td mat-cell *matCellDef="let element">{{ detail["ProductName"] }}</td> -->
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngFor="let detail of element.WholeSaleProductDeitals">
+          <div>
+            <app-card-product class="popover-link" [name]="detail.ProductName" [id]="detail.ProductId"> </app-card-product>
+          </div>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="数量">
+      <th mat-header-cell *matHeaderCellDef>数量</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngFor="let detail of element.WholeSaleProductDeitals">
+          <div>{{ detail['Quantity'] }}</div>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="仓库">
+      <th mat-header-cell *matHeaderCellDef>仓库</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngFor="let detail of element.WholeSaleProductDeitals">
+          <div>
+            <app-card-warehouse class="popover-link" [name]="detail.WarehouseName" [id]="detail.WarehouseId"> </app-card-warehouse>
+          </div>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+
+<!-- '客户代码', '客户名称', '创建日期', '付款日期', '备注信息', '产品名称', '仓库', '数量' -->
+<br />
+<button (click)="test()">test</button>

@@ -1,0 +1,29 @@
+mat-card {
+  width: 1200px;
+}
+
+mat-form-field {
+  padding-left: 0 !important;
+}
+
+#table {
+  width: 100% !important;
+  margin: 5px;
+}
+
+td > mat-form-field {
+  width: 50% !important;
+}
+
+th {
+  text-align: left;
+  padding-left: 20px;
+}
+
+input {
+  width: 80%;
+}
+
+p {
+  color: grey;
+}

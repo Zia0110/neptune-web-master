@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Comment</mat-label>
+    <textarea matInput [(ngModel)]="comment"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onSubmit()" cdkFocusInitial>Submit</button>
+</div>

@@ -1,0 +1,47 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">库存转移</h2>
+    <div style="display: flex; justify-content: flex-end;">
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+        <mat-button-toggle (click)="getApiData()">查看通知单数据</mat-button-toggle>
+        <mat-button-toggle (click)="getApiData2()">查看确认单数据</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+
+  <mat-tab-group [selectedIndex]="tabSelected.value" (selectedIndexChange)="tabSelected.setValue($event)">
+    <mat-tab *ngFor="let tab of batchDatas; let index = index">
+      <ng-template matTabLabel>
+        <span style="font-size: 12px;"
+          >{{ tab.WarehouseName }}仓 {{ tab.CreatedAt | CustomMediumDatePipe }} &nbsp; {{ tab.WorkOrderDetail?.length }}个订单</span
+        >
+        &nbsp;
+      </ng-template>
+
+      <ng-template matTabContent>
+        <br /><br />
+        <div class="row">
+          <div class="col-md-12 row">
+            <div class="col-md-4"><b style="color: grey;">转出客户</b> {{ tab.FromCustomerName }}</div>
+            <div class="col-md-4"><b style="color: grey;">转入客户</b> {{ tab.ToCustomerName }}</div>
+            <div class="col-md-4"><b style="color: grey;">转仓类型</b> {{ tab.TypeName }}</div>
+            <div class="col-md-4">
+              <b style="color: grey;">单据日期</b>
+              {{ tab.CreatedAt | CustomMediumDatePipe }}
+            </div>
+            <div class="col-md-4"><b style="color: grey;">仓库名</b> {{ tab.WarehouseName }}</div>
+          </div>
+          <div class="col-md-3">
+            <button (click)="confirmTransfer(tab)" mat-flat-button color="warn">
+              确定转移
+            </button>
+          </div>
+        </div>
+
+        <br /><br />
+
+        <app-warehouse-inventory-table [tableData]="tab.WorkOrderDetail"></app-warehouse-inventory-table>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

@@ -1,0 +1,210 @@
+<mat-card>
+  <mat-card-content>
+    <h4>订单信息</h4>
+    <hr />
+    <mat-card>
+      <mat-form-field class="p-2" style="width: 300px;">
+        <mat-label>订单编号</mat-label>
+        <input matInput [(ngModel)]="searchOrderNum" />
+      </mat-form-field>
+      <button mat-raised-button (click)="searchOrder()" color="primary">查询</button>
+    </mat-card>
+
+    <div [formGroup]="orderManage">
+      <mat-card>
+        <mat-form-field class="p-2" style="width: 660px;">
+          <mat-label>输入转单原因</mat-label><input matInput formControlName="reason" />
+          <div *ngIf="orderManage.controls.reason.invalid && orderManage.controls.reason.touched">
+            <mat-error *ngIf="orderManage.controls.reason.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderManage.controls.reason.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>原代理客户</mat-label><input matInput formControlName="oldCustomer" />
+          <div *ngIf="orderManage.controls.oldCustomer.invalid && orderManage.controls.oldCustomer.touched">
+            <mat-error *ngIf="orderManage.controls.oldCustomer.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderManage.controls.oldCustomer.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>产品描述</mat-label>
+
+          <mat-select>
+            <mat-option value="张三">张三</mat-option>
+            <mat-option value="李四">李四</mat-option>
+            <mat-option value="王五">王五</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <br />
+
+        <button style="margin-left: 50px;" mat-raised-button color="primary" (click)="formReset()">Cancel</button>
+        <br />
+      </mat-card>
+      <br /><br />
+    </div>
+
+    <br /><br />
+
+    <h4>订单信息</h4>
+    <hr />
+
+    <div [formGroup]="orderForm">
+      <mat-card style="text-align: center;">
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>订单编号</mat-label><input matInput formControlName="orderNum" />
+          <div *ngIf="orderForm.controls.orderNum.invalid && orderForm.controls.orderNum.touched">
+            <mat-error *ngIf="orderForm.controls.orderNum.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.orderNum.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>产品描述</mat-label><input matInput formControlName="orderDescription" />
+          <div *ngIf="orderForm.controls.orderDescription.invalid && orderForm.controls.orderDescription.touched">
+            <mat-error *ngIf="orderForm.controls.orderDescription.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.orderDescription.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>产品编码</mat-label><input matInput formControlName="productNum" />
+          <div *ngIf="orderForm.controls.productNum.invalid && orderForm.controls.productNum.touched">
+            <mat-error *ngIf="orderForm.controls.productNum.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.productNum.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>产品数量</mat-label><input matInput formControlName="productAmount" />
+          <div *ngIf="orderForm.controls.productAmount.invalid && orderForm.controls.productAmount.touched">
+            <mat-error *ngIf="orderForm.controls.productAmount.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.productAmount.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>收件人</mat-label><input matInput formControlName="receiver" />
+          <div *ngIf="orderForm.controls.receiver.invalid && orderForm.controls.receiver.touched">
+            <mat-error *ngIf="orderForm.controls.receiver.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.receiver.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>联系电话</mat-label><input matInput formControlName="phone" />
+          <div *ngIf="orderForm.controls.phone.invalid && orderForm.controls.phone.touched">
+            <mat-error *ngIf="orderForm.controls.phone.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.phone.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>省/直辖市</mat-label><input matInput formControlName="province" />
+          <div *ngIf="orderForm.controls.province.invalid && orderForm.controls.province.touched">
+            <mat-error *ngIf="orderForm.controls.province.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.province.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>市/区</mat-label><input matInput formControlName="city" />
+          <div *ngIf="orderForm.controls.city.invalid && orderForm.controls.city.touched">
+            <mat-error *ngIf="orderForm.controls.city.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.city.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>地址</mat-label><input matInput formControlName="add" />
+          <div *ngIf="orderForm.controls.add.invalid && orderForm.controls.add.touched">
+            <mat-error *ngIf="orderForm.controls.add.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.add.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 330px;">
+          <mat-label>所属代理商</mat-label><input matInput formControlName="agency" />
+          <div *ngIf="orderForm.controls.agency.invalid && orderForm.controls.agency.touched">
+            <mat-error *ngIf="orderForm.controls.agency.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.agency.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="p-2" style="width: 660px;">
+          <mat-label>备注信息</mat-label><input matInput formControlName="note" />
+          <div *ngIf="orderForm.controls.note.invalid && orderForm.controls.note.touched">
+            <mat-error *ngIf="orderForm.controls.note.errors.minlength">
+              最短 2 字符
+            </mat-error>
+            <mat-error *ngIf="orderForm.controls.note.errors.maxlength">
+              最长 500 字符
+            </mat-error>
+          </div>
+        </mat-form-field>
+        <br />
+
+        <br /><br />
+
+        <div>
+          <label for="myfile">上传附件</label>
+          <input type="file" id="myfile" name="myfile" />
+
+          <span style="margin-left: 20%;"> 订单价格 <button mat-flat-button color="primary" (click)="addWorkItem()">自动计算价格</button> </span>
+        </div>
+        <br />
+      </mat-card>
+    </div>
+    <button style="margin-left: 50px;" mat-raised-button color="primary" (click)="saveForm()">确定</button>
+  </mat-card-content>
+</mat-card>

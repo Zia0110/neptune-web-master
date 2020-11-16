@@ -1,0 +1,138 @@
+<mat-card>
+  <mat-card-content>
+    <div class="h1Header">
+      Inventory View
+      <div style="display: flex; align-items: baseline; position: absolute; right: 0; top: 0;">
+        <app-search-selection [data]="2" [isStockCustomer]="true" [formControl]="customerFromControl"></app-search-selection>
+        <div style="margin-left: 1rem;">
+          <app-search-selection [data]="1" [isBaseProduct]="true" [formControl]="productFromControl"></app-search-selection>
+        </div>
+        <button style="margin-left: 1rem; position: relative; top: 0;" mat-flat-button color="warn" (click)="getData()">
+          Search
+        </button>
+      </div>
+    </div>
+    <div *ngIf="isShowMap" style="margin-top: 1rem; display: flex; justify-content: space-between;">
+      <div class="mapChinaDiv">
+        <span
+          *ngIf="wuhanData"
+          style="top: 17.6rem; left: 23rem;"
+          [matBadge]="wuhanData ? wuhanData.Quantity.toString() : 'No'"
+          matBadgeColor="warn"
+          matBadgeOverlap="true"
+        >
+          <app-card-inventory-view [data]="wuhanData" [name]="'武汉'"></app-card-inventory-view>
+        </span>
+        <span
+          *ngIf="guangzhouData"
+          style="top: 23rem; left: 22rem;"
+          [matBadge]="guangzhouData ? guangzhouData.Quantity.toString() : 'No'"
+          matBadgeColor="warn"
+          matBadgeOverlap="true"
+        >
+          <app-card-inventory-view [data]="guangzhouData" [name]="'中创'"></app-card-inventory-view>
+        </span>
+        <span
+          *ngIf="hkData"
+          style="top: 25rem; left: 23rem;"
+          [matBadge]="hkData ? hkData.Quantity.toString() : 'No'"
+          matBadgeColor="warn"
+          matBadgeOverlap="true"
+        >
+          <app-card-inventory-view [data]="hkData" [name]="'香港'"></app-card-inventory-view>
+        </span>
+        <span
+          *ngIf="shanghaiData"
+          style="top: 16rem; left: 28rem;"
+          [matBadge]="shanghaiData ? shanghaiData.Quantity.toString() : 'No'"
+          matBadgeColor="warn"
+          matBadgeOverlap="true"
+        >
+          <app-card-inventory-view [data]="shanghaiData" [name]="'上海心嘉'"></app-card-inventory-view>
+        </span>
+        <span
+          *ngIf="shanghai2Data"
+          style="top: 18rem; left: 28rem;"
+          [matBadge]="shanghai2Data ? shanghai2Data.Quantity.toString() : 'No'"
+          matBadgeColor="warn"
+          matBadgeOverlap="true"
+        >
+          <app-card-inventory-view [data]="shanghai2Data" [name]="'上海汇海源'"></app-card-inventory-view>
+        </span>
+        <span
+          *ngIf="chongqingData"
+          style="top: 19rem; left: 18.5rem;"
+          [matBadge]="chongqingData ? chongqingData.Quantity.toString() : 'No'"
+          matBadgeColor="warn"
+          matBadgeOverlap="true"
+        >
+          <app-card-inventory-view [data]="chongqingData" [name]="'重庆'"></app-card-inventory-view>
+        </span>
+      </div>
+      <div *ngIf="data" class="AuAndNzMap">
+        <div *ngIf="data" class="mapNZDiv">
+          <span
+            *ngIf="aklData"
+            style="top: 2rem; left: 6rem;"
+            [matBadge]="aklData ? aklData.Quantity.toString() : 'No'"
+            matBadgeColor="warn"
+            matBadgeOverlap="true"
+          >
+            <app-card-inventory-view [data]="aklData" [name]="'奥克兰'"></app-card-inventory-view>
+          </span>
+        </div>
+        <div *ngIf="data" class="mapNZDiv mapAuDiv">
+          <span
+            *ngIf="true"
+            style="top: 2rem; left: 3rem;"
+            [matBadge]="auData ? auData.Quantity.toString() : 'No'"
+            matBadgeColor="warn"
+            matBadgeOverlap="true"
+          >
+            <app-card-inventory-view [data]="auData" [name]="'澳洲DPS仓'"></app-card-inventory-view>
+          </span>
+          <span
+            *ngIf="true"
+            style="top: 3.8rem; left: 3rem;"
+            [matBadge]="au2Data ? au2Data.Quantity.toString() : 'No'"
+            matBadgeColor="warn"
+            matBadgeOverlap="true"
+          >
+            <app-card-inventory-view [data]="au2Data" [name]="'澳洲KIM AN仓'"></app-card-inventory-view>
+          </span>
+        </div>
+      </div>
+      <div *ngIf="data" style="width: 25rem; margin-left: 2rem;">
+        <div *ngIf="data.InprocessRetailOrder">
+          <span style="font-weight: 600;">Retail orders without warehouse：</span>{{ data.InprocessRetailOrder }}
+        </div>
+        <div *ngIf="data.TransportStocks.length" style="font-size: 1.5rem; margin: 2rem 0 1rem; font-weight: 600; letter-spacing: 0.2rem;">
+          Transportation
+        </div>
+        <div *ngIf="!data.TransportStocks.length" style="font-size: 1rem; font-style: italic;">
+          No Transportation
+        </div>
+        <div *ngIf="data.TransportStocks.length">
+          <div style="width: 25rem; padding: 1rem 0;" *ngFor="let stock of data.TransportStocks">
+            <div class="transportDiv" style="display: flex; align-items: center;">
+              <mat-icon
+                [matBadge]="stock.Quantity ? stock.Quantity.toString() : 'No'"
+                matBadgeColor="warn"
+                style="font-size: 2rem; color: rgba(0, 0, 0, 0.8);"
+                >{{ stock.TransportTypeName === '船运' ? 'directions_boat' : 'flight' }}</mat-icon
+              >
+              <span style="margin-left: 1rem;">{{ stock.TransportNo }}</span>
+              <span style="margin-left: 1rem; font-style: italic;"> {{ stock.DepartureTime | date }} - {{ stock.EstimatedArrivalTime | date }} </span>
+            </div>
+            <div style="margin-top: 0.3rem; margin-left: 2.5rem;">
+              <span>Destination：{{ stock.WarehouseName }}</span>
+            </div>
+            <div style="margin-top: 0.3rem; margin-left: 2.5rem;">
+              <span>Comment：{{ stock.Comment }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

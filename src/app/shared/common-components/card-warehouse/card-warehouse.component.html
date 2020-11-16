@@ -1,0 +1,30 @@
+<div class="information-card-title">
+  <span *ngIf="name" [matMenuTriggerFor]="menuWarehouse" (click)="showCard()">
+    {{ name }}
+  </span>
+</div>
+<mat-menu #menuWarehouse="matMenu" class="cardMatMenu mat-elevation-z8" (click)="$event.preventDefault()">
+  <div *ngIf="content" (click)="$event.stopPropagation()">
+    <div class="name">
+      <div class="warehouseName">{{ content.WarehouseTypeName | uppercase }} · {{ content.WarehouseName }}</div>
+    </div>
+    <hr />
+    <div class="cardContent">
+      <div class="detailCard">
+        <div class="contactPerson"><span>Contact Person：</span>{{ content.ContactPerson }}</div>
+        <div class="warehouseEmail"><span>Email：</span>{{ content.Email }}</div>
+        <div><span>Phone：</span>{{ content.Phone }}</div>
+      </div>
+      <div class="w-100 detailCard">
+        <div class="list" *ngFor="let value of content.Stocks.slice(0, 10)">
+          <div>
+            <span><app-card-product [id]="value['ProductId']" [name]="value['ProductName']"></app-card-product>：</span>{{ value['Quantity'] }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--    <div *ngIf="true" class="linkDiv">-->
+    <!--      <a href="#" target="_blank">查看详细信息</a>-->
+    <!--    </div>-->
+  </div>
+</mat-menu>

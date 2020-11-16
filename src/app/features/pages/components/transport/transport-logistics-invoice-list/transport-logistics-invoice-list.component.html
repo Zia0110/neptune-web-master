@@ -1,0 +1,30 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Logistics invoice</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+      <mat-checkbox style="margin-top: 9px;" (change)="checkAll()" [(ngModel)]="allChecked">Check All</mat-checkbox>
+      &nbsp; &nbsp; &nbsp;
+      <app-search-selection
+        [selectionPlaceholder]="'Select a customer'"
+        [data]="2"
+        [isStockCustomer]="true"
+        [formControl]="customerFormControl"
+      ></app-search-selection>
+      &nbsp; &nbsp; &nbsp;
+      <app-search-date-range-picker
+        style="margin-top: -1px; height: 20px;"
+        [label]="'Search range (required)'"
+        (outputData)="dateRangePickerOutput($event)"
+      >
+      </app-search-date-range-picker>
+      &nbsp; &nbsp; &nbsp;
+      <div>
+        <button mat-raised-button style="margin-right: 1rem;" (click)="saveChanges()" color="warn">Save</button>
+        <app-export-excel style="margin-right: 1rem;" [fileName]="'LogisticInvoice'" [data]="excelExportValue"></app-export-excel>
+        <app-upload-excel [label]="'Excel Upload'" (outputData)="excelOutput($event)"></app-upload-excel>
+      </div>
+    </div>
+  </div>
+
+  <app-transport-logistics-invoice-table #table [tableData]="datas"></app-transport-logistics-invoice-table>
+</mat-card>

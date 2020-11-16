@@ -1,0 +1,99 @@
+<div class="function-headings">
+  <span style="display: flex; flex-wrap: wrap;" *ngIf="clientData">
+    <h4 style="font-size: 24px;" class="note-text">Client Details</h4>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <h5 *ngIf="beginDate && endDate">Date range: from {{ beginDate }} to {{ endDate }}</h5>
+    &nbsp; &nbsp;
+    <h5>
+      <span class="note-text">Customer Name:</span>{{ clientData.CustomerInfo.CustomerName }} &nbsp; &nbsp;
+      <span class="note-text">Customer Code:</span>{{ clientData.CustomerInfo.CustomerCode }}
+    </h5>
+    &nbsp; &nbsp; &nbsp; &nbsp;
+    <h5><span class="note-text">Customer Class:</span>{{ clientData.CustomerInfo.CustomerGroup1Name }}</h5>
+    &nbsp; &nbsp; &nbsp; &nbsp;
+    <h5><span class="note-text">isStockCustomer:</span>{{ clientData.CustomerInfo.CustomerGroup2Name }}</h5>
+  </span>
+</div>
+
+<mat-tab-group
+  mat-stretch-tabs
+  class="button-tabs"
+  mat-align-tabs="center"
+  [selectedIndex]="selected.value"
+  (selectedIndexChange)="selected.setValue($event)"
+  #tabs
+>
+  <mat-tab #tab *ngIf="multi">
+    <ng-template matTabLabel>
+      <span style="font-size: 14px;"> Overall Analysis </span>
+      &nbsp; &nbsp;
+    </ng-template>
+    <ng-template matTabContent>
+      <br />
+      <span style="min-width: 680px; min-height: 500px;">
+        <ngx-charts-bar-vertical-stacked
+          [scheme]="colorScheme"
+          [results]="multi"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [legendTitle]="legendTitle"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [yAxisTickFormatting]="yAxisFormat"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [showDataLabel]="showDataLabel"
+          (select)="onSelect($event)"
+        >
+        </ngx-charts-bar-vertical-stacked>
+      </span>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab #tab *ngIf="temRetailsArrayForChild">
+    <ng-template matTabLabel>
+      <span style="font-size: 14px;"> Retail order Details </span>
+      &nbsp; &nbsp;
+    </ng-template>
+    <ng-template matTabContent>
+      <br />
+      <div>
+        <button style="top: -8px;" (click)="showExcel(temRetailsArrayForChild, true)" mat-raised-button color="warn" class="m-2">
+          Table data and export
+        </button>
+      </div>
+      <app-client-detail-single-view [temRetailsArrayForChild]="temRetailsArrayForChild" [isRetail]="true"> </app-client-detail-single-view>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab #tab *ngIf="temWholeSalesArrayForChild">
+    <div>
+      <button (click)="showExcel()" mat-raised-button color="warn" class="m-2">Table data and export</button>
+    </div>
+
+    <ng-template matTabLabel>
+      <span style="font-size: 14px;"> Wholesale order details</span>
+      &nbsp; &nbsp;
+    </ng-template>
+    <ng-template matTabContent>
+      <br />
+      <div>
+        <button (click)="showExcel(temWholeSalesArrayForChild, false)" mat-raised-button color="warn" class="m-2">Table data and export</button>
+      </div>
+      <app-client-detail-single-view [temWholeSalesArrayForChild]="temWholeSalesArrayForChild" [isRetail]="false"> </app-client-detail-single-view>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab #tab *ngIf="temSumArrayForChild">
+    <ng-template matTabLabel>
+      <span style="font-size: 14px;"> Total details </span>
+      &nbsp; &nbsp;
+    </ng-template>
+    <ng-template matTabContent>
+      <br />
+      <app-client-single-view-sum [temSumArrayForChild]="temSumArrayForChild"></app-client-single-view-sum>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

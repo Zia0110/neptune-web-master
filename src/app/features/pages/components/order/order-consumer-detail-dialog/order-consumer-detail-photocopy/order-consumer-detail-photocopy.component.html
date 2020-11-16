@@ -1,0 +1,36 @@
+<mat-card *ngIf="imageType == 1">
+  <mat-card-content>
+    <div style="display: inline;" *ngFor="let i of images">
+      <img class="p-2" [src]="i.Url" height="300px" (click)="openImg(i)" />
+    </div>
+    <button mat-button style="display: inline;" type="button" (click)="fileInput.click()">
+      Add image
+    </button>
+    <mat-card-actions>
+      <hr />
+      <input type="file" accept="image/*" (change)="onFileChange($event)" #fileInput hidden />
+
+      <button class="m-3" type="button" *ngIf="selectedFile" mat-raised-button (click)="onUpload()">Upload</button>
+      <img class="image mx-3" [src]="_img.bypassSecurityTrustUrl(imgSrc)" *ngIf="imgSelected" height="100px" />
+      <label *ngIf="imgSelected">FileName: {{ selectedFile.name }}</label>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="imageType == 2">
+  <mat-card-content>
+    <div style="display: inline;" *ngFor="let i of images">
+      <img class="p-2" [src]="i.Url" height="300px" (click)="openImg(i)" />
+    </div>
+    <button mat-button style="display: inline;" type="button" (click)="fileInput.click()">
+      Add image
+    </button>
+    <mat-card-actions>
+      <hr />
+      <input type="file" accept="image/*" (change)="onFileChange($event)" #fileInput hidden />
+
+      <button class="m-3" type="button" mat-raised-button *ngIf="selectedFile" (click)="onUpload()">Upload</button>
+      <img class="image mx-3" [src]="_img.bypassSecurityTrustUrl(imgSrc)" *ngIf="imgSelected" height="100px" />
+      <label *ngIf="imgSelected">FileName: {{ selectedFile.name }}</label>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

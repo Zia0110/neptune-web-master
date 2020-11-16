@@ -1,0 +1,48 @@
+<div class="as1 row">
+  <div class="align-self-center col-lg-12">
+    <img class="logoImageClass" src="assets/images/dal-logo.png" />
+    <br />
+    <mat-card style="max-width: 420px; margin: auto;">
+      <mat-card-content>
+        <form class="form-group" [formGroup]="loginForm" (keydown.enter)="login()">
+          <mat-form-field style="height: 17px;" appearance="outline">
+            <mat-label>Username</mat-label>
+            <input class="" matInput formControlName="UserName" />
+          </mat-form-field>
+          <br /><br />
+          <mat-form-field style="height: 17px;" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput class=" " formControlName="Password" type="Password" />
+          </mat-form-field>
+          <br /><br />
+
+          <mat-label
+            class="text-danger"
+            *ngIf="loginForm.controls['Password'].hasError('hasNumber') || loginForm.controls['Password'].hasError('minlength')"
+          >
+            Password must have at least 8 characters and al least 1 number! <br />
+            <br />
+          </mat-label>
+          <mat-label class="text-danger" *ngIf="errorMessage"> {{ errorMessage }} <br /> </mat-label>
+
+          <button style="" [disabled]="loading" type="button" (click)="login()" class="loginButton btn btn-primary">Log In</button>
+        </form>
+        <hr />
+        <a style="font-size: 14px;" class="link-text" (click)="forgetPw()">Forgot Password</a>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- <div style="padding:0px;" class="d-none d-lg-block col-lg-6">
+    <div class="jumbotron">
+      <h2 class="display-4">Hello, 欢迎使用新系统!</h2> -->
+  <!-- <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p> -->
+  <!-- <hr class="my-4">
+      <p>新闻板块</p>
+      <p class="lead"> -->
+  <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+  <!-- </p>
+    </div> -->
+
+  <!-- </div> -->
+</div>

@@ -1,0 +1,47 @@
+<mat-card>
+  <!-- Headers area -->
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Financial Cin7 export</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+      <app-search-date-range-picker style="height: 20px;" [label]="'Export Date Selection'" (outputData)="dateRangePickerOutput($event)">
+      </app-search-date-range-picker>
+      &nbsp; &nbsp;
+      <app-search-selection [data]="2" [formControl]="clientSelected"> </app-search-selection>
+      &nbsp; &nbsp;
+      <!-- <span style="visibility: hidden;"> -->
+      <app-export-excel #excelExporter1 [fileName]="'Cin7Batch1'" [data]="excelExportValue1"></app-export-excel>
+      <app-export-excel #excelExporter2 [fileName]="'Cin7Batch2'" [data]="excelExportValue2"></app-export-excel>
+      <app-export-excel #excelExporter3 [fileName]="'Cin7Batch3'" [data]="excelExportValue3"></app-export-excel>
+      <app-export-excel #excelExporter4 [fileName]="'Cin7Batch4'" [data]="excelExportValue4"></app-export-excel>
+      <app-export-excel #excelExporter5 [fileName]="'Cin7Batch5'" [data]="excelExportValue5"></app-export-excel>
+      <!-- </span> -->
+      <button style="height: 38px;" (click)="openSetBatchesDialog()" mat-flat-button color="primary">Set batches</button>
+      &nbsp; &nbsp;
+      <button style="height: 38px;" (click)="exportToExcel()" mat-flat-button color="primary">Generate Excel</button>
+      &nbsp; &nbsp;
+      <button style="height: 38px;" (click)="completeExport()" mat-flat-button color="warn">Complete export</button>
+    </div>
+  </div>
+
+  <mat-tab-group class="tab-custom-overflow" [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" #tabs>
+    <mat-tab *ngFor="let tab of batchDatas; let index = index">
+      <ng-template matTabLabel>
+        <span *ngIf="tab.current">Currently need to export</span>
+        <span *ngIf="tab.CreatedAt">{{ tab.CreatedAt | date }} export</span> &nbsp;
+        <span *ngIf="tab.ClientId">
+          <app-card-customer class="popover-link" [name]="'客户'" [id]="tab.ClientId"></app-card-customer>
+        </span>
+        &nbsp;
+        <span *ngIf="tab.RetailOrderGroupBys" style="font-size: 12px;"> &nbsp; &nbsp; {{ tab.RetailOrderGroupBys.length }} orders</span>
+        &nbsp; &nbsp;
+        <mat-icon (click)="removeTab(index)">clear</mat-icon>
+      </ng-template>
+
+      <ng-template matTabContent>
+        <span *ngIf="tab.RetailOrderGroupBys">
+          <app-finance-cin7-table #cin7Table [tableData]="tab.RetailOrderGroupBys"></app-finance-cin7-table>
+        </span>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

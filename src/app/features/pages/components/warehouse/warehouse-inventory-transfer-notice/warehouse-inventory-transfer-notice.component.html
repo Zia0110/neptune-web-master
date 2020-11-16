@@ -1,0 +1,47 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Inventory Transfer Notice</h2>
+    <div style="display: flex; justify-content: flex-end;">
+      <!-- <app-export-excel #excelExporter [fileName]="'库存转移通知导出'" [data]="excelExportValue"></app-export-excel> -->
+      <!-- </span> -->
+      <!-- <button style="height: 34px; margin-top: 4px;" [disabled]="!tableData" (click)="exportToExcel()" mat-flat-button
+        color="primary">
+        生成 Excel
+      </button> -->
+      <!-- &nbsp; &nbsp; -->
+      <app-search-date-range-picker style="height: 20px;" [label]="'Date selection'" (outputData)="dateRangePickerOutput($event)">
+      </app-search-date-range-picker>
+    </div>
+  </div>
+  <br />
+
+  <!-- <span class="row" *ngIf="tableData">
+    <div class="col-md-6" *ngFor="let data of tableData">
+      <span class="" *ngIf="data && data.length">
+        <mat-card style="width: 92%;">
+          <mat-card-title *ngIf="data[0]">{{ data[0].WarehouseName }} </mat-card-title>
+          <app-warehouse-inventory-transfer-notice-table [tableData]="data"> </app-warehouse-inventory-transfer-notice-table>
+        </mat-card>
+      </span>
+    </div>
+  </span> -->
+
+  <span *ngIf="tableData">
+    <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" #tabs>
+      <mat-tab *ngFor="let tab of tableData | keyvalue; let index = index" #tab>
+        <ng-template matTabLabel>
+          <span style="font-size: 14px;"> {{ tab.key }} </span>
+          &nbsp; &nbsp;
+          <app-export-excel #excelExporter [fileName]="'库转通知单 - ' + tab.key + '仓'" [data]="excelExportValue"></app-export-excel>
+          <a style="font-size: 12px; color: #18b8b8;" (click)="exportToExcel(tab.value)">Generate Excel</a>
+          &nbsp; &nbsp;
+          <mat-icon (click)="removeTab(tab.key)">clear</mat-icon>
+        </ng-template>
+        <ng-template matTabContent>
+          <button style="display: inline-block;" (click)="updateRow(tab.key, tab.value)" mat-raised-button color="primary">Clear</button>
+          <app-warehouse-inventory-transfer-notice-table [tableData]="tab.value"> </app-warehouse-inventory-transfer-notice-table>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </span>
+</mat-card>

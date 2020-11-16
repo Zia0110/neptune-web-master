@@ -1,0 +1,20 @@
+<mat-card-content>
+  <h1 style="position: relative; margin-top: 1rem;">
+    Client name management
+    <span style="display: flex; align-items: baseline; position: absolute; right: 0; top: 0;">
+      <button style="margin-left: 1rem; position: relative; top: 0;" mat-flat-button color="warn" (click)="openNameDialog()">
+        New name
+      </button>
+      <!-- <button style="margin-left: 1rem; position: relative; top: 0;" mat-flat-button color="warn" (click)="getClientData()">
+        Extract data
+      </button> -->
+    </span>
+  </h1>
+  <div style="margin-top: 1rem;">
+    <div *ngIf="isShowTable">
+      <app-name-management-table [data]="tableData" [dataType]="'client'"></app-name-management-table>
+    </div>
+  </div>
+</mat-card-content>
+<!--<mat-card>-->
+<!--</mat-card>-->

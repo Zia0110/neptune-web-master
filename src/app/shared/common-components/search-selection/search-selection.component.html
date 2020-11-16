@@ -1,0 +1,51 @@
+<div style="width: 100%;" class="input-group">
+  <mat-form-field [ngClass]="{ errorBorder: errorStyles }" floatLabel="never" appearance="outline">
+    <mat-label *ngIf="isShowLabel && isProduct" class="mat-label-class">
+      <span *ngIf="!selectionPlaceholder">Product Selection</span>
+      <span *ngIf="selectionPlaceholder">{{ selectionPlaceholder }}</span>
+    </mat-label>
+    <mat-label *ngIf="isShowLabel && isCustomer" class="mat-label-class">
+      <span *ngIf="!isStockCustomer && !selectionPlaceholder"><span>Customer Selection</span></span>
+      <span *ngIf="isStockCustomer && !selectionPlaceholder"><span>Stock Customer Selection</span></span>
+      <span *ngIf="selectionPlaceholder">{{ selectionPlaceholder }}</span>
+    </mat-label>
+    <mat-label *ngIf="isShowLabel && isWarehouse" class="mat-label-class">
+      <span *ngIf="!selectionPlaceholder">Warehouse Selection</span>
+      <span *ngIf="selectionPlaceholder">{{ selectionPlaceholder }}</span>
+    </mat-label>
+    <input
+      matInput
+      type="text"
+      [readonly]="isReadOnly"
+      class="form-control search-selection-input"
+      [formControl]="searchBox"
+      [matAutocomplete]="dataAuto"
+      (mouseenter)="getData()"
+      (focusin)="getData()"
+      (focusout)="isRequest = false"
+    />
+    <button mat-button *ngIf="searchBox.value && !isReadOnly" matSuffix mat-icon-button aria-label="Clear" (click)="searchBox.setValue(' ')">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-autocomplete autoActiveFirstOption #dataAuto="matAutocomplete" [displayWith]="showSearchResult">
+      <div *ngIf="isProduct">
+        <mat-option *ngFor="let product of productFilteredOptions | async" [value]="product">
+          {{ product.ProductCode }} -- {{ product.ProductName }}
+        </mat-option>
+      </div>
+      <div *ngIf="isCustomer">
+        <mat-option *ngFor="let customer of customerFilteredOptions | async" [value]="customer">
+          {{ customer.CustomerCode }}<span *ngIf="isStockCustomerAvailableStock">（Stock：{{ customer.Stock }}）</span>
+          <span *ngIf="customer.FirstName && customer.FirstName !== ' '"> -- {{ customer.FirstName }}</span> -- {{ customer.CustomerName }}
+        </mat-option>
+      </div>
+      <div *ngIf="isWarehouse">
+        <mat-option *ngFor="let warehouse of warehouseFilteredOptions | async" [value]="warehouse">
+          {{ warehouse.WarehouseName }}
+          <span *ngIf="isStockWarehouse"> -- Stock：{{ warehouse.Quantity }} -- Remain：{{ warehouse.AvaliableStock }} </span>
+        </mat-option>
+      </div>
+    </mat-autocomplete>
+  </mat-form-field>
+  <span *ngIf="errorStyles">Required</span>
+</div>

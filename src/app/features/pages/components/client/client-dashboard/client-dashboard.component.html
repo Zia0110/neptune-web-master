@@ -1,0 +1,180 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Customer Analysis</h2>
+    <div style="display: flex; justify-content: flex-end;">
+      <app-search-date-range-picker *ngIf="!clientSelect.value" [label]="'Overall cycle search'" (outputData)="generalDateRangePickerOutput($event)">
+      </app-search-date-range-picker>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+      <app-search-selection [data]="2" [isShowLabel]="true" [formControl]="clientSelect"></app-search-selection>
+      <span *ngIf="clientSelect.value">
+        <app-search-date-range-picker [label]="'Customer cycle search'" (outputData)="clientDateRangePickerOutput($event)">
+        </app-search-date-range-picker>
+      </span>
+    </div>
+  </div>
+  <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" #tabs>
+    <mat-tab #tab *ngIf="generalPieData">
+      <ng-template matTabLabel>
+        <span style="font-size: 14px;"> Overall Analysis </span>
+        &nbsp; &nbsp;
+        <mat-icon (click)="removeGeneral()">clear</mat-icon>
+      </ng-template>
+
+      <ng-template matTabContent>
+        <app-client-dashboard-descending
+          [pieChartData]="generalPieData"
+          [lineChartData]="generalLineData"
+          (outputData)="getUpdatedData($event, 'general')"
+        ></app-client-dashboard-descending>
+        <app-client-dashboard-chart [pieChartData]="toDrawGeneralPieData" [lineChartData]="toDrawGeneralLineData"> </app-client-dashboard-chart>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab #tab *ngIf="retailPieData">
+      <ng-template matTabLabel>
+        <span style="font-size: 14px;"> Retail Analysis </span>
+        &nbsp; &nbsp;
+        <mat-icon (click)="removeRetail()">clear</mat-icon>
+      </ng-template>
+
+      <ng-template matTabContent>
+        <div style="flex-wrap: wrap; display: flex; justify-content: flex-start;">
+          <app-client-dashboard-descending
+            [pieChartData]="retailPieData"
+            [lineChartData]="retailLineData"
+            (outputData)="getUpdatedData($event, 'retail')"
+          ></app-client-dashboard-descending>
+          <button (click)="showExcel(retailLineData, true)" mat-raised-button color="warn" class="m-2">
+            View tables and export data
+          </button>
+        </div>
+        <app-client-dashboard-chart [pieChartData]="toDrawRetailPieData" [lineChartData]="toDrawRetailLineData"> </app-client-dashboard-chart>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab #tab *ngIf="wholesalePieData">
+      <ng-template matTabLabel>
+        <span style="font-size: 14px;"> Wholesale Analysis </span>
+        &nbsp; &nbsp;
+        <mat-icon (click)="removeWholesale()">clear</mat-icon>
+      </ng-template>
+
+      <ng-template matTabContent>
+        <div style="flex-wrap: wrap; display: flex; justify-content: flex-start;">
+          <app-client-dashboard-descending
+            [pieChartData]="wholesalePieData"
+            [lineChartData]="wholesaleLineData"
+            (outputData)="getUpdatedData($event, 'wholeSale')"
+          ></app-client-dashboard-descending>
+          <button (click)="showExcel(wholesaleLineData, false)" mat-raised-button color="warn" class="m-2">
+            View tables and export data
+          </button>
+        </div>
+        <app-client-dashboard-chart [pieChartData]="toDrawWholeSalePieData" [lineChartData]="toDrawWholeSaleLineData"> </app-client-dashboard-chart>
+      </ng-template>
+    </mat-tab>
+
+    <ng-container *ngIf="clientDatas.length">
+      <mat-tab #tab *ngFor="let data of clientDatas; let index = index">
+        <ng-template matTabLabel>
+          <span style="font-size: 14px;"> {{ data.CustomerInfo.CustomerName }} </span>
+          &nbsp; &nbsp;
+          <mat-icon (click)="removeTab(index)">clear</mat-icon>
+        </ng-template>
+        <ng-template matTabContent>
+          <app-client-detail-views [clientData]="data" [beginDate]="beginDate" [endDate]="endDate"> </app-client-detail-views>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+</mat-card>
+
+<!-- <mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">客户情报</h2>
+    <div style="display: flex; justify-content: flex-end;">
+      <app-search-date-range-picker *ngIf="!clientSelect.value" [label]="'综合周期查询'" (outputData)="generalDateRangePickerOutput($event)">
+      </app-search-date-range-picker>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+      <app-search-selection [data]="2" [isShowLabel]="true" [formControl]="clientSelect"></app-search-selection>
+      <span *ngIf="clientSelect.value">
+        <app-search-date-range-picker [label]="'客户周期查询'" (outputData)="clientDateRangePickerOutput($event)"> </app-search-date-range-picker>
+      </span>
+    </div>
+  </div>
+  <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" #tabs>
+    <mat-tab #tab *ngIf="generalPieData">
+      <ng-template matTabLabel>
+        <span style="font-size: 14px;"> 综合情报 </span>
+        &nbsp; &nbsp;
+        <mat-icon (click)="removeGeneral()">clear</mat-icon>
+      </ng-template>
+
+      <ng-template matTabContent>
+        <app-client-dashboard-descending
+          [pieChartData]="allGeneralPieData"
+          [lineChartData]="allGeneralLineData"
+          (outputData)="getUpdatedData($event, 'general')"
+        ></app-client-dashboard-descending>
+        <app-client-dashboard-chart [pieChartData]="generalPieData" [lineChartData]="generalLineData"> </app-client-dashboard-chart>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab #tab *ngIf="retailPieData">
+      <ng-template matTabLabel>
+        <span style="font-size: 14px;"> 零售情报 </span>
+        &nbsp; &nbsp;
+        <mat-icon (click)="removeRetail()">clear</mat-icon>
+      </ng-template>
+
+      <ng-template matTabContent>
+        <div style="flex-wrap: wrap; display: flex; justify-content: flex-start;">
+          <app-client-dashboard-descending
+            [pieChartData]="allRetailPieData"
+            [lineChartData]="allRetailLineData"
+            (outputData)="getUpdatedData($event, 'retail')"
+          ></app-client-dashboard-descending>
+          <button (click)="showExcel(retailLineData, true)" mat-raised-button color="warn" class="m-2">
+            查看表格并导出数据
+          </button>
+        </div>
+        <app-client-dashboard-chart [pieChartData]="retailPieData" [lineChartData]="retailLineData"> </app-client-dashboard-chart>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab #tab *ngIf="wholesalePieData">
+      <ng-template matTabLabel>
+        <span style="font-size: 14px;"> 批发情报 </span>
+        &nbsp; &nbsp;
+        <mat-icon (click)="removeWholesale()">clear</mat-icon>
+      </ng-template>
+
+      <ng-template matTabContent>
+        <div style="flex-wrap: wrap; display: flex; justify-content: flex-start;">
+          <app-client-dashboard-descending
+            [pieChartData]="allWholesalePieData"
+            [lineChartData]="allWholesaleLineData"
+            (outputData)="getUpdatedData($event, 'wholeSale')"
+          ></app-client-dashboard-descending>
+          <button (click)="showExcel(wholesaleLineData, false)" mat-raised-button color="warn" class="m-2">
+            查看表格并导出数据
+          </button>
+        </div>
+        <app-client-dashboard-chart [pieChartData]="wholesalePieData" [lineChartData]="wholesaleLineData"> </app-client-dashboard-chart>
+      </ng-template>
+    </mat-tab>
+
+    <ng-container *ngIf="clientDatas.length">
+      <mat-tab #tab *ngFor="let data of clientDatas; let index = index">
+        <ng-template matTabLabel>
+          <span style="font-size: 14px;"> {{ data.CustomerInfo.CustomerName }} </span>
+          &nbsp; &nbsp;
+          <mat-icon (click)="removeTab(index)">clear</mat-icon>
+        </ng-template>
+        <ng-template matTabContent>
+          <app-client-detail-views [clientData]="data" [beginDate]="beginDate" [endDate]="endDate"> </app-client-detail-views>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+</mat-card> -->

@@ -1,0 +1,45 @@
+<mat-card>
+  <mat-card-content>
+    <h1>
+      Cin7 Invoice Number& Order Reference import
+    </h1>
+    <div style="margin-top: 1rem;">
+      <div>
+        <mat-radio-group [(ngModel)]="type" aria-label="Select an option" class="w-auto p-2">
+          <mat-label class="mr-3">Select a file type:</mat-label>
+          <mat-radio-button [checked]="type == 1" value="1" class="m-3">Cin7 Invoice Number And Order Reference</mat-radio-button>
+          <mat-radio-button value="2" class="m-3">Cin7 Invoice Number And Order Number</mat-radio-button>
+          <mat-radio-button value="3" class="m-3">Order Number And Order Reference</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div *ngIf="type != 0">
+        <app-upload-excel [label]="'Excel Upload'" (outputData)="excelOutput($event)"></app-upload-excel>
+      </div>
+      <button [disabled]="isShowNotice" style="float: right;" mat-flat-button color="warn" (click)="onSubmit()">
+        Save
+      </button>
+    </div>
+    <div style="color: red; font-size: 0.6rem; font-style: italic; margin-bottom: 1rem;">
+      <span *ngIf="type == 1">*Please upload files in order of Cin7 Invoice Number And Order Reference.</span>
+      <span *ngIf="type == 2">*Please upload files in order of Cin7 Invoice Number And Order Number.</span>
+      <span *ngIf="type == 3">*Please upload files in order of Order Number And Order Reference.</span>
+    </div>
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+          <div *ngIf="column === 'position'">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+          </div>
+          <div *ngIf="column !== 'position'">
+            <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
+            <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+          </div>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

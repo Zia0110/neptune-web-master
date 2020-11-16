@@ -1,0 +1,26 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Customer self purchase</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+      <app-search-date-range-picker
+        style="margin-top: -1px; height: 20px;"
+        [label]="'Search date range'"
+        (outputData)="dateRangePickerOutput($event)"
+      >
+      </app-search-date-range-picker>
+      &nbsp; &nbsp; &nbsp;
+
+      <app-search-selection
+        [selectionPlaceholder]="'Customer search'"
+        [isStockCustomer]="true"
+        [data]="2"
+        [formControl]="clientId"
+      ></app-search-selection>
+      &nbsp; &nbsp; &nbsp;
+
+      <button style="height: 38px;" mat-stroked-button (click)="addNew()" color="primary">Create new</button>
+    </div>
+  </div>
+
+  <app-inventory-client-purchase-table (deleteRowEmit)="deleteRow($event)" [tableData]="datas"></app-inventory-client-purchase-table>
+</mat-card>

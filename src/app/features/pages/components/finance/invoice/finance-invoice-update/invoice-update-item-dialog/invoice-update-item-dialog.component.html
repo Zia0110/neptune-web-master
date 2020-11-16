@@ -1,0 +1,104 @@
+<div class="itemDialog" style="width: 100%; height: 100%; position: relative;">
+  <h2 style="border-bottom: 1px solid rgba(0, 0, 0, 0.3); padding-bottom: 0.5rem;">Modify project</h2>
+  <div style="margin-top: 1rem; margin-bottom: 1rem;" class="summaryInfo">
+    <div>
+      <span>Customer：</span>
+      <app-card-customer [id]="data.CustomerId" [name]="data.CustomerCode + ' -- ' + data.CustomerName"></app-card-customer>
+    </div>
+    <div><span>isIncludeGST：</span>{{ data.InclGst ? 'Yes' : 'No' }}</div>
+    <div><span>Created At：</span>{{ data.CreatedAt | UtcToLocalDatePipe | date }}</div>
+    <div><span>Paid At：</span>{{ data.PaidAt | UtcToLocalDatePipe | date }}</div>
+  </div>
+  <div>
+    <form [formGroup]="userTable">
+      <table style="table-layout: fixed; width: 100%;" class="table mat-elevation-z5">
+        <thead class="text-nowrap">
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Warehouse</th>
+          <th>Confirmed Qty</th>
+          <th>
+            <div style="display: flex; justify-content: space-around; align-items: flex-end;">
+              <span>isArrived</span>
+              <button style="margin-left: 0.5rem;" mat-flat-button color="warn" (click)="addRow()">
+                Add row
+              </button>
+            </div>
+          </th>
+        </thead>
+        <tbody>
+          <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i = index">
+            <tr [formGroupName]="i">
+              <td>
+                <app-search-selection
+                  [data]="1"
+                  [isBaseProduct]="true"
+                  [isReadOnly]="group.value.Status === 4"
+                  [selectionPlaceholder]="group.value.ProductId === group.value.ProductOriginalId ? group.value.ProductName : 'Select a product...'"
+                  formControlName="ProductId"
+                  [isShowLabel]="group.value.ProductName"
+                ></app-search-selection>
+              </td>
+              <td>
+                <mat-form-field style="position: relative; top: 2px;" appearance="outline" floatLabel="never">
+                  <input [readonly]="group.value.Status === 4" matInput type="number" formControlName="Quantity" />
+                </mat-form-field>
+              </td>
+              <td>
+                <app-search-selection
+                  *ngIf="group.value.ProductId"
+                  [data]="3"
+                  [selectionPlaceholder]="
+                    group.value.ProductId === group.value.ProductOriginalId && group.value.WarehouseId.WarehouseId === group.value.WarehouseOriginalId
+                      ? group.value.WarehouseName
+                      : 'Select a warehouse...'
+                  "
+                  [isStockWarehouse]="true"
+                  [isReadOnly]="group.value.Status === 4"
+                  [productIdStockWarehouse]="group.value.ProductId"
+                  [isShowLabel]="group.value.WarehouseName"
+                  formControlName="WarehouseId"
+                ></app-search-selection>
+                <mat-form-field *ngIf="!group.value.ProductId" appearance="outline" floatLabel="never">
+                  <input matInput readonly type="text" formControlName="ProductId" />
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field style="position: relative; top: 2px;" appearance="outline" floatLabel="never">
+                  <input
+                    [readonly]="group.value.Status === 4 || group.value.WarehouseId.TransportId"
+                    [value]="group.value.WarehouseId.TransportId ? 0 : group.value.ConfirmedQty"
+                    matInput
+                    type="number"
+                    formControlName="ConfirmedQty"
+                  />
+                </mat-form-field>
+              </td>
+              <td>
+                <div style="display: flex; justify-content: space-around; align-items: baseline;">
+                  <span>
+                    {{ group.value.Status === 4 ? 'Yes' : 'No' }}
+                  </span>
+                  <button mat-stroked-button color="warn" (click)="deleteRow(i)">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </form>
+  </div>
+  <!--  <div>-->
+  <!--    {{ getFormControls.value | json }}-->
+  <!--  </div>-->
+  <div style="position: absolute; right: 0; bottom: 0; display: flex; justify-content: flex-end;">
+    <button mat-flat-button color="primary" (click)="onClose(false)">
+      Cancel
+    </button>
+    <button mat-flat-button color="warn" style="margin-left: 1rem;" (click)="onClose(true)">
+      Save
+    </button>
+  </div>
+</div>

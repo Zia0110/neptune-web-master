@@ -1,0 +1,68 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort cdkDropList (cdkDropListDropped)="drop($event)">
+    <ng-container matColumnDef="orderRef">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Order Ref</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.Ref">{{ element.Ref }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="company">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Company</th>
+      <td mat-cell *matCellDef="let element">
+        <div>{{ element.Company }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="projectName">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Project Name</th>
+      <td mat-cell *matCellDef="let element">
+        <div>{{ element.ProjectName }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cin7InterCode">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Cin7 InterCode</th>
+      <td mat-cell *matCellDef="let element">
+        <div>{{ element.Cin7InterCode }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ItemPrice">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>
+        Item Price
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.ItemPrice | currency }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="itemQty">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>
+        Item Qty
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.ItemQty }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="notes">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>
+        Notes
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.Notes }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      (click)="selectedRowIndex = index"
+      [ngClass]="{ highlight: selectedRowIndex == index }"
+      mat-row
+      cdkDrag
+      *matRowDef="let row; let index; columns: displayedColumns"
+    ></tr>
+  </table>
+</div>
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

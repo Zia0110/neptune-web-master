@@ -1,0 +1,102 @@
+<div>
+  <table mat-table [dataSource]="datasource" class="mat-elevation-z8">
+    <ng-container matColumnDef=" ">
+      <th mat-header-cell *matHeaderCellDef>产品名称</th>
+      <td mat-cell *matCellDef="let element" style="width: 300px;">
+        <!--        <mat-form-field style="width: 300px;">-->
+        <!--          <input matInput [formControl]="element.controls.name" />-->
+        <!--        </mat-form-field>-->
+        {{ element.controls.name.value }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cinCode">
+      <th mat-header-cell *matHeaderCellDef>Cin Code</th>
+      <td mat-cell *matCellDef="let element" style="width: 80px;">
+        <!--        <mat-form-field style="width: 130px;">-->
+        <!--          <input matInput [formControl]="element.controls.cinCode" />-->
+        <!--        </mat-form-field>-->
+        {{ element.controls.cinCode.value }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="SVIP">
+      <th mat-header-cell *matHeaderCellDef>SVIP</th>
+      <td mat-cell *matCellDef="let element" style="width: 80px;">
+        <!--        <span>$</span>-->
+        <!--        <mat-form-field style="width: 130px;">-->
+        <!--          <input matInput type="number" [formControl]="element.controls.svip" />-->
+        <!--        </mat-form-field>-->
+        {{ element.controls.svip.value ? (element.controls.svip.value | currency) : '' }}
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="DG">
+      <th mat-header-cell *matHeaderCellDef>DG</th>
+      <td mat-cell *matCellDef="let element" style="width: 80px;">
+        <!--        <span>$</span>-->
+        <!--        <mat-form-field style="width: 130px;">-->
+        <!--          <input matInput type="number" [formControl]="element.controls.dg" />-->
+        <!--        </mat-form-field>-->
+        {{ element.controls.dg.value ? (element.controls.dg.value | currency) : '' }}
+      </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="VIP">
+      <th mat-header-cell *matHeaderCellDef>VIP</th>
+      <td mat-cell *matCellDef="let element" style="width: 80px;">
+        <!--        <span>$</span>-->
+        <!--        <mat-form-field style="width: 130px;">-->
+        <!--          <input matInput type="number" [formControl]="element.controls.vip" />-->
+        <!--        </mat-form-field>-->
+        {{ element.controls.vip.value ? (element.controls.vip.value | currency) : '' }}
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="Retail">
+      <th mat-header-cell *matHeaderCellDef>Retail</th>
+      <td mat-cell *matCellDef="let element" style="width: 80px;">
+        <!--        <span>$</span>-->
+        <!--        <mat-form-field style="width: 130px;">-->
+        <!--          <input matInput type="number" [formControl]="element.controls.retail" />-->
+        <!--        </mat-form-field>-->
+        {{ element.controls.retail.value ? (element.controls.retail.value | currency) : '' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="unknown">
+      <th mat-header-cell *matHeaderCellDef>unknown</th>
+      <td mat-cell *matCellDef="let element" style="width: 80px;">
+        <!--        <span>$</span>-->
+        <!--        <mat-form-field style="width: 130px;">-->
+        <!--          <input matInput type="number" [formControl]="element.controls.unknown" />-->
+        <!--        </mat-form-field>-->
+        {{ element.controls.unknown.value ? (element.controls.unknown.value | currency) : '' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="productEffectiveDate">
+      <th mat-header-cell *matHeaderCellDef>生效日期</th>
+      <td mat-cell *matCellDef="let element" style="width: 80px;">
+        <!--        <mat-form-field style="width: 130px;">-->
+        <!--          <input matInput type="date" [formControl]="element.controls.productEffectiveDate" />-->
+        <!--        </mat-form-field>-->
+        {{ element.controls.productEffectiveDate.value | date }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="productExp">
+      <th mat-header-cell *matHeaderCellDef>过期日期</th>
+      <td mat-cell *matCellDef="let element" style="width: 80px;">
+        {{ element.controls.productExp.value | date }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[500, 10, 20, 100]" showFirstLastButtons></mat-paginator>
+</div>

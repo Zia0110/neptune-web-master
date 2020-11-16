@@ -1,0 +1,118 @@
+<mat-icon class="close" style="cursor: pointer;" mat-button mat-dialog-close>clear</mat-icon>
+<h2 mat-dialog-title>Financial order bulk changes</h2>
+
+<mat-dialog-content>
+  <span class="row" *ngIf="statInfo">
+    <span class="col-md-8" *ngIf="statInfo.clients">
+      <a class="link-text" (click)="clientShow = !clientShow"
+        >Current changing order customer <mat-icon style="position: absolute;">keyboard_arrow_down</mat-icon></a
+      >
+      <br />
+      <span *ngIf="clientShow">
+        <span *ngFor="let element of statInfo.clients">
+          {{ element.length }} customers
+          <app-card-customer class="link-text" [name]="element[0].CustomerString" [id]="element[0].BillingCustomerId"> </app-card-customer>
+          &nbsp; &nbsp;
+          {{ element[0].CustomerGroupName }} &nbsp; &nbsp;
+          <!-- <span>
+                        <b *ngIf="element[0].NewPrice" style="font-size: 0.75rem;">原价：</b>{{element[0].TotalPrice | currency}}
+                        &nbsp; &nbsp;
+                    </span> -->
+
+          <span style="color: crimson;" *ngIf="element[0].NewPrice"> <b style="font-size: 0.75rem;">New price：</b>{{ element[0].NewPrice }} </span>
+
+          <!-- <span style="color:#428c56" *ngIf="!element[0].NewPrice && (element[0].OrderPrice - element[0].TotalPrice)" >
+                        <b style="font-size: 0.75rem;">附加费用：</b>{{element[0].OrderPrice - element[0].TotalPrice | currency }}
+                        &nbsp; &nbsp;
+                    </span> -->
+
+          <!-- <span style="color:#428c56" *ngIf="element[0].NewPrice && (element[0].OrderPrice - element[0].NewPrice)" >
+                        <b style="font-size: 0.75rem;">附加费用：</b>{{element[0].OrderPrice - element[0].NewPrice | currency }}
+                        &nbsp; &nbsp;
+                    </span> -->
+
+          <span style="color: #428c56;" *ngIf="form.controls.addedPrice.value">
+            <b style="font-size: 0.75rem;">Added Price：</b>{{ form.controls.addedPrice.value | currency }}
+            &nbsp; &nbsp;
+          </span>
+
+          <br />
+        </span>
+      </span>
+    </span>
+
+    <span class="col-md-4" *ngIf="statInfo.product">
+      <a class="link-text" (click)="productShow = !productShow"
+        >Currently changed products <mat-icon style="position: absolute;">keyboard_arrow_down</mat-icon></a
+      >
+      <br />
+      <span *ngIf="productShow">
+        <span *ngFor="let element of statInfo.product">
+          {{ element.length }} products &nbsp;
+          <app-card-product
+            [ngClass]="{ highLight: element[0].ProductStatus == '停卖' }"
+            class="link-text"
+            [name]="element[0].ProductName"
+            [id]="element[0].ProductId"
+          >
+          </app-card-product>
+          <span *ngIf="element[0].ProductStatus"></span>
+          {{ element[0].ProductStatus }}
+          <br />
+        </span>
+      </span>
+    </span>
+  </span>
+
+  <br /><br />
+
+  <div class="row">
+    <div class="col-md-6">
+      <span class="detailTypeName">New product selection</span>
+      <app-search-selection [data]="1" [isStockWarehouse]="true" [formControl]="form.controls.newProductId"> </app-search-selection>
+    </div>
+
+    <div class="col-md-6">
+      <span class="detailTypeName">Added Price</span>
+      <input type="number" class="form-control" [formControl]="form.controls.addedPrice" />
+    </div>
+
+    <div class="col-md-12">
+      <span *ngIf="totalStockNeeded">
+        <ng-container *ngFor="let stockNeeded of totalStockNeeded">
+          <span>
+            <span style="color: crimson;">{{ stockNeeded.productRequired }}</span> {{ stockNeeded.productName }} needed<br />
+          </span>
+        </ng-container>
+      </span>
+    </div>
+
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="detailTypeName" for="exampleFormControlSelect1">Current inventory customer </label>
+        <select class="form-control" style="padding: 5px;" [formControl]="form.controls.newStockCustomerId" id="exampleFormControlSelect1">
+          <ng-container *ngFor="let stockCustomer of stockCustomerSelection">
+            <option [ngValue]="stockCustomer[0].CustomerId">
+              {{ stockCustomer[0].CustomerName }}, &nbsp;
+              <ng-container *ngFor="let stock of stockCustomer">
+                {{ stock.ProductName }}, {{ stock.Sum }} available &nbsp;
+                <span *ngIf="stock.StockError"> - {{ stock.StockError }}</span>
+              </ng-container>
+            </option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="detailTypeName">Financial Comment</label>
+        <textarea class="form-control" style="padding: 5px;" [formControl]="form.controls.newComment3"> </textarea>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <span *ngIf="viewRendered">
+    <button (click)="saveChanges()" [disabled]="!isFormSavable()" mat-flat-button color="warn">Save</button>
+  </span>
+</mat-dialog-actions>

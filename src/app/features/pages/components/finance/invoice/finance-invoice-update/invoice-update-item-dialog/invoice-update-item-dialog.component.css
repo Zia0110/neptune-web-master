@@ -1,0 +1,51 @@
+.summaryInfo span {
+  font-weight: 600;
+  font-style: italic;
+}
+
+.summaryInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+th {
+  color: rgba(0, 0, 0, 0.8) !important;
+  border-top: 0;
+  font-style: italic;
+}
+
+td {
+  vertical-align: baseline;
+}
+
+.itemDialog mat-form-field.mat-form-field {
+  font-size: 13px;
+}
+
+.itemDialog ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em 0 0.5em 0 !important;
+  top: -0.25em;
+}
+
+mat-icon {
+  color: #e91e63;
+  font-size: 3.2rem;
+  position: relative;
+  left: -0.55rem;
+  top: 0;
+  cursor: pointer;
+}
+
+.mat-icon-button {
+  height: 4rem;
+  border-radius: 2rem;
+  width: 4rem;
+  border: 0;
+}
+
+.mat-icon-div {
+  display: flex;
+  width: 2rem;
+  margin: 0 auto;
+}

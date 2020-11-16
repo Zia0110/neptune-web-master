@@ -1,0 +1,40 @@
+<div>
+  <span>Addr：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <input type="text" matInput [(ngModel)]="address" />
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>Suburb：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <input type="text" matInput [(ngModel)]="suburb" />
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>City：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <input type="text" matInput [(ngModel)]="city" />
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>State：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <input type="text" matInput [(ngModel)]="state" />
+    </mat-form-field>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Confirm
+  </button>
+</div>

@@ -1,0 +1,13 @@
+<mat-icon class="close" style="cursor: pointer;" mat-button mat-dialog-close>clear</mat-icon>
+<h1 mat-dialog-title>End of Ticket</h1>
+<mat-dialog-content>
+  <form>
+    <mat-form-field appearance="outline" class="example-full-width">
+      <mat-label>End note</mat-label>
+      <textarea matInput placeholder="Processing and results"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button style="float: right;" (click)="confirmShutTicket()" mat-raised-button color="warn" class="m-2">Confirm</button>
+</mat-dialog-actions>

@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-content>
+    <h2 style="padding-bottom: 0px; float: left;" class="section-title">New transportation plan</h2>
+
+    <div style="display: flex; justify-content: flex-end;">
+      <div *ngIf="formWarehouseId">
+        <app-upload-excel [label]="'Transportaion Plan Upload'" (outputData)="excelOutput($event)"></app-upload-excel>
+      </div>
+      <button (click)="save()" mat-flat-button color="warn">Save</button> &nbsp; &nbsp;
+    </div>
+    <br />
+
+    <app-transport-plan-edit
+      (formValueChange)="getFormWarehouseId($event)"
+      [transportData]="initTransportPlanData"
+      #transportPlanEdit
+    ></app-transport-plan-edit>
+
+    <span style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+      <!-- <button mat-raised-button (click)="transportTable.addNewFormRow()" color="primary">Add row</button> -->
+    </span>
+  </mat-card-content>
+  <app-transport-product-table #transportTable [warehouseId]="formWarehouseId" [tableData]="initTableData"></app-transport-product-table>
+</mat-card>

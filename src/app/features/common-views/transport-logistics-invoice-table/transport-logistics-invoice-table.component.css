@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+  border-collapse: separate; /* Don't collapse */
+}
+
+.imageStyle {
+  width: 75px;
+  height: 75px;
+}
+
+.marker1 {
+  color: #828282 !important;
+  font-size: 0.75rem !important;
+}

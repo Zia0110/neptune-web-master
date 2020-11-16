@@ -1,0 +1,67 @@
+<div style="width: 95%;" class="row">
+  <div *ngIf="datas && datas.courses" class="col-md-6">
+    <mat-card>
+      <mat-card-content>
+        <mat-tab-group mat-stretch-tabs [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" #tabs>
+          <mat-tab *ngFor="let tab of datas.courses; let index = index">
+            <ng-template matTabLabel>
+              <span *ngIf="tab.title" style="font-size: 15px;">{{ tab.title }}</span>
+            </ng-template>
+            <span>
+              <mat-vertical-stepper [linear]="isLinear">
+                <mat-step style="padding: 0px;" *ngFor="let data of tab.datas.stepper">
+                  <ng-template matStepLabel> {{ data.label }} &nbsp; {{ data.user }} </ng-template>
+                  {{ data.subLabel }}<br />
+                  <a mat-stroked-button color="primary" [routerLink]="data.url">链接</a>
+                </mat-step>
+              </mat-vertical-stepper>
+              <br />
+              <span *ngIf="tab.datas && tab.datas.other && tab.datas.other.length">
+                <h4>{{ tab.title }} 其他</h4>
+                <mat-accordion>
+                  <mat-expansion-panel
+                    style="margin-left: 10px; margin-right: 10px;"
+                    (opened)="panelOpenState = true"
+                    (closed)="panelOpenState = false"
+                    class="px-4"
+                    *ngFor="let data of tab.datas.other"
+                  >
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <h5>{{ data.label }} &nbsp; {{ data.user }}</h5>
+                      </mat-panel-title>
+                      <mat-panel-description> </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    {{ data.subLabel }} <br />
+                    <a mat-stroked-button color="primary" [routerLink]="data.url">链接</a>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </span>
+            </span>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div style="" *ngIf="datas && datas.others" class="col-md-6">
+    <mat-card>
+      <mat-card-content>
+        <h3>其他</h3>
+        <mat-accordion *ngFor="let datas of datas.others">
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="px-4" *ngFor="let data of datas">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h5>{{ data.label }}</h5>
+              </mat-panel-title>
+              <mat-panel-description> </mat-panel-description>
+            </mat-expansion-panel-header>
+            {{ data.subLabel }} <br />
+            <a mat-stroked-button color="primary" [routerLink]="data.url">链接</a>
+          </mat-expansion-panel>
+          <br />
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

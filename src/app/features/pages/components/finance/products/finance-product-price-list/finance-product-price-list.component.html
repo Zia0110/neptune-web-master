@@ -1,0 +1,35 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Price Management</h2>
+    <div style="display: flex; justify-content: flex-end; align-items: center;">
+      <span *ngIf="this.beginDate && this.endDate"> Current status：{{ this.beginDate | date }} - {{ this.endDate | date }} </span>
+      <button mat-raised-button color="warn" (click)="priceSelection()" style="margin-left: 1rem; margin-right: 1rem;">
+        Price search
+      </button>
+      <button mat-raised-button color="warn" (click)="priceUpdate()" style="margin-right: 1rem;">
+        Update Price
+      </button>
+      <app-upload-excel #uploadExcel [label]="'Excel Import'" (outputData)="excelOutput($event)"></app-upload-excel>
+      <button style="margin-left: 1rem; margin-right: 1rem;" mat-raised-button color="warn" (click)="saveForm()" [disabled]="!isEnableSave">
+        Save changes
+      </button>
+      <!--        <span>价格生效日期: </span>-->
+      <!--        <mat-form-field style="width: 200px; margin-left: 5px;">-->
+      <!--          &lt;!&ndash; <mat-label>价格生效日期</mat-label> &ndash;&gt;-->
+      <!--          <input matInput [matDatepicker]="picker" [formControl]="date" [placeholder]="oldEffectiveDate" />-->
+      <!--          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+      <!--          <mat-datepicker #picker></mat-datepicker>-->
+      <!--        </mat-form-field>-->
+      <!--      <button mat-raised-button color="warn" (click)="exportFileDialog()">-->
+      <!--        文件导出-->
+      <!--      </button>-->
+      <app-export-excel [fileName]="'产品价格'" [label]="'File export'" [data]="excelExportValue"></app-export-excel>
+      <button style="margin-left: 1rem;" mat-raised-button color="warn" (click)="openSpecialCustomer()">Special customer management</button>
+      <button style="margin-left: 1rem;" mat-raised-button color="warn" (click)="openPriceView()">Price View</button>
+      <!--        <button style="margin-left: 1rem;" mat-raised-button color="warn" (click)="openSendEmail()">发送邮件</button>-->
+    </div>
+  </div>
+  <div *ngIf="isShowTable">
+    <app-finance-product-price-table [tableTypeColumns]="tableTypeColumns" [tableData]="tableData"></app-finance-product-price-table>
+  </div>
+</mat-card>

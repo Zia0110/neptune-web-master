@@ -1,0 +1,68 @@
+.h1Header {
+  font-size: 2.5rem;
+  font-weight: 600;
+  font-style: italic;
+  width: 100%;
+  margin: 1px auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  position: relative;
+  margin-top: 1rem;
+  padding-bottom: 1.6rem;
+}
+
+.mapChinaDiv {
+  position: relative;
+  width: 34.3rem;
+  height: 28.5rem;
+  background-size: cover;
+  background-image: url(../../../../../../assets/images/background/China.png);
+}
+
+.AuAndNzMap {
+  display: flex;
+  flex-direction: column;
+}
+
+.mapNZDiv {
+  width: 10.3rem;
+  height: 15rem;
+  /*margin-top: 13.6rem;*/
+  background-size: cover;
+  background-image: url(../../../../../../assets/images/background/NewZealand.png);
+}
+
+.mapAuDiv {
+  background-image: url(../../../../../../assets/images/background/Australia.png);
+  background-size: contain;
+  height: 8rem;
+  margin-top: 3rem;
+  position: relative;
+}
+
+.mapNZDiv > span > span,
+.mapChinaDiv > span > span {
+  font-weight: 900;
+  font-style: italic;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+}
+
+.mapNZDiv > span > span:hover,
+.mapChinaDiv > span > span:hover {
+  background-color: #ff9bafde !important;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.mapNZDiv ::ng-deep .mat-badge-content.mat-badge-active,
+.mapChinaDiv ::ng-deep .mat-badge-content.mat-badge-active,
+.transportDiv ::ng-deep .mat-badge-content.mat-badge-active {
+  width: 2.7rem;
+  top: -0.95rem;
+  right: -1.8rem;
+}
+
+.mapChinaDiv > span,
+.mapAuDiv > span {
+  position: absolute;
+}

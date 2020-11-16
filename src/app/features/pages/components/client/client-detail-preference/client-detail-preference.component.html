@@ -1,0 +1,25 @@
+<div style="text-align: center;">
+  <h2 class="text-secondary">
+    <b>Revenue by Music Format,1971-1983</b>
+  </h2>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <ngx-charts-bar-vertical-stacked
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="multi"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+        >
+        </ngx-charts-bar-vertical-stacked>
+      </div>
+    </div>
+  </div>
+</div>

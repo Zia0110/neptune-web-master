@@ -1,0 +1,44 @@
+<div style="display: flex; align-items: baseline; flex-wrap: nowrap; position: relative;">
+  <mat-paginator [pageSizeOptions]="[10, 30, 50, 100]" showFirstLastButtons></mat-paginator>
+  <app-search-date-range-picker [label]="'Choose start and end dates'" (outputData)="dateRangePickerOutput($event)"></app-search-date-range-picker>
+  <button mat-flat-button (click)="onSearch()" color="warn" style="margin-left: 0.5rem; margin-right: 0.5rem;">Search</button>
+  <app-export-excel [label]="'Excel'" [fileName]="customerCode + ' 库存表'" [data]="excelExportValue"></app-export-excel>
+  <mat-dialog-actions align="end" style="position: absolute; right: 0;">
+    <button mat-button mat-dialog-close style="font-size: 1.5rem; color: rgba(0, 0, 0, 0.9);">X</button>
+  </mat-dialog-actions>
+</div>
+<div class="mb-2">
+  <button mat-button color="accent" *ngFor="let buttonItem of sumTypeArray" class="ml-2" (click)="detailShow(buttonItem)">
+    {{ buttonItem.buttonName }}
+  </button>
+</div>
+<div class="table-container mat-elevation-z8" style="height: 85%;" *ngIf="isShowTable">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container [matColumnDef]="'日期'" sticky>
+      <th mat-header-cell *matHeaderCellDef style="font-size: 1rem; letter-spacing: 0.1rem;" mat-sort-header>{{ '日期' }}</th>
+      <td mat-cell *matCellDef="let element">{{ element['日期'] }}</td>
+    </ng-container>
+    <ng-container [matColumnDef]="'INV#'">
+      <th mat-header-cell *matHeaderCellDef style="padding-left: 8px; font-size: 1rem; letter-spacing: 0.1rem;" mat-sort-header>{{ 'INV#' }}</th>
+      <td mat-cell *matCellDef="let element" style="padding-left: 8px;">{{ element['INV#'] }}</td>
+    </ng-container>
+    <ng-container [matColumnDef]="'总和'" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef class="tableHeader" style="padding-left: 8px; font-size: 1rem; letter-spacing: 0.1rem;" mat-sort-header>
+        {{ '总和' }}
+      </th>
+      <td mat-cell *matCellDef="let element" (click)="detailShow(element, 'sum')" class="tableCell row-of-icons" style="padding-left: 8px;" matRipple>
+        {{ element['总和'] }}
+      </td>
+    </ng-container>
+    <ng-container [matColumnDef]="column" *ngFor="let column of productColumns">
+      <th mat-header-cell *matHeaderCellDef class="tableHeader" mat-sort-header>{{ column }}</th>
+      <td mat-cell *matCellDef="let element" (click)="detailShow(element[column])" class="tableCell row-of-icons" matRipple>
+        <div *ngIf="element[column]">
+          {{ element[column].qty }}
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

@@ -1,0 +1,44 @@
+table {
+  width: 100%;
+}
+
+.popover-link {
+  color: #0088ff;
+}
+
+tr.mat-row {
+  height: 45px;
+}
+
+.tableHeader {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.1rem;
+  font-weight: 600;
+}
+
+.tableCell,
+.tableHeader {
+  text-align: center;
+}
+
+.tableCell {
+  transition-property: background-color;
+  transition-duration: 0.6s;
+}
+
+.tableCell:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.row-of-icons {
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
+}
+
+.tableHeader ::ng-deep .mat-sort-header-container {
+  justify-content: center;
+}

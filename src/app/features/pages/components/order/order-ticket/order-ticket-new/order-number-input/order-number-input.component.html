@@ -1,0 +1,10 @@
+<form class="example-form" (change)="submit()">
+  <mat-form-field class="example-full-width">
+    <mat-label>请输入订单号</mat-label>
+    <input matInput [formControl]="quantityFormControl" [errorStateMatcher]="matcher" />
+    <mat-error *ngIf="quantityFormControl.hasError('pattern') && !quantityFormControl.hasError('required')">
+      Please enter numbers only
+    </mat-error>
+    <mat-error *ngIf="quantityFormControl.hasError('required')">Order Number is <strong>required</strong> </mat-error>
+  </mat-form-field>
+</form>

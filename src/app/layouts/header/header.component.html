@@ -1,0 +1,95 @@
+<mat-toolbar
+  style="width: 100%; justify-content: space-evenly; height: 50px; padding: 0; font-size: 15px !important;"
+  color="#ededed"
+  class="topbar telative"
+>
+  <a [ngClass]="{ mobileLogo: mobile }" class="desktopLogo" href="/#/admin">
+    <img src="assets/images/dal-logo.png" class="" style="width: 100%;" />
+  </a>
+
+  <span style="position: absolute; right: 170px;" *ngIf="mobile">
+    <!-- <span style=""> -->
+    <button [matMenuTriggerFor]="mobileNavMenu" mat-icon-button>
+      <mat-icon style="color: #737373;">view_headline</mat-icon>
+    </button>
+    <!-- </span> -->
+    <!-- <button [ngClass]="{ mobilePerson: mobile }" [matMenuTriggerFor]="profile" mat-icon-button >
+      <mat-icon style="color: #737373;">person</mat-icon>
+    </button> -->
+
+    <!-- <mat-icon  [ngClass]="{ mobilePerson: mobile }" [matMenuTriggerFor]="mobileNavMenu">view_headline</mat-icon> -->
+    <mat-menu class="mymegamenu" #mobileNavMenu="matMenu">
+      <a routerLinkActive="active-group-mobile" *ngFor="let menuitem of currentMenuItems.PageGroup">
+        <button style="color: inherit;" [matMenuTriggerFor]="subMenuMobile" mat-menu-item>
+          {{ menuitem.GroupName }}
+        </button>
+        <mat-menu #subMenuMobile="matMenu">
+          <a
+            mat-menu-item
+            *ngFor="let child of menuitem.Children"
+            href=""
+            [routerLinkActiveOptions]="{ exact: true }"
+            [routerLink]="child.Url"
+            routerLinkActive="is-active"
+            style="border: 0; background-color: transparent; outline: none;"
+          >
+            {{ child.PageName }}
+          </a>
+        </mat-menu>
+      </a>
+    </mat-menu>
+  </span>
+
+  <ng-container *ngIf="!mobile">
+    <span style="color: #545454;" *ngFor="let menuitem of currentMenuItems.PageGroup">
+      <a style="cursor: pointer;" [matMenuTriggerFor]="menu" #navItem *ngIf="menuitem.Children" routerLinkActive="active-group">
+        <span style="font-size: 14px;"
+          >{{ menuitem.GroupName }}
+          <mat-icon style="position: absolute; padding-left: 0px; padding-top: 4px;">keyboard_arrow_down</mat-icon>
+        </span>
+        <mat-menu #menu="matMenu">
+          <a
+            mat-menu-item
+            *ngFor="let child of menuitem.Children"
+            href=""
+            [routerLinkActiveOptions]="{ exact: true }"
+            [routerLink]="child.Url"
+            routerLinkActive="is-active"
+            style="border: 0; background-color: transparent; outline: none;"
+          >
+            {{ child.PageName }}
+          </a>
+        </mat-menu>
+      </a>
+    </span>
+  </ng-container>
+
+  <span style="position: absolute; right: 15px;">
+    <button [ngClass]="{ mobilePerson: mobile }" (click)="resetProductAndCustomerData()" mat-icon-button>
+      <mat-icon style="color: #737373;">refresh</mat-icon>
+    </button>
+    <button [ngClass]="{ mobilePerson: mobile }" [matMenuTriggerFor]="profile" mat-icon-button>
+      <mat-icon style="color: #737373;">person</mat-icon>
+    </button>
+    <!--    &nbsp; &nbsp;-->
+    <!--    <button [ngClass]="{ mobilePerson: mobile }" [matMenuTriggerFor]="notification" mat-icon-button>-->
+    <!--      <mat-icon style="color: #737373;">notifications</mat-icon>-->
+    <!--    </button>-->
+  </span>
+
+  <mat-menu #profile="matMenu" class="mymegamenu">
+    <button (click)="openUserSettings()" mat-menu-item><mat-icon>settings</mat-icon> {{ appConfigStore.userName }} 的个人设置</button>
+    <button (click)="userResetPassword()" mat-menu-item><mat-icon>lock</mat-icon> 修改密码</button>
+    <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon> Sign Out 注销</button>
+  </mat-menu>
+
+  <mat-menu #notification="matMenu" class="mymegamenu">
+    这是 Notifications
+    <!-- <button (click)="openUserSettings()" mat-menu-item>
+      <mat-icon>settings</mat-icon> {{ appConfigStore.userName }} 的个人设置
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon> Sign Out 注销
+    </button> -->
+  </mat-menu>
+</mat-toolbar>

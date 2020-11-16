@@ -1,0 +1,92 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Client list</h2>
+    <div style="display: flex; justify-content: flex-end;">
+      <button mat-stroked-button (click)="addressManagement()" color="primary">Address management</button>
+      &nbsp; &nbsp;
+      <input type="text" style="max-width: 300px;" (keyup)="applyFilter($event)" class="form-control" placeholder="Customer Code search..." />
+      <!-- <input type="text" style="max-width: 300px;" (keyup)="applyFilter($event)" class="form-control" placeholder="Search" /> -->
+      &nbsp; &nbsp;
+      <button mat-stroked-button (click)="addNewClient()" color="primary">Add new client</button>
+      &nbsp; &nbsp;
+      <app-export-excel #excelExporter [label]="'Excel'" [fileName]="'Client List'" [data]="excelExportValue"></app-export-excel>
+    </div>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="CustomerId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.CustomerId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="客户名">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.CustomerName }}
+        &nbsp; &nbsp; &nbsp;
+        <a class="link-text" (click)="viewClientDashboard(element.CustomerId)"> Sell info </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="客户编号">
+      <th mat-header-cell *matHeaderCellDef>Customer Code</th>
+      <td mat-cell *matCellDef="let element">{{ element.CustomerCode }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="客户等级">
+      <th mat-header-cell *matHeaderCellDef>Classification</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.CustomerGroup1 }}
+        <span *ngIf="element.CustomerGroup2">｜ {{ element.CustomerGroup2 }}</span>
+        <span *ngIf="element.CustomerGroup3">｜ {{ element.CustomerGroup3 }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="联系人信息">
+      <th mat-header-cell *matHeaderCellDef>Contact Info</th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          <div *ngIf="element.ContactPerson">
+            <span style="font-style: italic; font-weight: 600;">Name：</span>
+            {{ element.ContactPerson }}
+          </div>
+          <div *ngIf="element.Phone">
+            <span style="font-style: italic; font-weight: 600;">Tel：</span>
+            {{ element.Phone }}
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="FirstName">
+      <th mat-header-cell *matHeaderCellDef>First Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.FirstName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef>Photo</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.Image">
+          <img src="{{ element.Image }}" style="width: 75px; height: 75px;" />
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="functions">
+      <th mat-header-cell *matHeaderCellDef>Operation</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="link-text" (click)="openEditDialog(element)">Edit</span>
+        &nbsp; &nbsp; &nbsp;
+        <span class="link-text" (click)="openEmailDialog(element.CustomerId)">Extra Email</span>
+        <!--        <span style="color: red !important;" class="link-text" (click)="openDeleteDialog(element)">删除</span>-->
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 40, 80]" showFirstLastButtons></mat-paginator>
+</mat-card>

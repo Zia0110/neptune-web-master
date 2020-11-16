@@ -1,0 +1,13 @@
+<div *ngIf="retailPieChart.length != 0 && wholeSalePieChart.length == 0 && sumPieChart.length == 0">
+  <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="retailPieChart" [gradient]="gradient">
+  </ngx-charts-advanced-pie-chart>
+</div>
+
+<div *ngIf="retailPieChart.length == 0 && wholeSalePieChart.length != 0 && sumPieChart.length == 0">
+  <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="wholeSalePieChart" [gradient]="gradient">
+  </ngx-charts-advanced-pie-chart>
+</div>
+
+<div *ngIf="retailPieChart.length == 0 && wholeSalePieChart.length == 0 && sumPieChart.length != 0">
+  <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="sumPieChart" [gradient]="gradient"> </ngx-charts-advanced-pie-chart>
+</div>

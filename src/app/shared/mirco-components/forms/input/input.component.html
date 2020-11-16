@@ -1,0 +1,36 @@
+<!-- Need to add ngstyles in the group-form -->
+<mat-form-field
+  class="demo-full-width"
+  [formGroup]="group"
+  [ngClass]="field.class"
+  [ngStyle]="field.style"
+  *ngIf="field.inputType != 'textarea'"
+  appearance="outline"
+>
+  <mat-label>{{ field.label }} </mat-label>
+  <input
+    matInput
+    [formControlName]="field.name"
+    [placeholder]="field.value"
+    [attr.disabled]="field.disabled == true ? true : null"
+    [type]="field.inputType"
+  />
+  <ng-container *ngFor="let validation of field.validations" ngProjectAs="mat-error">
+    <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{ validation.message }}</mat-error>
+  </ng-container>
+</mat-form-field>
+<!-- textarea input -->
+<mat-form-field
+  class="demo-full-width"
+  [formGroup]="group"
+  [ngClass]="field.class"
+  [ngStyle]="field.style"
+  *ngIf="field.inputType == 'textarea'"
+  appearance="outline"
+>
+  <mat-label>{{ field.label }} </mat-label>
+  <textarea matInput [formControlName]="field.name" [attr.disabled]="field.disabled == true ? true : null">{{ field.value }}</textarea>
+  <!-- <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
+        <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
+    </ng-container> -->
+</mat-form-field>

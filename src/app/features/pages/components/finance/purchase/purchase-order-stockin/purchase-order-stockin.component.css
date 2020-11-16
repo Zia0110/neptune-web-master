@@ -1,0 +1,21 @@
+.headTitle {
+  font-style: italic;
+  width: 98%;
+  margin: 1px auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+}
+
+mat-table {
+  width: 98%;
+  margin: 0 auto;
+}
+
+.mat-column-position {
+  flex: 0 0 10%;
+}
+
+.tableStockin span {
+  font-weight: bold;
+}

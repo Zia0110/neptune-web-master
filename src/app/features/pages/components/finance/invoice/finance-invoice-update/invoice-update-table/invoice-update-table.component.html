@@ -1,0 +1,66 @@
+<div>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="customer">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Customer</th>
+        <td mat-cell *matCellDef="let element">
+          <app-card-customer [id]="element.customer.customerId" [name]="element.customer.customerName"></app-card-customer>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="inclGst">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>isIncludeGst</th>
+        <td mat-cell *matCellDef="let element">{{ element.inclGst }}</td>
+      </ng-container>
+      <ng-container matColumnDef="comment">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Comment</th>
+        <td mat-cell *matCellDef="let element" style="cursor: pointer;" (click)="openCommentDialog(element)">{{ element.comment }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="isStockCustomerSale">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Is To Customer's Inventory</th>
+        <td mat-cell *matCellDef="let element">{{ element.isStockCustomerSale }}</td>
+      </ng-container>
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Created At</th>
+        <td mat-cell *matCellDef="let element">{{ element.createdAt | date }}</td>
+      </ng-container>
+      <ng-container matColumnDef="paidAt">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Paid At</th>
+        <td mat-cell *matCellDef="let element">{{ element.paidAt | date }}</td>
+      </ng-container>
+      <ng-container matColumnDef="configures">
+        <th mat-header-cell *matHeaderCellDef>Configures</th>
+        <td mat-cell *matCellDef="let element">
+          <div>
+            <div class="configuresDiv" *ngFor="let row of element.configures; let i = index">
+              {{ i + 1 }}、<span>Warehouse：</span><app-card-warehouse [id]="row.WarehouseId" [name]="row.WarehouseName"></app-card-warehouse>
+              <span style="margin-left: 0.5rem;" *ngIf="row.TransportNo">Transport No：</span>{{ row.TransportNo }} <span>Product：</span
+              ><app-card-product [id]="row.ProductId" [name]="row.ProductCode + ' -- ' + row.ProductName"></app-card-product>
+              <br />
+              <span style="margin-left: 1rem;"
+                >Quantity：<span style="font-weight: normal; font-style: normal;">{{ row.Quantity }}</span></span
+              >
+              <span style="margin-left: 0.5rem;" *ngIf="row.ConfirmedQty"
+                >Confirmed Qty：<span style="font-weight: normal; font-style: normal;">{{ row.ConfirmedQty }}</span></span
+              >
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="handle">
+        <th mat-header-cell *matHeaderCellDef>Handle</th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element.isStockCustomerSale == 'Yes'" style="width: 100%; display: flex; justify-content: space-around;">
+            <button mat-stroked-button color="warn" (click)="openItemDialog(element.handle)">
+              Modify
+            </button>
+            <button mat-stroked-button color="warn" (click)="deleteRow(element.handle.OrderId)">Delete</button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

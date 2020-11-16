@@ -1,0 +1,21 @@
+<div>
+  <span>Level selection：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <mat-select [formControl]="groupFormControl" [(value)]="groupSelected">
+        <mat-option value="all">select all</mat-option>
+        <mat-option value="0">SVIP</mat-option>
+        <mat-option value="1">DG</mat-option>
+        <mat-option value="2">VIP</mat-option>
+        <mat-option value="3">Retial</mat-option>
+        <mat-option value="4">unknown</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button style="margin-right: 1rem;" color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <app-export-excel [label]="'Export excel'" [data]="excelExportValue" (click)="onClose(true)"></app-export-excel>
+</div>

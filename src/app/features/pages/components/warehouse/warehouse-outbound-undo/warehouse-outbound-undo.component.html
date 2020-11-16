@@ -1,0 +1,134 @@
+<mat-card>
+  <mat-card-content>
+    <h1>Order outboud reverse</h1>
+    <div class="headerWrap">
+      <div class="addOrderWrap">
+        <div>
+          <span class="addOrderSpan">Batch Import：</span>
+          <app-upload-text style="float: right;" (outputTextFileData)="uploadTextToArrayOrder($event)"></app-upload-text>
+        </div>
+        <div class="mb-2 mt-2 outbound-sigle-input">
+          <mat-form-field appearance="outline" floatLabel="never">
+            <mat-label style="padding-left: 2px;">Add single order</mat-label>
+            <input style="padding-left: 2px;" matInput [formControl]="sigleOrderNoFormControl" placeholder="Order no..." />
+            <button
+              mat-button
+              *ngIf="sigleOrderNoFormControl.value"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="sigleOrderNoFormControl.setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <button (click)="addSingleOrderNo()" mat-flat-button color="warn">Add</button>
+        </div>
+      </div>
+      <div class="mb-1 mt-2 orderFunctions">
+        <app-order-functions
+          [isShowCustomer]="false"
+          [isShowStockCustomer]="false"
+          [isShowUpload]="false"
+          [isExpand]="false"
+          [isSqueeze]="false"
+          (filteredValue)="getFilteredValue($event)"
+        ></app-order-functions>
+      </div>
+    </div>
+    <div class="mb-2">
+      <div class="list-table mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+          </ng-container>
+          <ng-container matColumnDef="order">
+            <th mat-header-cell *matHeaderCellDef>Order</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.order.OrderNo">Order No：{{ element.order.OrderNo }}</div>
+              <div *ngIf="element.order.Reference">reference：{{ element.order.Reference }}</div>
+              <div *ngIf="element.order.ProjectId">Project Name：{{ element.order.ProjectId }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="sender">
+            <th mat-header-cell *matHeaderCellDef>Sender</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.sender.Sender">name：{{ element.sender.Sender }}</div>
+              <div *ngIf="element.sender.SenderAddr">addr：{{ element.sender.SenderAddr }}</div>
+              <div *ngIf="element.sender.SenderPhone">tel：{{ element.sender.SenderPhone }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="recipient">
+            <th mat-header-cell *matHeaderCellDef>Recipient</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.recipient.Recipient">name：{{ element.recipient.Recipient }}</div>
+              <div *ngIf="element.recipient.RecipientAddr">addr：{{ element.recipient.RecipientAddr }}</div>
+              <div *ngIf="element.recipient.RecipientPhone">tel：{{ element.recipient.RecipientPhone }}</div>
+              <div *ngIf="element.recipient.RecipientIdno">id no：{{ element.recipient.RecipientIdno }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="product">
+            <th mat-header-cell *matHeaderCellDef>Product</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.product.ProductString">
+                name：
+                <app-card-product [id]="element.product.ProductId" [name]="element.product.ProductString"></app-card-product>
+              </div>
+              <div *ngIf="element.product.ProductCode">
+                Product Code：
+                <app-card-product [id]="element.product.ProductId" [name]="element.product.ProductCode"></app-card-product>
+              </div>
+              <div *ngIf="element.product.Uom">UOM：{{ element.product.Uom }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dates">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.dates.EnterDate">Entry date：{{ element.dates.EnterDate | date }}</div>
+              <div *ngIf="element.dates.BillingDate">Financial date：{{ element.dates.BillingDate | date }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="customer">
+            <th mat-header-cell *matHeaderCellDef>Client</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.customer.CustomerString">Info：{{ element.customer.CustomerString }}</div>
+              <div *ngIf="element.customer.LastName">Last Name：{{ element.customer.LastName }}</div>
+              <div *ngIf="element.customer.FirstName">First Name：{{ element.customer.FirstName }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Cin7InterCode">
+            <th mat-header-cell *matHeaderCellDef>CIN 7 inter Code</th>
+            <td mat-cell *matCellDef="let element">{{ element.Cin7InterCode }}</td>
+          </ng-container>
+          <ng-container matColumnDef="payment">
+            <th mat-header-cell *matHeaderCellDef>Payment Info</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.payment.Nzd">NZ Dollar：{{ element.payment.Nzd }}</div>
+              <div *ngIf="element.payment.UnitPrice">Unit Price：{{ element.payment.UnitPrice }}</div>
+              <div *ngIf="element.payment.TotalPrice">Real Price：{{ element.payment.TotalPrice }}</div>
+              <div *ngIf="element.payment.OrderPrice">Order Price：{{ element.payment.OrderPrice }}</div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="undo">
+            <th mat-header-cell *matHeaderCellDef>Operating</th>
+            <td mat-cell *matCellDef="let element">
+              <div style="display: flex; align-items: center; width: 100%;">
+                <mat-form-field appearance="outline" class="outbound-handle-child" floatLabel="never">
+                  <mat-label>Undo comment</mat-label>
+                  <textarea [rows]="3" matInput [(ngModel)]="element.undo.comment"></textarea>
+                </mat-form-field>
+                <button mat-stroked-button color="warn" style="margin-left: 0.5rem;" (click)="undoPUT(element.undo.OrderNo, element.undo.comment)">
+                  Undo
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

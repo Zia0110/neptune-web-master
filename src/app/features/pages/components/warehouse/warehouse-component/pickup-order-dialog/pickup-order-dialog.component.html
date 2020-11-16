@@ -1,0 +1,48 @@
+<mat-card-content>
+  <div>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+      <div style="position: absolute; z-index: 9; top: 0; right: 0; padding: 2rem;">
+        <button class="mx-3" mat-icon-button (click)="onNoClick(true)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div style="display: flex; align-items: baseline;">
+        <div style="font-weight: 600;">第 {{ paginator.pageIndex + 1 }} 页</div>
+        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+    <div class="pickupDialogTable">
+      <table mat-table [dataSource]="allSummaryData" class="mat-elevation-z8">
+        <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+          <div *ngIf="column === 'product'">
+            <th mat-header-cell *matHeaderCellDef style="padding-left: 0;" class="w-25">
+              <div class="all">
+                <div class="top"></div>
+                <div class="mid">客户</div>
+                <div class="bot">产品（可点击）</div>
+              </div>
+            </th>
+            <td mat-cell *matCellDef="let element" class="w-25" style="letter-spacing: 0.1rem; font-weight: 500;">
+              <app-card-product [id]="element[column].productId" [name]="element[column].productName"></app-card-product>
+            </td>
+          </div>
+          <div *ngIf="column !== 'product'">
+            <th mat-header-cell *matHeaderCellDef class="tableHeader">
+              {{ column }}
+            </th>
+            <td mat-cell *matCellDef="let element" class="tableCell row-of-icons" matRipple (click)="onNoClick(false, element[column])">
+              <div *ngIf="element[column]" style="font-size: 1.1rem;">
+                <span style="font-weight: 600;">{{ element[column].count }}</span> /
+                <span style="color: red;" *ngIf="!element[column].already">{{ element[column].already }}</span>
+                <span style="color: red; font-weight: 600;" *ngIf="element[column].already">{{ element[column].already }}</span>
+              </div>
+            </td>
+          </div>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+</mat-card-content>

@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-content>
+    <div class="row my-3">
+      <div class="col-2">
+        <div class="input-group">
+          1234567189
+          <input type="text" class="form-control border" placeholder="搜索订单号" (keyup.enter)="searchById()" [formControl]="orderID" />
+
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit" (click)="searchById()">搜索</button>
+          </div>
+        </div>
+        <div>
+          <mat-label *ngIf="orderID.hasError" class="text-danger">{{ errorMessage }}</mat-label>
+        </div>
+      </div>
+
+      <!-- <div class="col-1 offset-3">
+                <mat-slide-toggle [(ngModel)]="editModeOn">编辑</mat-slide-toggle>
+            </div> -->
+    </div>
+    <div class="row">
+      <div class="col-8">
+        <app-order-present [orderNo]="orderNo" [editMode]="editModeOn"></app-order-present>
+      </div>
+
+      <div class="col-1">
+        <mat-slide-toggle [(ngModel)]="editModeOn">编辑</mat-slide-toggle>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

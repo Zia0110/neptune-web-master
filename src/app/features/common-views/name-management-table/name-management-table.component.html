@@ -1,0 +1,83 @@
+<div>
+  <div *ngIf="dataType !== 'product'" style="margin-bottom: 0.5rem;">
+    <app-order-functions
+      [isShowUpload]="false"
+      [isShowProduct]="false"
+      [isSqueeze]="false"
+      [isShowGeneral]="false"
+      (filteredValue)="getFilteredValue($event)"
+    ></app-order-functions>
+  </div>
+  <div *ngIf="dataType === 'product'" style="margin-bottom: 0.5rem;">
+    <app-order-functions
+      [isShowUpload]="false"
+      [isShowProduct]="true"
+      [isShowCustomer]="false"
+      [isShowStockCustomer]="false"
+      [isSqueeze]="false"
+      [isShowGeneral]="true"
+      (filteredValue)="getFilteredValue($event)"
+    ></app-order-functions>
+  </div>
+  <table *ngIf="isShowTable" matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container *ngIf="dataType === 'product'" matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <!--        <mat-checkbox (change)="$event ? masterToggle() : null"-->
+        <!--                      [checked]="selection.hasValue() && isAllSelected()"-->
+        <!--                      [indeterminate]="selection.hasValue() && !isAllSelected()"-->
+        <!--                      [aria-label]="checkboxLabel()">-->
+        <!--        </mat-checkbox>-->
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Standard name</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="mapping">
+      <th mat-header-cell *matHeaderCellDef>Mapping name</th>
+      <td mat-cell *matCellDef="let element">{{ element.mapping }}</td>
+    </ng-container>
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Time Stamp</th>
+      <td mat-cell *matCellDef="let element">{{ element.timestamp ? (element.timestamp | date) : '' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Created At</th>
+      <td mat-cell *matCellDef="let element">{{ element.createdAt ? (element.createdAt | date) : '' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="handle">
+      <th mat-header-cell *matHeaderCellDef>
+        <button *ngIf="dataType === 'product'" mat-flat-button color="warn" style="float: right;" (click)="deleteBatchRows()">
+          Batch deletion
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.handle.status === '待处理'" style="display: flex; justify-content: flex-end;">
+          <button mat-stroked-button color="warn" (click)="openNameDialog(element.handle)">Modify</button>
+          <button mat-stroked-button color="warn" style="margin-left: 1rem;" (click)="deleteRow(element.handle)">
+            Delete
+          </button>
+        </div>
+        <div *ngIf="element.handle.status !== '待处理'" style="font-style: italic; color: red; font-weight: 500; text-align: center;">
+          DELETED
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+</div>

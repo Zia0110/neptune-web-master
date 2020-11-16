@@ -1,0 +1,83 @@
+<div class="overflow-auto">
+  <form [formGroup]="userTable">
+    <table class="table mat-elevation-z5">
+      <thead class="text-nowrap">
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Warehouse</th>
+        <th>isTransferRequest</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i = index">
+          <tr [formGroupName]="i">
+            <td>
+              <app-search-selection
+                [data]="1"
+                [isBaseProduct]="true"
+                [selectionPlaceholder]="group.value.ProductId === group.value.ProductOriginalId ? group.value.ProductName : '请选择产品...'"
+                formControlName="ProductId"
+                [isShowLabel]="group.value.ProductName"
+              ></app-search-selection>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" floatLabel="never">
+                <input matInput type="number" formControlName="Quantity" />
+              </mat-form-field>
+            </td>
+            <td>
+              <app-search-selection
+                *ngIf="group.value.ProductId"
+                [data]="3"
+                [selectionPlaceholder]="
+                  group.value.ProductId === group.value.ProductOriginalId && group.value.WarehouseId.WarehouseId === group.value.WarehouseOriginalId
+                    ? group.value.WarehouseName
+                    : 'Select a warehouse...'
+                "
+                [isStockWarehouse]="true"
+                [productIdStockWarehouse]="group.value.ProductId"
+                [isShowLabel]="group.value.WarehouseName"
+                [isShowTransport]="IsStockCustomerSale"
+                formControlName="WarehouseId"
+              ></app-search-selection>
+              <mat-form-field *ngIf="!group.value.ProductId" appearance="outline" floatLabel="never">
+                <input matInput readonly type="text" formControlName="ProductId" />
+              </mat-form-field>
+            </td>
+            <td>
+              <div *ngIf="!group.value.WarehouseId.TransportId">
+                <mat-form-field appearance="outline" floatLabel="never">
+                  <mat-select formControlName="IsTransportRequirement">
+                    <mat-option value="1">Yes</mat-option>
+                    <mat-option value="0">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div *ngIf="group.value.WarehouseId.TransportId" style="line-height: 3rem;">
+                No
+              </div>
+            </td>
+            <td>
+              <button class="mat-icon-button" mat-stroked-button (click)="deleteRow(i)">
+                <div class="mat-icon-div">
+                  <mat-icon>delete_forever</mat-icon>
+                </div>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <!--    <div>-->
+    <!--      {{ getFormControls.value | json }}-->
+    <!--    </div>-->
+    <div class="action-container">
+      <button mat-raised-button type="button" (click)="addRow()" color="warn">
+        Add row
+      </button>
+      <button mat-raised-button [disabled]="userTable.invalid" type="submit" (click)="submitForm()" color="warn">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

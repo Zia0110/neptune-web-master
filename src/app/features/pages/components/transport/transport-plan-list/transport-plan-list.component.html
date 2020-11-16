@@ -1,0 +1,18 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Transportation management</h2>
+    <div style="display: flex; justify-content: flex-end;">
+      <app-simple-dropdown
+        [selected]="currentStatus"
+        [data]="warehouseList"
+        [label]="'Transportation search'"
+        (outputData)="warehouseSelectSearch($event)"
+      ></app-simple-dropdown>
+      &nbsp; &nbsp;
+      <input type="text" style="max-width: 300px;" (keyup)="applyFilter($event.target.value)" class="form-control" placeholder="Search" />
+      &nbsp; &nbsp;
+      <button routerLink="/admin/transport/plan/new" mat-stroked-button color="primary">New Transportation</button>
+    </div>
+  </div>
+  <app-transport-plan-table (deleteRowEmit)="deleteRow($event)" [filter]="filterData" [tableData]="transportData"></app-transport-plan-table>
+</mat-card>

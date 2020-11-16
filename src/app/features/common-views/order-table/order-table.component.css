@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+  border-collapse: separate; /* Don't collapse */
+}
+.popover-link {
+  color: #0088ff;
+}
+.highlight {
+  background: #69c8ff; /* green */
+}
+
+/* .exampler1 {
+  overflow: auto;
+  height: 100%;
+} */
+
+.as {
+  height: 100vh;
+  overflow: auto;
+}
+
+.tableHeaders {
+  position: sticky !important;
+  top: 0 !important;
+  /* bottom: 70vh !important; */
+}

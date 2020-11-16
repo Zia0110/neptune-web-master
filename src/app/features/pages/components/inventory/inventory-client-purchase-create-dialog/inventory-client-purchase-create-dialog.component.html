@@ -1,0 +1,65 @@
+<mat-icon class="close" mat-button mat-dialog-close>clear</mat-icon>
+<h2 mat-dialog-title>New Customer self purchase</h2>
+<br />
+
+<div>
+  <app-search-selection
+    style="float: left; max-width: 300px;"
+    [selectionPlaceholder]="'Customer selection'"
+    [isStockCustomer]="true"
+    [data]="2"
+    [formControl]="clientId"
+  >
+  </app-search-selection>
+  <app-search-selection
+    style="padding-left: 1rem; float: left; max-width: 300px;"
+    [selectionPlaceholder]="'新西兰FLYWAY仓'"
+    [data]="3"
+    [formControl]="warehouseId"
+  >
+  </app-search-selection>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+    <button mat-stroked-button (click)="addNewRow()" color="warn">Add</button>
+  </div>
+</div>
+
+<br />
+<div *ngIf="purchaseForm">
+  <div style="display: flex; flex-wrap: wrap;" *ngFor="let row of purchaseForm.controls; let index = index">
+    <app-search-selection
+      style="margin-top: -1px;"
+      [isBaseProduct]="true"
+      [selectionPlaceholder]="'Product selection'"
+      [data]="1"
+      [formControl]="row.controls.baseProductId"
+    >
+    </app-search-selection>
+    &nbsp;
+    <input
+      style="max-width: 120px;"
+      min="0"
+      max="9999"
+      type="number"
+      [formControl]="row.controls.quantity"
+      placeholder=" Product quantity "
+      class="form-control"
+    />
+    &nbsp;
+    <input style="max-width: 320px;" type="text" [formControl]="row.controls.comment" placeholder=" comment " class="form-control" />
+    &nbsp; &nbsp;
+    <span style="margin-top: 5px;">
+      <a style="font-size: 14px;" class="link-text" (click)="addImages(row.controls, index)" color="warn">Add image</a>
+      &nbsp; &nbsp;
+
+      <a style="font-size: 14px;" *ngIf="row.controls.urls.value.length" class="link-text" (click)="showImages(row.controls, index)" color="warn"
+        >{{ row.controls.urls.value.length }} images &nbsp; &nbsp;
+      </a>
+
+      <a style="font-size: 14px;" style="color: red !important;" class="link-text" (click)="removeRow(index)" color="warn">Delete</a>
+    </span>
+    <br />
+  </div>
+
+  <button style="float: right;" mat-raised-button [disabled]="isDisabled()" (click)="submitForm()" color="warn">Save</button>
+</div>

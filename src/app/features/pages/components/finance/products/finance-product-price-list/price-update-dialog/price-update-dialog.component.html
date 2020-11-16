@@ -1,0 +1,64 @@
+<div style="display: flex; justify-content: flex-start; align-items: baseline;">
+  <h1 style="margin-right: 1rem;">Price Update</h1>
+  <div *ngIf="data.beginDate && data.endDate">for {{ data.beginDate | date }} - {{ data.endDate | date }}</div>
+  <div *ngIf="!data.beginDate && !data.endDate">
+    for Latest Price
+  </div>
+</div>
+<div>
+  Product selection：
+  <app-search-selection [data]="1" [formControl]="productFormControl"></app-search-selection>
+</div>
+<div>
+  <mat-form-field>
+    <mat-label>SIVP price</mat-label>
+    <input matInput type="number" [(ngModel)]="SVIP" />
+    <button mat-button *ngIf="SVIP" matSuffix mat-icon-button aria-label="Clear" (click)="SVIP = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field>
+    <mat-label>DG price</mat-label>
+    <input matInput type="number" [(ngModel)]="DG" />
+    <button mat-button *ngIf="DG" matSuffix mat-icon-button aria-label="Clear" (click)="DG = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field>
+    <mat-label>VIP price</mat-label>
+    <input matInput type="number" [(ngModel)]="VIP" />
+    <button mat-button *ngIf="VIP" matSuffix mat-icon-button aria-label="Clear" (click)="VIP = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field>
+    <mat-label>Retail price</mat-label>
+    <input matInput type="number" [(ngModel)]="Retail" />
+    <button mat-button *ngIf="Retail" matSuffix mat-icon-button aria-label="Clear" (click)="Retail = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field>
+    <mat-label>unknown price</mat-label>
+    <input matInput type="number" [(ngModel)]="unknown" />
+    <button mat-button *ngIf="unknown" matSuffix mat-icon-button aria-label="Clear" (click)="unknown = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button [disabled]="isCustomerStock" mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Confirm
+  </button>
+</div>

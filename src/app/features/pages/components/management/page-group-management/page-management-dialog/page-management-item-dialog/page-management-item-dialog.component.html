@@ -1,0 +1,40 @@
+<div>
+  <span>Page Name：</span>
+  <div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input type="text" matInput [(ngModel)]="pageName" />
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>Url：</span>
+  <div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input type="text" matInput [(ngModel)]="url" />
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>Ordering：</span>
+  <div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input type="number" matInput [(ngModel)]="ordering" />
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>Icon：</span>
+  <div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input type="text" matInput [(ngModel)]="icon" />
+    </mat-form-field>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Save
+  </button>
+</div>

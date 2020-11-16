@@ -1,0 +1,105 @@
+<mat-icon class="close" mat-button mat-dialog-close>clear</mat-icon>
+
+<h1 mat-dialog-title>{{ dialogTitle }}</h1>
+
+<form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Username</mat-label>
+    <input matInput formControlName="userName" />
+  </mat-form-field>
+
+  <!-- <mat-form-field appearance="outline">
+    <mat-label>密码</mat-label>
+    <input matInput formControlName="password" />
+  </mat-form-field> -->
+  <mat-form-field appearance="outline">
+    <mat-label>Department selection </mat-label>
+    <mat-select formControlName="deptId">
+      <mat-option *ngFor="let filters of data.deptList" [value]="filters.DeptId">
+        {{ filters.DeptName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Role selection </mat-label>
+    <mat-select formControlName="roleId">
+      <mat-option *ngFor="let filters of data.roleList" [value]="filters.RoleId">
+        {{ filters.RoleName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="newPassword && newPassword.value" appearance="outline">
+    <mat-label>Password</mat-label>
+    <input matInput [formControl]="newPassword" />
+  </mat-form-field>
+
+  <!-- <span *ngIf="newPassword">
+    {{newPassword}}
+  </span> -->
+</form>
+<span class="text-danger" *ngIf="errorMessage"> {{ errorMessage }}</span>
+<br />
+<button mat-raised-button color="accent" (click)="saveChanges()">Save</button>
+
+<!-- <div>
+  <h3>
+    <span *ngIf="isNew == false && newDept == false">编辑账户</span>
+    <span *ngIf="isNew == true">新建账户</span>
+    <span *ngIf="newDept == true">创建新部门</span>
+  </h3>
+  <mat-dialog-content>
+    <form *ngIf="newDept == false" [formGroup]="userDetailForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>用户名</mat-label>
+        <input matInput formControlName="UserName" />
+      </mat-form-field>
+      <mat-form-field *ngIf="isNew == true">
+        <mat-label>密码</mat-label>
+        <input matInput formControlName="Password" [type]="hide ? 'password' : 'text'" />
+        <a mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </a>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>职务</mat-label>
+        <mat-select formControlName="RoleName">
+          <mat-option *ngFor="let role of roles" [value]="role.value">
+            {{ role.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>部门</mat-label>
+        <mat-select formControlName="DeptName">
+          <mat-option *ngFor="let dept of depts" [value]="dept.value">
+            {{ dept.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="isNew == false">
+        <mat-label>创建时间</mat-label>
+        <input matInput formControlName="CreatedAt" />
+      </mat-form-field>
+      <div class="mt-2">
+        <button *ngIf="isNew == false" mat-raised-button color="accent" type="submit">修改账户</button>
+        <button *ngIf="isNew == true" mat-raised-button color="accent" type="submit">注册账户</button>
+        <button mat-raised-button color="warn" mat-dialog-close class="ml-3">Cancel</button>
+      </div>
+    </form>
+
+    <form *ngIf="newDept == true" [formGroup]="newDeptForm" (ngSubmit)="onSubmit()">
+      <div>
+        <mat-form-field>
+          <mat-label>部门名称</mat-label>
+          <input matInput formControlName="DeptName" />
+        </mat-form-field>
+      </div>
+      <div class="mt-3">
+        <button *ngIf="newDept == true" mat-raised-button color="accent" type="submit">创建部门</button>
+        <button mat-raised-button color="warn" mat-dialog-close class="ml-3">Cancel</button>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div> -->

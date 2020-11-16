@@ -1,0 +1,41 @@
+<mat-icon class="close" mat-button mat-dialog-close>clear</mat-icon>
+
+<span style="float: left;">
+  <span class="section-title">Order arrival confirmation &nbsp; &nbsp; </span>
+  Current status: {{ data.Status | TransportStatusPipe }} &nbsp; &nbsp; &nbsp; Applied UserName: {{ data.AppliedUserName }} &nbsp; &nbsp; &nbsp;
+  Created At:{{ data.CreatedAt | date }}
+</span>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+  <span class="text-danger"> Transportation plan has been {{ data.Status | TransportStatusPipe }} </span>
+  &nbsp; &nbsp;
+  <app-search-datepicker (outputData)="datepickerOutput($event)" [label]="'Arrival date'" [disabledDates]=""> </app-search-datepicker>
+  &nbsp; &nbsp;
+  <button (click)="save()" mat-flat-button color="warn">Save</button> &nbsp; &nbsp;
+</div>
+<br />
+<textarea
+  style="padding-top: 14px; max-width: 480px; float: right;"
+  type="text"
+  [(ngModel)]="confirmData.arrivedComments"
+  class="form-control"
+  placeholder="Comment"
+  rows="2"
+></textarea>
+
+<br />
+<app-transport-plan-edit
+  (formValueChange)="getFormWarehouseId($event)"
+  [formIsDisabled]="transportFormIsDisabled"
+  [transportData]="data"
+  #transportPlanEdit
+>
+</app-transport-plan-edit>
+
+<br />
+<app-transport-product-table
+  [warehouseId]="formWarehouseId"
+  [formIsDisabled]="transportFormIsDisabled"
+  #transportTable
+  [tableData]="data.FreightInfo"
+></app-transport-product-table>

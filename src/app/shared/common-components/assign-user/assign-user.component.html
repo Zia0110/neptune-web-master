@@ -1,0 +1,6 @@
+<select [(ngModel)]="selected" (change)="submit()" class="form-control" style="padding: 0px; max-width: 200px;">
+  <option selected disabled value="0">{{ label }}</option>
+  <option *ngFor="let user of allUsers" (change)="submit()" [value]="user['UserId']">
+    {{ user['UserName'] }} -- {{ user['RoleName'] }} -- {{ user['DeptName'] }}
+  </option>
+</select>

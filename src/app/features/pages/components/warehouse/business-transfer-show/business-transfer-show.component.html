@@ -1,0 +1,109 @@
+<mat-card>
+  <mat-card-content>
+    <h2 style="padding-bottom: 0px; float: left;" class="section-title">Inventory Transfer</h2>
+    <div style="flex-wrap: wrap; display: flex; justify-content: flex-end;">
+      <app-simple-dropdown
+        [data]="customersDropDown"
+        [label]="'Transfer out customer name or code'"
+        (outputData)="getFromCustomer($event)"
+      ></app-simple-dropdown>
+      &nbsp;&nbsp;
+      <app-simple-dropdown
+        [data]="customersDropDown"
+        [label]="'Transfer in customer name or code'"
+        (outputData)="getToCustomer($event)"
+      ></app-simple-dropdown>
+      &nbsp;&nbsp;
+      <app-search-datepicker (outputData)="getStartDate($event)" [label]="'Please select a start date'"></app-search-datepicker>
+      &nbsp;&nbsp;
+      <app-search-datepicker (outputData)="getEndDate($event)" [label]="'Please select a end date'"></app-search-datepicker>
+      &nbsp; &nbsp;
+      <button style="top: -8px;" (click)="searchTransfer()" mat-raised-button color="primary" class="m-2">Search</button>
+      &nbsp; &nbsp;
+      <button style="top: -8px;" (click)="newTransfer()" mat-raised-button color="warn" class="m-2">Create a new inventory transfer</button>
+    </div>
+    <!-- <div style="flex-wrap: wrap; display: flex; justify-content: flex-end;">
+    </div> -->
+  </mat-card-content>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal">
+      <ng-container matColumnDef="创建时间">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Created At</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getLocateDateString(element.CreatedAt) | date }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="修改时间">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Updated At</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getLocateDateString(element.UpdatedAt) | date }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="转出客户">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Customer (From)</th>
+        <td mat-cell *matCellDef="let element">{{ element.FromCuctomerName }} --- {{ element.FromCuctomerCode }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="转入客户">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Customer (To)</th>
+        <td mat-cell *matCellDef="let element; let index = index">{{ element.ToCuctomerName }} --- {{ element.ToCuctomerCode }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="附件">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Attachment</th>
+        <td mat-cell *matCellDef="let element; let index = index">
+          <a class="link-text" (click)="showImages(element)">view attachment</a>
+          <!-- <a style="color: #0088ff;" (click)="addImages(element, element.AttachedImages)">上传新附件</a> -->
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="仓库库转">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Warehouse transfer</th>
+        <td mat-cell *matCellDef="let element">
+          <!-- <div *ngFor="let stock of element.WarehouseList" style="color: #0088ff;" (click)="changeDetail(element, stock)"> -->
+          <div *ngFor="let stock of element.WarehouseList">
+            {{ stock.WarehouseName }}
+            {{ stock.ProductName }}
+            {{ stock.Quantity }}
+          </div>
+          <div *ngIf="element.WarehouseList.length == 0">
+            No warehouse transfer data
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="运输库转">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Transport transfer</th>
+        <td mat-cell *matCellDef="let element">
+          <!-- <div *ngFor="let transport of element.TransportList" style="color: #0088ff;" (click)="changeDetail(element, transport)"> -->
+          <div *ngFor="let transport of element.TransportList">
+            {{ transport.WarehouseName }}
+            {{ transport.ProductName }}
+            {{ transport.Quantity }}
+            {{ transport.TransportStatusName }}
+          </div>
+          <div *ngIf="element.TransportList.length == 0">
+            No transport transfer data
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="查看详情">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>view details</th>
+        <td mat-cell *matCellDef="let element; let index = index">
+          <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+            <button style="top: 0px;" (click)="checkDetail(element)" mat-raised-button color="primary" class="m-2">Details/Edit</button>
+            <button mat-raised-button color="warn" (click)="deleteRow(element.ApplicationId)">Delete</button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons></mat-paginator>
+</mat-card>

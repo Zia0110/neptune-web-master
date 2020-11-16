@@ -1,0 +1,21 @@
+<mat-icon class="close" style="cursor: pointer;" (click)="closeDialog()">clear</mat-icon>
+<h1 mat-dialog-title>
+  <span *ngIf="clientId">Modify client info</span>
+  <span *ngIf="!clientId">Add client info</span>
+  <ng-container>
+    <button style="margin-left: 1rem;" type="button" mat-stroked-button color="warn" (click)="newAddress()">New Address</button>
+  </ng-container>
+  <ng-container>
+    <button style="margin-left: 1rem;" type="button" mat-raised-button (click)="fileInput.click()">Upload photo</button>
+    <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" accept="image/*" />
+    <img style="margin-left: 1rem;" [src]="_img.bypassSecurityTrustUrl(imgSrc)" *ngIf="imageUploaded" height="50px" width="50px" alt="image_label" />
+  </ng-container>
+</h1>
+
+<div style="text-align: center;">
+  <!-- <h2 *ngIf="clientId">更改 客户信息</h2>
+      <h2 *ngIf="!clientId">新加 客户信息</h2> -->
+</div>
+
+<app-dynamic-form *ngIf="isShowForm" [formFields]="regConfig" [formValues]="formChanges" (submit)="submit($event)"> </app-dynamic-form>
+<br />

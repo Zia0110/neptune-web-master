@@ -1,0 +1,40 @@
+<mat-card>
+  <div style="display: flex; justify-content: space-between;" class="function-headings">
+    <h1>Distribution Rule Management</h1>
+    <button mat-stroked-button color="warn" style="margin-left: 1rem;" (click)="openItemDialog()">
+      Add
+    </button>
+  </div>
+  <div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.RuleType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.RuleName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="warehouse">
+        <th mat-header-cell *matHeaderCellDef>Warehouse</th>
+        <td mat-cell *matCellDef="let element">{{ element.WarehouseName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="handle">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <div style="display: flex; justify-content: flex-end;">
+            <button mat-stroked-button color="warn" (click)="openItemDialog(element)">
+              Modify
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</mat-card>

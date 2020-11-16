@@ -1,0 +1,189 @@
+<!-- <mat-tab-group> -->
+<mat-tab-group class="tab-custom-overflow">
+  <mat-tab label="Order modification">
+    <!-- <div class="example-container mat-elevation-z8"> -->
+    <div>
+      <table matSort mat-table [dataSource]="singleDataSource">
+        <ng-container matColumnDef="面单类型">
+          <th mat-header-cell *matHeaderCellDef>Project Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.ProjectName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="订单编号">
+          <th mat-header-cell *matHeaderCellDef>Order No</th>
+          <td mat-cell *matCellDef="let element">{{ element.OrderNo }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="品名简称">
+          <th mat-header-cell *matHeaderCellDef>Product Code</th>
+          <td mat-cell *matCellDef="let element">{{ element.ProductCode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="仓储客户">
+          <th mat-header-cell *matHeaderCellDef>Stock Customer</th>
+          <td mat-cell *matCellDef="let element">{{ element.StockCustomerCode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="已分配分仓规则">
+          <th mat-header-cell *matHeaderCellDef>Allocated distribution rules</th>
+          <td mat-cell *matCellDef="let element">
+            <form class="example-form">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <input
+                  type="text"
+                  placeholder="Select the distribution rule"
+                  aria-label="Number"
+                  matInput
+                  [formControl]="element.orderFormControl"
+                  [matAutocomplete]="auto"
+                />
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let rule of rulesForOptions" [value]="rule" (click)="ruleToSingleOrder(rule, element)">
+                    {{ rule }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </form>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="客服备注1">
+          <th mat-sort-header mat-header-cell *matHeaderCellDef>Comment1</th>
+          <td mat-cell *matCellDef="let element">{{ element.Comment1 }}</td>
+        </ng-container>
+
+        <!--        <ng-container matColumnDef="客服备注2">-->
+        <!--          <th mat-sort-header mat-header-cell *matHeaderCellDef>Customer Service Comment2</th>-->
+        <!--          <td mat-cell *matCellDef="let element">{{ element.Comment2 }}</td>-->
+        <!--        </ng-container>-->
+
+        <!--        <ng-container matColumnDef="财务备注">-->
+        <!--          <th mat-sort-header mat-header-cell *matHeaderCellDef>Finance Comment</th>-->
+        <!--          <td mat-cell *matCellDef="let element">{{ element.Comment3 }}</td>-->
+        <!--        </ng-container>-->
+
+        <ng-container matColumnDef="库管备注">
+          <th mat-header-cell *matHeaderCellDef>Repository notes</th>
+          <td mat-cell *matCellDef="let element">
+            <form class="example-form">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <input matInput placeholder="Typing..." [formControl]="element.commentFormControl" (click)="changeCommmentOne(element)" />
+              </mat-form-field>
+            </form>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="库管备注2">
+          <th mat-header-cell *matHeaderCellDef>Repository notes2</th>
+          <td mat-cell *matCellDef="let element">
+            <form class="example-form">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <input matInput placeholder="Typing..." [formControl]="element.commentFormControl2" (click)="changeCommmentTwo(element)" />
+              </mat-form-field>
+            </form>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="修改分仓规则">
+          <th mat-header-cell *matHeaderCellDef>Modify distribution rules</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button color="accent" class="m-2" (click)="changeSingleRule(element)" [disabled]="element.confirmButton">
+              Confirm changes
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="singleColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: singleColumns"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+      <!-- <button (click)="test()">TestSingle</button> -->
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Batch Edit">
+    <!-- <div class="example-container mat-elevation-z8"> -->
+    <div>
+      <table mat-table matSort [dataSource]="groupDataSource">
+        <ng-container matColumnDef="仓储客户">
+          <th mat-header-cell *matHeaderCellDef>Stock Customer</th>
+          <td mat-cell *matCellDef="let element">{{ element.StockCustomerCode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="面单类型">
+          <th mat-header-cell *matHeaderCellDef>Project Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.ProjectName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="品名简称">
+          <th mat-header-cell *matHeaderCellDef>Product Code</th>
+          <td mat-cell *matCellDef="let element">{{ element.ProductCode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="订单数量">
+          <th mat-header-cell *matHeaderCellDef>Quantity of Orders</th>
+          <td mat-cell *matCellDef="let element">{{ element.getNumberOfGroupOrder() }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="分仓规则">
+          <th mat-header-cell *matHeaderCellDef>Distribution rule</th>
+          <td mat-cell *matCellDef="let element">
+            <form class="example-form">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <input
+                  type="text"
+                  placeholder="Select distribution rule"
+                  aria-label="Number"
+                  matInput
+                  [formControl]="element.groupOrderFormControl"
+                  [matAutocomplete]="auto"
+                />
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let rule of rulesForOptions" [value]="rule" (click)="ruleToGroupOrder(rule, element)">
+                    {{ rule }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </form>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="库管备注">
+          <th mat-header-cell *matHeaderCellDef>Repository notes</th>
+          <td mat-cell *matCellDef="let element">
+            <form class="example-form">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <input matInput placeholder="Typing" [formControl]="element.commentFromControl" (click)="changeGroupCommentOne(element)" />
+              </mat-form-field>
+            </form>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="库管备注2">
+          <th mat-header-cell *matHeaderCellDef>Repository notes2</th>
+          <td mat-cell *matCellDef="let element">
+            <form class="example-form">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <input matInput placeholder="Typing" [formControl]="element.commentFromControl2" (click)="changeGroupCommentTwo(element)" />
+              </mat-form-field>
+            </form>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="修改分仓规则">
+          <th mat-header-cell *matHeaderCellDef>Modify distribution rules</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button color="accent" class="m-2" (click)="changeGroupRule(element)" [disabled]="element.enableConfirmButton">
+              Confirm changes
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="groupColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: groupColumns"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+    </div>
+    <!-- <button (click)="TestGroup()">TestGroup</button> -->
+  </mat-tab>
+</mat-tab-group>

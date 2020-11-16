@@ -1,0 +1,66 @@
+<!-- <mat-card>
+  <mat-card-content>
+    <form [formGroup]="transferApplicationForm">
+      <mat-form-field class="ml-1" style="width: 35%;">
+        <input matInput placeholder="申请号" formControlName="transferApplicationNo" />
+      </mat-form-field>
+      <div class="row ml-1">
+        <mat-form-field class="col-5 mr-2 text">
+          <textarea matInput placeholder="申请内容" formControlName="transferApplicationContent"></textarea>
+        </mat-form-field>
+        <mat-form-field class="col-5 text">
+          <textarea matInput placeholder="客户需求描述" formControlName="transferApplicationDescription"></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+
+    <div id="table">
+      <p>
+        转库配置
+        <button type="button" class="btn btn-sm mr-1" (click)="newData()" style="background-color: #26c6da;">+</button>
+      </p>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="transferCustomerName">
+          <th mat-headr-cell *matHeaderCellDef>客户</th>
+          <td mat-cell *matCellDef="let transferSetting">
+            <mat-form-field>
+              <input matInput [formControl]="transferSetting.controls.transferCustomerName" />
+            </mat-form-field>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="trnasferProdName">
+          <th mat-headr-cell *matHeaderCellDef>产品</th>
+          <td mat-cell *matCellDef="let transferSetting">
+            <mat-form-field>
+              <input matInput [formControl]="transferSetting.controls.trnasferProdName" />
+            </mat-form-field>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transferQuantity">
+          <th mat-headr-cell *matHeaderCellDef>数量</th>
+          <td mat-cell *matCellDef="let transferSetting">
+            <mat-form-field>
+              <input matInput [formControl]="transferSetting.controls.transferQuantity" />
+            </mat-form-field>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transferDescription">
+          <th mat-headr-cell *matHeaderCellDef>说明</th>
+          <td mat-cell *matCellDef="let transferSetting">
+            <mat-form-field style="width: 350px;">
+              <textarea matInput [formControl]="transferSetting.controls.transferDescription"></textarea>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <div style="text-align: center;" class="mt-5">
+      <button mat-flat-button type="submit" style="background-color: #26c6da;">确定</button>
+      <button mat-flat-button style="background-color: grey; color: white;" class="ml-3">Cancel</button>
+    </div>
+  </mat-card-content>
+</mat-card> -->

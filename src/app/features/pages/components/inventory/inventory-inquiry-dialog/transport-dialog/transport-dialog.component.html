@@ -1,0 +1,64 @@
+<div>
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <mat-paginator [pageSizeOptions]="[5, 10, 30, 50]" showFirstLastButtons></mat-paginator>
+    <div>
+      <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close style="font-size: 1.5rem; color: rgba(0, 0, 0, 0.9);">X</button>
+      </mat-dialog-actions>
+    </div>
+  </div>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-3 tableDiv">
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef>No</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.position }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="summaryInfo">
+      <mat-header-cell *matHeaderCellDef>Transport Info</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div>
+          <div><span>Transport No：</span>{{ element.summaryInfo.TransportNo }}</div>
+          <div>
+            <span>Destination：</span>
+            <app-card-warehouse [id]="element.summaryInfo.WarehouseId" [name]="element.summaryInfo.WarehouseName"></app-card-warehouse>
+          </div>
+          <div><span>Transport Type：</span>{{ element.summaryInfo.TransportTypeName }}</div>
+          <div><span>Status：</span>{{ element.summaryInfo.StatusName }}</div>
+          <div><span>Confirm User Name：</span>{{ element.summaryInfo.UserName }}</div>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div>
+          <div *ngIf="element.date.CreatedAt"><span>Created At：</span>{{ getLocateDateString(element.date.CreatedAt) | date }}</div>
+          <div *ngIf="element.date.DepartureTime"><span>Departure Time：</span>{{ getLocateDateString(element.date.DepartureTime) | date }}</div>
+          <div *ngIf="element.date.EstimatedArrivalTime">
+            <span>Estimated Arrival Time：</span>{{ getLocateDateString(element.date.EstimatedArrivalTime) | date }}
+          </div>
+          <div *ngIf="element.date.ArrivalTime"><span>Arrival Time：</span>{{ getLocateDateString(element.date.ArrivalTime) | date }}</div>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="freightInfo">
+      <mat-header-cell *matHeaderCellDef>Goods Info</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div>
+          <div *ngFor="let row of element.freightInfo; let i = index">
+            {{ i + 1 }}、 <span>Product：</span>
+            <app-card-product [id]="row.ProductId" [name]="row.ProductCode"></app-card-product>
+            <span> Customer：</span>
+            <app-card-customer [id]="row.CustomerId" [name]="row.CustomerCode"></app-card-customer>
+            <br />
+            <span style="margin-left: 1.3rem;"> Package：</span>{{ row.QuantityPerPackage }}/per box <span> Total Quantity of Package：</span
+            >{{ row.QuantityPackage }}
+            <br />
+            <span style="margin-left: 1.3rem;"> Quantity Of Product：</span>{{ row.QuantityOfProduct }}
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>

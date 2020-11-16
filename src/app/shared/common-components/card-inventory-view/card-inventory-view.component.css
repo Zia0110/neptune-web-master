@@ -1,0 +1,123 @@
+.card-shadow {
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.information-card-title {
+  display: inline-block;
+  font-weight: 900;
+  font-style: italic;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+}
+
+.information-card-title:hover {
+  background-color: #ff9bafde !important;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.information-card-wrapper {
+  background-color: #f3f3f3;
+  padding: 2rem;
+  width: 25rem;
+  border-radius: 1rem;
+  position: absolute;
+  z-index: 1000;
+}
+
+.information-card-wrapper span {
+  font-weight: 600;
+}
+
+.information-card-wrapper > .name {
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin-left: 3rem;
+}
+
+.information-card-wrapper > .content {
+  font-size: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.information-card-wrapper > .content > div {
+  width: 50%;
+  margin-bottom: 1rem;
+}
+
+.information-card-wrapper > .link {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.customerCardImg {
+  text-align: center;
+  padding: 1rem 2rem 0;
+  color: black;
+  font-weight: 600;
+}
+
+.linkDiv {
+  padding: 0 2rem 1rem;
+  text-align: center;
+}
+
+.cardContent {
+  padding: 0 2rem 0.5rem;
+  width: 100%;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.cardContent > div {
+  margin-bottom: 1.5rem;
+}
+
+.cardContent span {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
+
+::ng-deep .cardMatMenu {
+  width: 350px !important;
+  min-height: 200px !important;
+  border-radius: 1rem;
+  background-color: #ffffffeb;
+}
+
+hr {
+  width: 85%;
+}
+
+.detailCard {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.detailCard > div {
+  width: 100%;
+  margin-bottom: 0.2rem;
+}
+
+.detailCard > div > div {
+  display: inline-block;
+}
+
+.detailCard > div span {
+  font-weight: 600;
+}
+
+.name {
+  font-size: 2rem;
+  color: black;
+  font-weight: 500;
+  padding: 1rem 2rem 0;
+  text-align: center;
+}

@@ -1,0 +1,60 @@
+<br />
+<h5>Order service ticket</h5>
+<br />
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="问题单内容">
+      <th mat-header-cell *matHeaderCellDef>Content</th>
+      <td mat-cell *matCellDef="let element">{{ element['Content'] }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="受理时间">
+      <th mat-header-cell *matHeaderCellDef>Created At</th>
+      <td mat-cell *matCellDef="let element">{{ element['CreatedAt'] }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="受理人">
+      <th mat-header-cell *matHeaderCellDef>Assignee</th>
+      <td mat-cell *matCellDef="let element">{{ element['InchargeUserName'] }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="处理结果">
+      <th mat-header-cell *matHeaderCellDef>Process result</th>
+      <td mat-cell *matCellDef="let element">{{ element['Progress'] }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="状态">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element['Status'] }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="当前处理状况">
+      <th mat-header-cell *matHeaderCellDef>Current processing status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element['CurrentContent'] }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Ticket详情">
+      <th mat-header-cell *matHeaderCellDef>Ticket Details</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="link-text" (click)="ticketDetail(element)">View processing records</span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="处理关闭">
+      <th mat-header-cell *matHeaderCellDef>Processing completed</th>
+      <td mat-cell *matCellDef="let element">
+        <button *ngIf="element.Status != '已完成'" (click)="toShutTicket(element)" mat-raised-button color="warn">Complete</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+<br />
+<div>
+  <button (click)="addNewTicket()" mat-raised-button color="warn" class="m-2">New Ticket</button>
+</div>

@@ -1,0 +1,15 @@
+<!-- Txt to JSON Demo -->
+<div class="upload-text-class" style="">
+  <div class="input-class">
+    <input type="file" id="input-file" class="mb-2 mr-1" [formControl]="fileFormControl" (change)="txtUploadHandler($event)" />
+    <div>{{ fileName }}</div>
+    <label for="input-file">
+      <span>Upload</span>
+    </label>
+  </div>
+  <div>
+    <button mat-flat-button class="button-class" type="button" (click)="removeFile()" [disabled]="!isValidFile">
+      <mat-icon>backspace</mat-icon>
+    </button>
+  </div>
+</div>

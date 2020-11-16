@@ -1,0 +1,33 @@
+.is-active {
+  color: #00acc4;
+}
+
+.active-group {
+  font-weight: bolder;
+  background-color: #bddede;
+  padding: 9px 34px 15px 12px;
+  border-top: solid 3px white;
+}
+
+.mobileLogo {
+  position: absolute;
+  left: 24px;
+}
+
+.desktopLogo {
+  width: 128px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.mobileButton {
+  cursor: pointer;
+  position: absolute;
+  right: 138px;
+  /* top: 18px; */
+}
+
+.active-group-mobile {
+  font-weight: bolder;
+  color: #00acc4 !important;
+}

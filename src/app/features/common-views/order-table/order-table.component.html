@@ -1,0 +1,499 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+    <ng-container matColumnDef="OrderNo">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Order Number</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.OrderNo !== dataSource.data[i + 1].OrderNo ? 'background: #ff3f44;' : ''
+          "
+        >
+          {{ element.OrderNo }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Reference">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Order Reference</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.Reference !== dataSource.data[i + 1].Reference ? 'background: #ff3f44;' : ''
+          "
+        >
+          {{ element.Reference }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Cin7InvoiceNo">
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.Cin7InvoiceNo !== dataSource.data[i + 1].Cin7InvoiceNo
+              ? 'background: #ff3f44;'
+              : ''
+          "
+        >
+          {{ element.Cin7InvoiceNo }}
+        </div>
+      </td>
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Cin7 Invoice No</th>
+    </ng-container>
+
+    <ng-container matColumnDef="sender">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Sender</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="isHistoryData && i < dataSource.data.length - 1 && element.Sender !== dataSource.data[i + 1].Sender ? 'background: #ff3f44;' : ''"
+          *ngIf="element.Sender"
+        >
+          Name：{{ element.Sender }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.SenderAddr !== dataSource.data[i + 1].SenderAddr ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.SenderAddr"
+        >
+          Addr：{{ element.SenderAddr }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.SenderPhone !== dataSource.data[i + 1].SenderPhone
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="element.SenderPhone"
+        >
+          Tel：{{ element.SenderPhone }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="recipient">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Recipient</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.Recipient !== dataSource.data[i + 1].Recipient ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.Recipient"
+        >
+          Name：{{ element.Recipient }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.RecipientAddr !== dataSource.data[i + 1].RecipientAddr
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="element.RecipientAddr"
+        >
+          Addr：{{ element.RecipientAddr }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.RecipientPhone !== dataSource.data[i + 1].RecipientPhone
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="element.RecipientPhone"
+        >
+          Tel：{{ element.RecipientPhone }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.RecipientIdno !== dataSource.data[i + 1].RecipientIdno
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="element.RecipientIdno"
+        >
+          Identity No：{{ element.RecipientIdno }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="product">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Product</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.ProductId !== dataSource.data[i + 1].ProductId ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.ProductId"
+        >
+          Name：<app-card-product class="popover-link" [name]="element.ProductName" [id]="element.ProductId"> </app-card-product>
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.ProductString !== dataSource.data[i + 1].ProductString
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="!element.ProductId && element.ProductString"
+        >
+          Product String：{{ element.ProductString }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.ProductCode !== dataSource.data[i + 1].ProductCode
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="element.ProductCode"
+        >
+          Product Code：{{ element.ProductCode }}
+        </div>
+        <div
+          [style]="isHistoryData && i < dataSource.data.length - 1 && element.Uom !== dataSource.data[i + 1].Uom ? 'background: #ff3f44;' : ''"
+          *ngIf="element.Uom"
+        >
+          UOM：{{ element.Uom }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="BillingDate">
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.BillingDate !== dataSource.data[i + 1].BillingDate
+              ? 'background: #ff3f44;'
+              : ''
+          "
+        >
+          {{ getLocateDateString(element.BillingDate) | date }}
+        </div>
+      </td>
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Financial date</th>
+    </ng-container>
+    <ng-container matColumnDef="EnterDate">
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.EnterDate !== dataSource.data[i + 1].EnterDate ? 'background: #ff3f44;' : ''
+          "
+        >
+          {{ getLocateDateString(element.EnterDate) | date }}
+        </div>
+      </td>
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Entry Date</th>
+    </ng-container>
+
+    <ng-container matColumnDef="customer">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Client</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.BillingCustomerId !== dataSource.data[i + 1].BillingCustomerId
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="element.BillingCustomerId"
+        >
+          Customer String：<app-card-customer class="popover-link" [name]="element.CustomerString" [id]="element.BillingCustomerId">
+          </app-card-customer>
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.CustomerString !== dataSource.data[i + 1].CustomerString
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="!element.BillingCustomerId && element.CustomerString"
+        >
+          Customer Info：{{ element.CustomerString }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.LastName !== dataSource.data[i + 1].LastName ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.LastName"
+        >
+          Last Name：{{ element.LastName }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.FirstName !== dataSource.data[i + 1].FirstName ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.FirstName"
+        >
+          First Name：{{ element.FirstName }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.Reference !== dataSource.data[i + 1].Reference ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.Reference"
+        >
+          Reference：{{ element.Reference }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Cin7InterCode">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        CIN 7 inter Code
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.Cin7InterCode !== dataSource.data[i + 1].Cin7InterCode
+              ? 'background: #ff3f44;'
+              : ''
+          "
+        >
+          {{ element.Cin7InterCode }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="payment">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Payment Info
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="isHistoryData && i < dataSource.data.length - 1 && element.Nzd !== dataSource.data[i + 1].Nzd ? 'background: #ff3f44;' : ''"
+          *ngIf="element.Nzd"
+        >
+          NZ Dollar：{{ element.Nzd | currency }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.UnitPrice !== dataSource.data[i + 1].UnitPrice ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.UnitPrice && isPriceVisiable"
+        >
+          Unit Price：{{ element.UnitPrice | currency }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.TotalPrice !== dataSource.data[i + 1].TotalPrice ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.TotalPrice && isPriceVisiable"
+        >
+          Total Price：{{ element.TotalPrice | currency }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.OrderPrice !== dataSource.data[i + 1].OrderPrice ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.OrderPrice && isPriceVisiable"
+        >
+          Order Price：{{ element.OrderPrice | currency }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Status">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Order Status
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="isHistoryData && i < dataSource.data.length - 1 && element.Status !== dataSource.data[i + 1].Status ? 'background: #ff3f44;' : ''"
+        >
+          {{ element.Status | OrderStatusPipe }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="warehouse">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Warehouse Info
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.StockCustomerId !== dataSource.data[i + 1].StockCustomerId
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="element.StockCustomerId"
+        >
+          Stock: {{ element.StockCustomerId | CustomerCodePipe }}
+        </div>
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.WarehouseId !== dataSource.data[i + 1].WarehouseId
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="element.WarehouseId"
+        >
+          Warehouse: <app-card-warehouse class="popover-link" [name]="element.WarehouseName" [id]="element.WarehouseId"> </app-card-warehouse>
+          <!-- {{ element.WarehouseId | WarehousePipe }} -->
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Comment1">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Comment
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.Comment1 !== dataSource.data[i + 1].Comment1 ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.Comment1"
+        >
+          {{ element.Comment1 }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Comment2">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Comment2
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.Comment2 !== dataSource.data[i + 1].Comment2 ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.Comment2"
+        >
+          {{ element.Comment2 }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Comment3">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Financial Comment
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.Comment3 !== dataSource.data[i + 1].Comment3 ? 'background: #ff3f44;' : ''
+          "
+          *ngIf="element.Comment3"
+        >
+          {{ element.Comment3 }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="DispatchComment">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Dispatch Comment
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.DispatchComment !== dataSource.data[i + 1].DispatchComment
+              ? 'background: #ff3f44;'
+              : ''
+          "
+          *ngIf="element.DispatchComment"
+        >
+          {{ element.DispatchComment }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="error">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Error Info
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div style="color: red;" *ngIf="element.error">
+          <div
+            [style]="isHistoryData && i < dataSource.data.length - 1 && element.error !== dataSource.data[i + 1].error ? 'background: #ff3f44;' : ''"
+          >
+            {{ element.error }}
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf="isShowAction" matColumnDef="action">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef style="width: 10%;">
+        Action
+        <button *ngIf="isShowBatchCancelOrder" class="ml-2" mat-stroked-button color="warn" (click)="batchCancelOrder()">Cancel</button>
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div *ngIf="element.Status">
+          <button *ngIf="userType == 'customerservice'" (click)="editThisOrder(element)" mat-raised-button color="primary">Edit</button>
+          <button *ngIf="userType == 'finance'" (click)="editThisOrderFinance(element)" mat-raised-button color="warn">Edit</button>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf="isHistoryData" matColumnDef="cancelReason">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Cancel Reason
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div
+          [style]="
+            isHistoryData && i < dataSource.data.length - 1 && element.CancelReason !== dataSource.data[i + 1].CancelReason
+              ? 'background: #ff3f44;'
+              : ''
+          "
+        >
+          {{ element.CancelReason }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf="isHistoryData" matColumnDef="backupAt">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        History Backup Date
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div *ngIf="element.BackupAt" style="color: red; font-weight: 600; font-style: italic;">
+          {{ getLocateDateString(element.BackupAt) | date: 'medium' }}
+        </div>
+        <div *ngIf="!element.BackupAt">-</div>
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf="isHistoryData" matColumnDef="historyUser">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        User
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div *ngIf="element.UserName" style="font-weight: 600;">
+          {{ element.UserName }}
+        </div>
+        <div *ngIf="!element.UserName">-</div>
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf="isTrackingInfo" matColumnDef="TrackingNo">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Tracking No
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.TrackingNo" style="font-weight: 600;">
+          {{ element.TrackingNo }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf="isTrackingInfo" matColumnDef="TrackingComments">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Tracking Comments
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.TrackingComments" style="font-weight: 600;">
+          {{ element.TrackingComments }}
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>
+    <tr
+      (click)="selectedRowIndex = row.OrderNo"
+      [ngClass]="{ highlight: isHistoryData ? false : selectedRowIndex == row.OrderNo }"
+      mat-row
+      *matRowDef="let row; columns: displayColumns"
+    ></tr>
+  </table>
+</div>
+<mat-paginator [pageSizeOptions]="[15, 30, 60, 100, 500]" showFirstLastButtons></mat-paginator>

@@ -1,0 +1,14 @@
+<mat-tab-group style="width: 70%;">
+  <mat-tab label="订单信息">
+    <mat-card>
+      <app-dynamic-form [formFields]="formConfig" (submit)="submitUpdates($event)"></app-dynamic-form>
+      <!-- <div class="float-right m-3" *ngIf="editMode">
+                <button type="button" class="btn btn-primary m-2" >确认提交</button>
+                <button type="reset" class="btn btn-secondary m-2">Cancel</button>
+            </div> -->
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="面单图"> </mat-tab>
+  <mat-tab label="附件图"> </mat-tab>
+  <mat-tab label="客服记录"> </mat-tab>
+</mat-tab-group>

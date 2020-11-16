@@ -1,0 +1,56 @@
+<div>
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <mat-paginator [pageSizeOptions]="[5, 10, 30, 50]" showFirstLastButtons></mat-paginator>
+    <div>
+      <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close style="font-size: 1.5rem; color: rgba(0, 0, 0, 0.9);">X</button>
+      </mat-dialog-actions>
+    </div>
+  </div>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-3 tableDiv">
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef>No</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.position }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="summaryInfo">
+      <mat-header-cell *matHeaderCellDef>Loss report</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div>
+          <div><span>Warehouse：</span>{{ element.summaryInfo.WarehouseName }}</div>
+          <div><span>Type：</span>{{ element.summaryInfo.LostTypeName }}</div>
+          <div><span>Comment：</span>{{ element.summaryInfo.Comments }}</div>
+          <div><span>Created User Name：</span>{{ element.summaryInfo.CreatedUserName }}</div>
+          <div><span>Canceled User Name：</span>{{ element.summaryInfo.CanceledUserName }}</div>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef>Created At</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div *ngIf="element.date.CreatedAt">{{ getLocateDateString(element.date.CreatedAt) | date }}</div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="product">
+      <mat-header-cell *matHeaderCellDef>Product</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div>
+          <span>Name：</span>
+          <app-card-product [id]="element.product.ProductId" [name]="element.product.ProductCode"></app-card-product>
+          <br />
+          <span> Quantity：</span>{{ element.product.Qty }}
+          <br />
+          <span
+            style="cursor: pointer;"
+            *ngIf="element.product.LostPropertyImage && element.product.LostPropertyImage.length"
+            class="popover-link"
+            (click)="showImages(element.product)"
+          >
+            View images
+          </span>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>

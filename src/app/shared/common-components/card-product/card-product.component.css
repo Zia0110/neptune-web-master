@@ -1,0 +1,136 @@
+.card-shadow {
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.information-card-title {
+  display: inline-block;
+}
+
+.information-card-wrapper {
+  background-color: #f3f3f3;
+  padding: 2rem;
+  width: 25rem;
+  border-radius: 1rem;
+  position: absolute;
+  z-index: 1000;
+}
+
+.information-card-wrapper span {
+  font-weight: 600;
+}
+
+.barCode {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 7rem;
+}
+
+.information-card-wrapper > .title,
+.information-card-wrapper > .properties,
+.information-card-wrapper > .warehouse,
+.information-card-wrapper > .priceList,
+.information-card-wrapper > .link,
+.information-card-wrapper > .name {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.information-card-wrapper > .title,
+.information-card-wrapper > .link {
+  justify-content: space-around;
+}
+
+.information-card-wrapper > .warehouse > div {
+  width: 50%;
+}
+
+.information-card-wrapper > .priceList > div {
+  width: 50%;
+}
+
+.information-card-wrapper > .link {
+  text-align: center;
+}
+
+.information-card-title {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.customerCardImg {
+  text-align: center;
+  padding: 1rem 2rem 0;
+  color: black;
+  font-weight: 600;
+}
+
+.linkDiv {
+  padding: 0 2rem 1rem;
+  text-align: center;
+}
+
+.cardContent {
+  padding: 0 2rem 0.5rem;
+  width: 100%;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.cardContent > div {
+  margin-bottom: 1rem;
+}
+
+.cardContent span {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.barCode {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 5rem;
+  color: black;
+}
+
+.title {
+  padding: 1rem 2rem 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.detailCard,
+.priceList,
+.warehouse {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.detailCard > div,
+.priceList > div,
+.warehouse > div {
+  width: 50%;
+}
+
+.warehouse > div span {
+  font-weight: 600;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
+
+::ng-deep .cardMatMenu {
+  width: 400px !important;
+  min-height: 400px !important;
+  border-radius: 1rem;
+  background-color: #fdfbfb;
+}
+
+hr {
+  width: 85%;
+}

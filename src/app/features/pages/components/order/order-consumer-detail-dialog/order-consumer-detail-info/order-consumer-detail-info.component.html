@@ -1,0 +1,57 @@
+<div *ngIf="orderData" style="justify-content: space-between; display: flex; flex-wrap: wrap; line-height: 40px;">
+  <div><span class="detailTypeName">Order No：</span>{{ orderData.OrderNo }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div>
+    <span class="detailTypeName">Customer Name：</span>
+    <app-card-customer *ngIf="orderData.BillingCustomerId" class="link-text" [name]="orderData.CustomerString" [id]="orderData.BillingCustomerId">
+    </app-card-customer>
+    {{ orderData.BillingCustomerId ? '' : orderData.CustomerString }}
+  </div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div><span class="detailTypeName">Status：</span>{{ orderData.Status | OrderStatusPipe }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div *ngIf="orderData.OutStockDate"><span class="detailTypeName">OutStockDate：</span>{{ getLocateDateString(orderData.OutStockDate) | date }}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
+
+  <div><span class="detailTypeName">Reference：</span>{{ orderData.Reference }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div><span class="detailTypeName">Cin7 InterCode：</span>{{ orderData.Cin7InterCode }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div><span class="detailTypeName">Enter Date：</span> {{ orderData.EnterDate | date }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div><span class="detailTypeName">Billing Date：</span> {{ orderData.BillingDate | date }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div><span class="detailTypeName">Target warehouse：</span>{{ orderData.WarehouseId | WarehousePipe }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div><span class="detailTypeName">Recipient：</span>{{ orderData.Recipient }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div><span class="detailTypeName">Recipient Id no：</span>{{ orderData.RecipientIdno }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div><span class="detailTypeName">Recipient Phone：</span>{{ orderData.RecipientPhone }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div><span class="detailTypeName">Recipient Address：</span>{{ orderData.RecipientAddr }}</div>
+</div>
+
+<div style="width: 95%; background-color: #dbfff8;" class="row">
+  <div class="col-md-6" *ngIf="orderData.Comment1"><span class="detailTypeName">Comment：</span>{{ orderData.Comment1 }}</div>
+  <div class="col-md-6" *ngIf="orderData.Comment2"><span class="detailTypeName">Comment2：</span>{{ orderData.Comment2 }}</div>
+  <div class="col-md-6" *ngIf="orderData.Comment3"><span class="detailTypeName">Fiancial Comment：</span>{{ orderData.Comment3 }}</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap;">
+  <div><span class="detailTypeName">Unit Price：</span>{{ orderData.UnitPrice | currency }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <div><span class="detailTypeName">Total Price：</span>{{ orderData.TotalPrice | currency }}</div>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <div><span class="detailTypeName">Uom：</span> {{ orderData.Uom }}</div>
+</div>

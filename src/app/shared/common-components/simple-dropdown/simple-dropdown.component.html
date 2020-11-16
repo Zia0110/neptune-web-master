@@ -1,0 +1,13 @@
+<!-- <mat-form-field appearance="outline" style="height:30px; max-width: 200px;">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select (selectionChange)="submit()" [(ngModel)]="selected">
+    <mat-option *ngFor="let option of data" (change)="submit()" [value]="option.value">{{ option.view }}</mat-option>
+  </mat-select>
+</mat-form-field> -->
+
+<!-- <input type="text" style="max-width: 200px;" class="form-control" [placeholder]="label" /> -->
+
+<select [(ngModel)]="selected" (change)="submit()" class="form-control" style="padding: 0px; max-width: 200px;">
+  <option selected disabled value="0">{{ label }}</option>
+  <option *ngFor="let option of data" (change)="submit()" [value]="option.value">{{ option.view }}</option>
+</select>

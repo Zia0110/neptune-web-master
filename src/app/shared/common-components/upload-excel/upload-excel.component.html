@@ -1,0 +1,21 @@
+<style>
+  content {
+    font-size: 14px;
+    /* max-width: 300px !important; */
+  }
+</style>
+
+<content>
+  <div style="max-width: 300px;" class="custom-file">
+    <input id="uploadFile" (change)="onFileChange($event)" type="file" class="custom-file-input" />
+    <label class="custom-file-label" for="customFile">{{ label }}</label>
+    <mat-form-field *ngIf="sheetNames">
+      <mat-label>Excel Sheets</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let sheet of sheetNames" (click)="excelSheetSelected(sheet)" [value]="sheet">
+          {{ sheet }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</content>

@@ -1,0 +1,348 @@
+<mat-card>
+  <mat-card-content>
+    <h1>挑单</h1>
+    <div *ngIf="isAllExported === 2" class="headerWrap">
+      <div class="addOrderWrap" *ngIf="clearTheContent">
+        <div>
+          <span class="addOrderSpan">仓库：</span>
+          <div *ngIf="isShowWarehouse">
+            <app-search-selection [data]="3" [formControl]="pickupWarehouseFormControl"></app-search-selection>
+          </div>
+          <div *ngIf="!isShowWarehouse">
+            <app-search-selection
+              [isReadOnly]="true"
+              [data]="3"
+              [selectionPlaceholder]="warehouseName + ' (不可修改)'"
+              [formControl]="pickupWarehouseFormControl"
+            ></app-search-selection>
+          </div>
+        </div>
+        <div>
+          <span class="addOrderSpan">客户：</span>
+          <div>
+            <app-search-selection [data]="2" [isStockCustomer]="true" [formControl]="pickupStockCustomerFormControl"></app-search-selection>
+          </div>
+        </div>
+        <div>
+          <span class="addOrderSpan">产品：</span>
+          <div>
+            <app-search-selection [data]="1" [formControl]="pickupProductFormControl"></app-search-selection>
+            <button
+              [disabled]="!(pickupProductFormControl.value && pickupStockCustomerFormControl.value && pickupWarehouseFormControl.value)"
+              (click)="getSummaryTableData()"
+              mat-flat-button
+              color="warn"
+              style="margin-top: 0.5rem;"
+              matTooltip="仓库、产品、客户填上之后提取挑单数据。"
+              [matTooltipShowDelay]="1000"
+            >
+              Extract data
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-1 mt-2 summaryTable" style="float: right;">
+        <div *ngIf="warehouseValue">
+          <table mat-table [dataSource]="summaryTableDataSource" class="mat-elevation-z3">
+            <ng-container matColumnDef="projectType">
+              <th mat-header-cell *matHeaderCellDef>汇总类型</th>
+              <td mat-cell *matCellDef="let element">{{ element.projectType }}</td>
+            </ng-container>
+            <ng-container matColumnDef="stockSum">
+              <th mat-header-cell *matHeaderCellDef>库存总数</th>
+              <td mat-cell *matCellDef="let element">{{ element.stockSum }}</td>
+            </ng-container>
+            <ng-container matColumnDef="remainOrderSum">
+              <th mat-header-cell *matHeaderCellDef>剩余订单总数</th>
+              <td mat-cell *matCellDef="let element">{{ element.remainOrderSum }}</td>
+            </ng-container>
+            <ng-container matColumnDef="selectedSum">
+              <th mat-header-cell *matHeaderCellDef>已挑订单数</th>
+              <td mat-cell *matCellDef="let element">{{ element.selectedSum }} 单</td>
+            </ng-container>
+            <ng-container matColumnDef="batchSum">
+              <th mat-header-cell *matHeaderCellDef>各批次订单数</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngFor="let value of element.batchSum; index as i">
+                  批次 {{ element.batchSum[i].info.BatchNo }} ：{{ element.batchSum[i].sum }} 单
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="currentSum">
+              <th mat-header-cell *matHeaderCellDef>本次挑选订单数</th>
+              <td mat-cell *matCellDef="let element">{{ element.currentSum }} 单</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="summaryTableDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: summaryTableDisplayedColumns"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3">
+      <div style="display: flex; justify-content: space-between; position: relative;">
+        <div style="display: flex; position: relative;">
+          <div *ngIf="isAllExported === 2">
+            <button mat-button color="warn" (click)="addNewBatch()" matTooltip="在所有批次的最后加一个新的批次。" [matTooltipShowDelay]="1000">
+              新建批次
+              <mat-icon class="addCircleMatIcon">add_circle</mat-icon>
+            </button>
+          </div>
+          <div *ngIf="isAllExported === 2" style="margin-bottom: 1rem; margin-left: 0.3rem; position: relative;">
+            <button mat-button color="warn" (click)="removeCurrentBatch()" matTooltip="在批次为空的情况下删除批次。" [matTooltipShowDelay]="1000">
+              删除批次
+              <mat-icon class="addCircleMatIcon">remove_circle</mat-icon>
+            </button>
+          </div>
+          <div style="margin-bottom: 1rem; margin-left: 0.3rem; position: relative;">
+            <button
+              [disabled]="!allBatches.length"
+              mat-button
+              color="warn"
+              [matMenuTriggerFor]="batches"
+              #batchesTrigger="matMenuTrigger"
+              (mouseenter)="batchesTrigger.openMenu()"
+            >
+              批次选择<mat-icon class="arrowRightMatIcon">arrow_right</mat-icon>
+            </button>
+            <mat-menu #batches="matMenu" (click)="$event.preventDefault()">
+              <div *ngIf="allBatches.length" (click)="$event.stopPropagation()" (mouseleave)="batchesTrigger.closeMenu()">
+                <div mat-menu-item *ngFor="let batch of allBatches" (click)="setCurrentBatch(batch)">
+                  <mat-radio-button color="warn" [disabled]="batch.PickupStatus === 3">
+                    批次 {{ batch.BatchNo }} ：
+                    <div style="display: inline-block;" *ngIf="batch.PickupStatus !== 3">
+                      <span style="color: red;">{{ batch.OrderNos ? batch.OrderNos.length : 0 }}</span> 单
+                      <span style="color: red; font-style: italic;" *ngIf="batch.PickupStatus === 2">已导出</span>
+                    </div>
+                    <div style="display: inline-block;" *ngIf="batch.PickupStatus === 3">
+                      <span style="color: red; font-style: italic;">已出库</span>
+                    </div>
+                  </mat-radio-button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div style="margin-bottom: 1rem; margin-right: 0.3rem; position: relative;">
+            <button
+              mat-button
+              [disabled]="!currentBatch || !allBatches.length"
+              color="warn"
+              [matMenuTriggerFor]="mode"
+              #modeTrigger="matMenuTrigger"
+              (mouseenter)="modeTrigger.openMenu()"
+            >
+              模式选择<mat-icon class="arrowRightMatIcon">arrow_right</mat-icon>
+            </button>
+            <mat-menu #mode="matMenu" (click)="$event.preventDefault()">
+              <div (click)="$event.stopPropagation()" (mouseleave)="modeTrigger.closeMenu()">
+                <div mat-menu-item matRipple style="color: black; letter-spacing: 1px;" (click)="setCurrentMode(false)">
+                  <span style="color: black;">查看</span>模式
+                </div>
+                <div
+                  mat-menu-item
+                  matRipple
+                  style="color: black; letter-spacing: 1px;"
+                  (click)="setCurrentMode(true)"
+                  *ngIf="currentBatch ? currentBatch.PickupStatus !== 2 : true"
+                >
+                  <span style="color: black;">增加</span>模式
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+        </div>
+        <div style="display: flex; position: relative;">
+          <div style="margin-right: 1.3rem; line-height: 2.3rem;" *ngIf="isAllExported === 2 && currentBatch && currentBatch.PickupStatus !== 3">
+            <mat-form-field appearance="outline">
+              <mat-label class="mat-label-class">批量处理数量</mat-label>
+              <input matInput type="number" [(ngModel)]="multipleNumber" />
+              <button mat-button *ngIf="multipleNumber" matSuffix mat-icon-button aria-label="Clear" (click)="multipleNumber = null">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div style="margin-right: 1.3rem; line-height: 2.3rem;" *ngIf="currentBatch && currentBatch.PickupStatus !== 3">
+            当前状态为：<span style="color: red;">批次 {{ currentBatch.BatchNo }} </span>
+          </div>
+          <div *ngIf="isAllExported === 2 && isShowSaveButton" style="margin-right: 1.3rem;">
+            <button
+              mat-flat-button
+              matTooltip="保存当前的状态，保存之后仓库不能够再修改。保存之后可以生成挑单文件导出。"
+              [matTooltipShowDelay]="1000"
+              color="warn"
+              (click)="onSave(false, false)"
+            >
+              Save
+            </button>
+          </div>
+          <div *ngIf="isAllExported === 2" style="margin-right: 1.3rem;">
+            <button
+              mat-flat-button
+              color="warn"
+              matTooltip="可以查看所有产品和客户的二维信息，包括待加入/已加入的数据。可以点击通过格子直接切换项目（注意：此操作需要先保存，否则可能导致数据丢失。）"
+              [matTooltipShowDelay]="1000"
+              (click)="allInfoTableDialog()"
+            >
+              查看全局
+            </button>
+          </div>
+          <div style="margin-right: 1.3rem;" *ngIf="isShowClearButton === 2">
+            <button
+              mat-flat-button
+              color="warn"
+              matTooltip="清空目前所有的批次，之后可以重新选择。"
+              [matTooltipShowDelay]="1000"
+              (click)="clearAllNewBatches(false)"
+            >
+              清空批次
+            </button>
+          </div>
+          <div *ngIf="currentBatch && (currentBatch ? currentBatch.BatchId : true) && isSave && isSaveStatus && isGenerateExcel">
+            <app-export-excel
+              #exportExcel
+              [label]="'生成挑单文件'"
+              [fileName]="'挑单导出表格'"
+              [data]="excelExportValue"
+              (click)="onExport()"
+            ></app-export-excel>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isAllExported === 2" style="position: relative; top: -0.2rem;">
+        <app-order-functions
+          [isShowCustomer]="true"
+          [isShowStockCustomer]="true"
+          [isShowUpload]="true"
+          [isExpand]="false"
+          [isSqueeze]="false"
+          (filteredValue)="getFilteredValue($event)"
+        ></app-order-functions>
+      </div>
+      <div class="mt-2">
+        <table mat-table [dataSource]="detailedTableDataSource" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header start="desc">No.</th>
+            <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+          </ng-container>
+          <ng-container matColumnDef="orderNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>订单号</th>
+            <td mat-cell *matCellDef="let element">
+              <span style="cursor: pointer;" (click)="editThisOrder(element.orderNo)">{{ element.orderNo ? element.orderNo.OrderNo : '' }}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="customer">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>库存客户</th>
+            <td mat-cell *matCellDef="let element">
+              <app-card-customer
+                [id]="element.customer ? element.customer.customerId : null"
+                [name]="element.customer ? element.customer.customerName : ''"
+              ></app-card-customer>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="billingCustomer">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>计费客户</th>
+            <td mat-cell *matCellDef="let element">
+              <app-card-customer
+                [id]="element.billingCustomer ? element.billingCustomer.billingCustomerId : null"
+                [name]="element.billingCustomer ? element.billingCustomer.billingCustomerCode : ''"
+              ></app-card-customer>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="productCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>标准品名</th>
+            <td mat-cell *matCellDef="let element">
+              <app-card-product [id]="element.productCode.productId" [name]="element.productCode.productCode"></app-card-product>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="productName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>品名</th>
+            <td mat-cell *matCellDef="let element">
+              <app-card-product [id]="element.productName.productId" [name]="element.productName.productName"></app-card-product>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="comment">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header start="desc">备注</th>
+            <td mat-cell *matCellDef="let element">{{ element.comment }}</td>
+          </ng-container>
+          <ng-container matColumnDef="warehouse">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>库区</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.warehouse }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>订单时间</th>
+            <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
+          </ng-container>
+          <ng-container matColumnDef="duplicateOrder">
+            <th mat-header-cell *matHeaderCellDef>同名订单</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="duplicateDiv">
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  (click)="duplicateFunction(element.duplicateOrder)"
+                  matBadge="{{ element.duplicateOrder[0].length }}"
+                  [matMenuTriggerFor]="duplicate"
+                  matBadgePosition="above before"
+                  matBadgeColor="accent"
+                  *ngIf="element.duplicateOrder[0].length"
+                >
+                  查看
+                </button>
+                <span
+                  *ngIf="element.duplicateOrder[0].length && getDuplicateForCurrentbatch(element.duplicateOrder[0]) !== 0"
+                  [matBadge]="getDuplicateForCurrentbatch(element.duplicateOrder[0])"
+                  matBadgeColor="warn"
+                  style="top: -0.45rem; left: -0.8rem;"
+                  matBadgePosition="above after"
+                  matBadgeOverlap="false"
+                ></span>
+                <mat-menu #duplicate="matMenu" (click)="$event.preventDefault()">
+                  <div (click)="$event.stopPropagation()" style="color: black; letter-spacing: 1px; margin: 1rem;">
+                    <div style="font-weight: bold; padding-bottom: 0.3rem;">同名订单号有：</div>
+                    <div
+                      matRipple
+                      style="color: black; letter-spacing: 1px; padding-left: 0.5rem; padding-top: 0.2rem; cursor: pointer;"
+                      *ngFor="let order of element.duplicateOrder[0]"
+                      (click)="editThisOrder(order)"
+                    >
+                      {{ order.OrderNo }}
+                      <span *ngIf="order.batchNo"
+                        >-- 批次 <span style="color: red;">{{ order.batchNo }}</span></span
+                      >
+                    </div>
+                  </div>
+                </mat-menu>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="add">
+            <th mat-header-cell *matHeaderCellDef>加入批次</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="currentBatch && isAddMode && allBatches.length">
+                <div *ngIf="currentBatch.PickupStatus !== 2">
+                  <button mat-stroked-button color="warn" style="margin-right: 0.5rem;" (click)="addOrderToBatch(element.add)">加入</button>
+                  <button mat-stroked-button color="warn" (click)="addOrderToBatchMultiple(element.add.position)">批量加入</button>
+                </div>
+              </div>
+              <div *ngIf="currentBatch && !isAddMode && allBatches.length">
+                <div *ngIf="currentBatch.PickupStatus === 2">
+                  <span style="color: red;">已导出</span>
+                </div>
+                <div *ngIf="currentBatch.PickupStatus !== 2">
+                  <button mat-stroked-button color="warn" style="margin-right: 0.5rem;" (click)="deleteOrderToBatch(element.add)">
+                    Delete
+                  </button>
+                  <button mat-stroked-button color="warn" (click)="deleteOrderToBatchMultiple(element.add.position)">批量删除</button>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="detailedTableDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: detailedTableDisplayedColumns"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

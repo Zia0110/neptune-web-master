@@ -1,0 +1,29 @@
+<!-- <mat-form-field style="height:10px; max-width: 200px;" >
+    <mat-label>{{label}}</mat-label>
+    <input matInput  [formControl]="date" [matDatepicker]="picker" (dateChange)="submit()" >
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker  #picker></mat-datepicker>
+</mat-form-field>
+ -->
+
+<!--
+    <input [matDatepicker]="picker" type="text" class="form-control" placeholder="订单号搜索" >
+    <mat-datepicker #picker></mat-datepicker>
+
+  <button mat-raised-button (click)="picker.open()">日期</button> -->
+
+<div style="max-width: 200px;" class="input-group">
+  <input
+    [matDatepicker]="picker"
+    [formControl]="date"
+    (dateChange)="submit()"
+    (keyup.enter)="submit()"
+    type="text"
+    class="form-control"
+    [placeholder]="label"
+  />
+  <mat-datepicker #picker></mat-datepicker>
+  <div class="input-group-append">
+    <button class="btn btn-outline-primary" type="button" (click)="picker.open()">Date selection</button>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Orders excel import</h2>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+      <div style="display: inline;">
+        <div class="mat-error" style="display: inline;" *ngIf="errorMessage.length > 0">
+          <div style="display: inline;" *ngFor="let error of errorMessage">{{ error }} &nbsp; &nbsp;</div>
+        </div>
+      </div>
+
+      <app-upload-excel #uploadExcel [label]="'Order Excel Upload'" (outputData)="excelOutput($event)"></app-upload-excel>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+      <button style="height: 36px;" mat-flat-button color="primary" (click)="exportToExcel()">Excel</button>
+      <button style="margin-left: 1rem; height: 36px;" mat-flat-button color="primary" (click)="exportToExcelAbnormal()">Excel（Abnormal）</button>
+      <app-export-excel #excelExporter [data]="exportExcelData"></app-export-excel>
+      &nbsp; &nbsp;
+      <button style="height: 36px;" *ngIf="normalData?.length" (click)="save()" mat-flat-button color="warn">Save Changes</button>
+      &nbsp; &nbsp;
+      <button style="height: 36px;" *ngIf="normalData || abnormalData" (click)="initObjects()" mat-flat-button color="warn">Cancel Changes</button>
+      &nbsp; &nbsp;
+    </div>
+    <div style="justify-content: flex-end;"><app-order-functions (filteredValue)="passFilteredValue($event)"></app-order-functions></div>
+    <mat-form-field *ngIf="normalData || abnormalData" style="max-width: 300px;" appearance="outline">
+      <mat-label>Column Display Selection </mat-label>
+      <mat-select [formControl]="tableColumnDisplaySelection" multiple>
+        <mat-checkbox
+          style="margin-left: 16px; margin-top: 8px;"
+          [(ngModel)]="tableColumnsAllSelected"
+          (click)="toggleAllColumnSelection(tableColumnsAllSelected)"
+          >select all</mat-checkbox
+        >
+        <ng-container *ngFor="let column of availableColumns">
+          <mat-option [value]="column.value">
+            {{ column.name }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-tab-group class="tab-custom-overflow">
+    <mat-tab *ngIf="normalData" [label]="normalData.length + ' Normal import order'">
+      <ng-template matTabContent>
+        <app-order-table [displayColumns]="tableColumnDisplaySelection.value" [filterData]="filteredValue" [tableData]="normalData"></app-order-table>
+      </ng-template>
+    </mat-tab>
+    <mat-tab *ngIf="abnormalData" [label]="abnormalData.length + ' Abnormal import order'">
+      <ng-template matTabContent>
+        <app-order-table
+          [displayColumns]="tableColumnDisplaySelection.value"
+          [filterData]="filteredValue"
+          [tableData]="abnormalData"
+        ></app-order-table>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

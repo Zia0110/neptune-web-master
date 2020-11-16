@@ -1,0 +1,279 @@
+<h2 mat-dialog-title>{{ productListTitle }}</h2>
+<mat-dialog-content *ngIf="data.type === 'base'" [formGroup]="ProductBaseForm">
+  <mat-grid-list cols="2" rowHeight="5:1">
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width cols-2-left">
+        <mat-label>Name（Required）</mat-label>
+        <input matInput formControlName="productName" />
+        <mat-error *ngIf="ProductBaseForm.get('productName').hasError('required')">ProductName is required</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width cols-2-right">
+        <mat-label>Product Code（Required）</mat-label>
+        <input matInput formControlName="productCode" />
+        <mat-error *ngIf="ProductBaseForm.get('productCode').hasError('required')">ProductCode is required</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list *ngIf="data.type === 'base'" cols="2" rowHeight="5:1">
+    <mat-grid-tile>
+      <mat-form-field *ngIf="data.type === 'base'" class="example-full-width cols-2-left">
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" />
+        <mat-hint align="end" *ngIf="!data.boolean">Only Numbers</mat-hint>
+        <mat-error *ngIf="ProductBaseForm.get('price').hasError('pattern')">please entre number</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width cols-2-right">
+        <mat-label>BarCode</mat-label>
+        <input matInput formControlName="barCode" />
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="data.type === 'detail'">
+      <mat-form-field class="example-full-width cols-2-right">
+        <mat-label>UOM（Required）</mat-label>
+        <input matInput formControlName="uom" />
+        <mat-hint align="end" *ngIf="!data.boolean">Only Numbers</mat-hint>
+        <mat-error *ngIf="ProductBaseForm.get('uom').hasError('pattern')">please entre number</mat-error>
+        <mat-error *ngIf="ProductBaseForm.get('uom').hasError('required')">UOM is required</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list *ngIf="data.type === 'base'" cols="2" rowHeight="5:1">
+    <mat-grid-tile>
+      <mat-form-field class="cols-2-left">
+        <mat-label>Category 1</mat-label>
+        <mat-select formControlName="categoryId1" name="category1">
+          <mat-option *ngFor="let category1 of selectCategory1" [value]="category1.CategoryId1">
+            {{ category1.CategoryName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field class="cols-2-right">
+        <mat-label>Category 2（Required）</mat-label>
+        <mat-select formControlName="categoryId2" name="category2">
+          <mat-option *ngFor="let category2 of selectCategory2" [value]="category2.CategoryId2">
+            {{ category2.CategoryName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list *ngIf="data.type === 'base'" cols="2" rowHeight="5:1">
+    <mat-grid-tile>
+      <mat-form-field class="cols-2-left">
+        <mat-label>Category 3</mat-label>
+        <mat-select formControlName="categoryId3" name="category3">
+          <mat-option *ngFor="let category3 of selectCategory3" [value]="category3.CategoryId3">
+            {{ category3.CategoryName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list *ngIf="data.type === 'base'" cols="2" rowHeight="5:1">
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width cols-2-left">
+        <mat-label>product width</mat-label>
+        <input matInput formControlName="width" />
+        <mat-hint align="end" *ngIf="!data.boolean">Only Numbers</mat-hint>
+        <mat-error *ngIf="ProductBaseForm.get('width').hasError('pattern')">please entre number</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width cols-2-right">
+        <mat-label>product length</mat-label>
+        <input matInput formControlName="length" />
+        <mat-hint align="end" *ngIf="!data.boolean">Only Numbers</mat-hint>
+        <mat-error *ngIf="ProductBaseForm.get('length').hasError('pattern')">please entre number</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list *ngIf="data.type === 'base'" cols="2" rowHeight="5:1">
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width cols-2-left">
+        <mat-label>product height</mat-label>
+        <input matInput formControlName="height" />
+        <mat-hint align="end" *ngIf="!data.boolean">Only Numbers</mat-hint>
+        <mat-error *ngIf="ProductBaseForm.get('height').hasError('pattern')">please entre number</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width cols-2-right">
+        <mat-label>product weight</mat-label>
+        <input matInput formControlName="weight" />
+        <mat-hint align="end" *ngIf="!data.boolean">Only Numbers</mat-hint>
+        <mat-error *ngIf="ProductBaseForm.get('weight').hasError('pattern')">please entre number</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list *ngIf="data.type === 'base'" cols="2" rowHeight="5:1">
+    <mat-grid-tile>
+      <mat-form-field class="cols-2-left">
+        <mat-label>Supplier selection</mat-label>
+        <mat-select formControlName="supplierId" name="supplierId">
+          <mat-option *ngFor="let Supplier of selectSupplier" [value]="Supplier.SupplierId">
+            {{ Supplier.SupplierName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field class="cols-2-right">
+        <mat-label>Place Of Origin selection</mat-label>
+        <mat-select formControlName="placeOfOriginId" name="placeOfOriginId">
+          <mat-option *ngFor="let placeOfOrigin of selectPlaceOfOrigin" [value]="placeOfOrigin.PlaceOfOriginId">
+            {{ placeOfOrigin.PlaceOfOrigin1 }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+            <mat-form-field  class="example-full-width formFiled">
+                <mat-label>StockControl</mat-label>
+                <input matInput formControlName="stockControl">
+            </mat-form-field>
+        </mat-grid-tile> -->
+  </mat-grid-list>
+
+  <mat-grid-list *ngIf="data.type === 'base'" cols="2" rowHeight="6:1">
+    <mat-grid-tile>
+      <div class="display">
+        <label>Display（Required）: </label>
+        <mat-radio-group formControlName="display">
+          <mat-radio-button value="1" [checked]="selectDisplay === 1">Yes</mat-radio-button>
+          <mat-radio-button value="0" [checked]="selectDisplay === 0">No</mat-radio-button>
+          <mat-error *ngIf="ProductBaseForm.get('display').hasError('required')">Display is required</mat-error>
+        </mat-radio-group>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <!-- image upload -->
+  <div *ngIf="!data.boolean">
+    <label class="image"><strong>Image</strong></label>
+    <button type="button" mat-raised-button (click)="fileInput.click()" class="image">Choose File</button>
+    <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" accept="image/*" />
+    <img class="image" [src]="_img.bypassSecurityTrustUrl(imgSrc)" *ngIf="imageUploaded" height="50px" width="50px" />
+    <label *ngIf="imageUploaded">FileName: {{ selectedFile.name }}</label>
+  </div>
+</mat-dialog-content>
+<mat-dialog-content *ngIf="data.type === 'detail'" [formGroup]="ProductForm">
+  <mat-grid-list cols="2" rowHeight="5:1">
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width cols-2-left">
+        <mat-label>Name（Required）</mat-label>
+        <input matInput formControlName="productName" />
+        <mat-error *ngIf="ProductForm.get('productName').hasError('required')">ProductName is required</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width cols-2-right">
+        <mat-label>Product Code（Required）</mat-label>
+        <input matInput formControlName="productCode" />
+        <mat-error *ngIf="ProductForm.get('productCode').hasError('required')">ProductCode is required</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="2" rowHeight="5:1">
+    <!--    <mat-grid-tile>-->
+    <!--      <mat-form-field *ngIf="data.type === 'base'" class="example-full-width cols-2-left">-->
+    <!--        <mat-label>价格</mat-label>-->
+    <!--        <input matInput formControlName="price" />-->
+    <!--        <mat-hint align="end" *ngIf="!data.boolean">Only Numbers</mat-hint>-->
+    <!--        <mat-error *ngIf="ProductForm.get('price').hasError('pattern')">please entre number</mat-error>-->
+    <!--      </mat-form-field>-->
+    <!--    </mat-grid-tile>-->
+    <mat-grid-tile *ngIf="data.type === 'detail'">
+      <mat-form-field class="example-full-width cols-2-left">
+        <mat-label>Cin7Code（Required）</mat-label>
+        <input matInput formControlName="cin7Code" />
+        <mat-error *ngIf="ProductForm.get('cin7Code').hasError('required')">Cin7Code is required!</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="data.type === 'detail'">
+      <mat-form-field class="example-full-width cols-2-right">
+        <mat-label>UOM（Required）</mat-label>
+        <input matInput formControlName="uom" />
+        <mat-hint align="end" *ngIf="!data.boolean">Only Numbers</mat-hint>
+        <mat-error *ngIf="ProductForm.get('uom').hasError('pattern')">please entre number</mat-error>
+        <mat-error *ngIf="ProductForm.get('uom').hasError('required')">UOM is required!</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="2" rowHeight="5:1">
+    <mat-grid-tile *ngIf="data.type === 'detail'">
+      <mat-form-field class="cols-2-left">
+        <mat-label>Product Type（Required）</mat-label>
+        <mat-select formControlName="productTypeId" name="productTypeId">
+          <mat-option *ngFor="let Type of selectProductType" [value]="Type.ProductTypeId">
+            {{ Type.ProductTypeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="2" rowHeight="6:1">
+    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+      <div style="display: flex; align-items: baseline;">
+        <span>Base Product（Required）：</span>
+        <app-search-selection
+          [data]="1"
+          [isReadOnly]="this.data.boolean"
+          [isBaseProduct]="true"
+          [selectionPlaceholder]="this.data.response ? this.data.response.BaseProductCode + ' -- ' + this.data.response.BaseProductName : ''"
+          [formControl]="baseProductFC"
+          [isShowAllBaseProduct]="true"
+          [isRequiredValidator]="true"
+        ></app-search-selection>
+        <span *ngIf="data.type === 'detail' && !data.boolean">
+          <button
+            mat-stroked-button
+            color="warn"
+            style="margin-left: 1rem;"
+            *ngIf="
+              data.type === 'detail' &&
+              !data.boolean &&
+              baseProductFC.value === (data.response ? data.response.BaseProductId : false) &&
+              isMixBaseProductSelected
+            "
+            (click)="openBaseProductMappingManagementDialog('update')"
+          >
+            Base Product Mapping
+          </button>
+        </span>
+      </div>
+    </div>
+  </mat-grid-list>
+  <mat-grid-list cols="2" rowHeight="6:1">
+    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+      <div>
+        <label>Display（Required）: </label>
+        <mat-radio-group formControlName="display">
+          <mat-radio-button value="1" [checked]="selectDisplay === 1">Yes</mat-radio-button>
+          <mat-radio-button value="0" [checked]="selectDisplay === 0">No</mat-radio-button>
+          <mat-error *ngIf="ProductForm.get('display').hasError('required')">Display is required</mat-error>
+        </mat-radio-group>
+      </div>
+    </div>
+  </mat-grid-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>CLOSE</button>
+  <button mat-raised-button color="primary" [disabled]="submitDisable" *ngIf="!data.boolean" (click)="onSubmit()">
+    SUBMIT
+  </button>
+</mat-dialog-actions>

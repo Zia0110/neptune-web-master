@@ -1,0 +1,37 @@
+/* table {
+    width: 100%;
+
+} */
+
+.productImage {
+  width: 75px;
+  height: 75px;
+}
+
+.icons {
+  cursor: pointer;
+  margin-right: 10%;
+}
+
+/* th, td {
+    overflow: hidden;
+    width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } */
+table {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+}
+
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+}
+
+.btn-add {
+  float: right;
+  margin-top: 1.5%;
+}

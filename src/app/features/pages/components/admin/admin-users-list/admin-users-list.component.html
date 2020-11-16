@@ -1,0 +1,70 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Admin Users</h2>
+    <div style="display: flex; justify-content: flex-end;">
+      <mat-checkbox style="margin-top: 5px;" [(ngModel)]="viewAllAccounts">Show inactive users</mat-checkbox>
+
+      <button mat-flat-button color="primary" class="ml-5" (click)="addNewDept()">
+        New department
+      </button>
+      <button mat-flat-button color="accent" class="ml-3" (click)="newAccount()">
+        New user register
+      </button>
+    </div>
+  </div>
+
+  <span *ngIf="departmentList">
+    <mat-tab-group
+      mat-stretch-tabs
+      class="tabs1"
+      mat-align-tabs="center"
+      [selectedIndex]="selected.value"
+      (selectedIndexChange)="selected.setValue($event)"
+      #tabs
+    >
+      <mat-tab *ngFor="let department of departmentList" #tab>
+        <ng-template matTabLabel>
+          <span style="font-size: 14px;">{{ department.DeptName }} &nbsp; &nbsp; {{ department.CurrentUsers }} users</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <table mat-table [dataSource]="department.AppUser">
+            <ng-container matColumnDef="username">
+              <th mat-header-cell *matHeaderCellDef>Username</th>
+              <td mat-cell *matCellDef="let element">
+                <div>{{ element.UserName }}</div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="deptname">
+              <th mat-header-cell *matHeaderCellDef>Department</th>
+              <td mat-cell *matCellDef="let element">
+                <div>{{ element.DeptName }}</div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="rolename">
+              <th mat-header-cell *matHeaderCellDef>Job title</th>
+              <td mat-cell *matCellDef="let element">
+                <div>{{ element.RoleName }}</div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let element">
+                <a *ngIf="element.IsActive" (click)="editAccount(element)" class="link-text">Modify user &nbsp; &nbsp; &nbsp;</a>
+                <a (click)="resetPasswd(element.UserId)" class="link-text" style="color: red !important;">reset password &nbsp; &nbsp; &nbsp;</a>
+                <!-- <a *ngIf="!element.IsActive" (click)="editAccount(element)" class="link-text">从新启用 &nbsp; &nbsp;
+                  &nbsp;</a> -->
+                <a *ngIf="element.IsActive" (click)="deleteAccount(element)" style="color: red !important;" class="link-text">log off</a>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr [ngClass]="{ hide: !viewAllAccounts && !row.IsActive }" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <br />
+          <button mat-flat-button [disabled]="disableDeleteDepartment(department)" color="warn" class="ml-3" (click)="deleteDept(department.DeptId)">
+            Delete this department
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </span>
+</mat-card>

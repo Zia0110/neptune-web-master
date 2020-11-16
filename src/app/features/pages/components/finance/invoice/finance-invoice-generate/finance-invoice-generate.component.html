@@ -1,0 +1,142 @@
+<mat-card>
+  <mat-card-content>
+    <h1>New wholesale invoice</h1>
+    <div class="info-div">
+      <div class="w-75">
+        <div style="font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem;">Customer selection：</div>
+        <div class="w-25" *ngIf="isShowCustomer">
+          <app-search-selection
+            [data]="2"
+            [isStockCustomer]="false"
+            [formControl]="stockCustomerFormControl"
+            [isShowLabel]="false"
+          ></app-search-selection>
+        </div>
+        <div style="font-weight: 600; margin-bottom: 0.5rem; margin-left: 1.5rem; font-size: 1.1rem;">Include GST：</div>
+        <div style="width: 10%;">
+          <mat-form-field appearance="outline" floatLabel="never">
+            <mat-select placeholder="No" [formControl]="gstFormControl">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="0">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div style="font-weight: 600; margin-bottom: 0.5rem; margin-left: 1.5rem; font-size: 1.1rem;">Is To Customer Inventory</div>
+        <div style="width: 10%;">
+          <mat-form-field appearance="outline" floatLabel="never">
+            <mat-select [formControl]="IsOutFormControl">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="0">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div style="font-weight: 600; margin-bottom: 0.5rem; margin-left: 1.5rem; font-size: 1.1rem;">Comment：</div>
+        <div class="w-25">
+          <mat-form-field appearance="outline" class="outbound-handle-child" floatLabel="never">
+            <textarea matInput rows="5" [(ngModel)]="warehouseComment" placeholder="Input content..."></textarea>
+          </mat-form-field>
+        </div>
+        <div style="font-weight: 600; margin-bottom: 0.5rem; margin-left: 1.5rem; font-size: 1.1rem;">Created Date：</div>
+        <div style="width: 10%;">
+          <mat-form-field appearance="outline" floatLabel="never">
+            <input matInput [formControl]="CreateAtControl" [matDatepicker]="picker" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isShowInfo" class="detail-div w-100">
+        <div *ngIf="customerId" class="w-25">
+          <span>Customer Name：</span><app-card-customer [id]="customerId" [name]="customerName"></app-card-customer>
+        </div>
+        <div *ngIf="customerTel" class="w-25"><span>Tel：</span>{{ customerTel }}</div>
+        <div *ngIf="customerEmail" class="w-25"><span>Email：</span>{{ customerEmail }}</div>
+      </div>
+      <div *ngIf="isShowInfo" class="detail-div w-100">
+        <div *ngIf="customerContactPerson" class="w-25"><span>Contact Person：</span>{{ customerContactPerson }}</div>
+        <div *ngIf="customerAddr" class="w-25"><span>地址：</span>{{ customerAddr }}</div>
+      </div>
+    </div>
+    <div class="overflow-auto">
+      <form [formGroup]="userTable">
+        <table class="table mat-elevation-z5">
+          <thead class="text-nowrap">
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Warehouse</th>
+            <th>Freight Included</th>
+            <th>Unit price</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i = index">
+              <tr [formGroupName]="i">
+                <td>
+                  <app-search-selection
+                    [data]="1"
+                    formControlName="product"
+                    [isShowLabel]="false"
+                    [isRequiredValidator]="true"
+                    [isBaseProduct]="true"
+                  ></app-search-selection>
+                </td>
+                <td>
+                  <mat-form-field appearance="outline" floatLabel="never">
+                    <input matInput type="number" formControlName="count" />
+                  </mat-form-field>
+                </td>
+                <td>
+                  <app-search-selection
+                    *ngIf="group.value.product"
+                    [isRequiredValidator]="true"
+                    [data]="3"
+                    [isStockWarehouse]="true"
+                    [productIdStockWarehouse]="group.value.product"
+                    formControlName="warehouse"
+                    [isShowLabel]="true"
+                    [selectionPlaceholder]="'保税仓'"
+                  ></app-search-selection>
+                  <mat-form-field *ngIf="!group.value.product" appearance="outline" floatLabel="never">
+                    <input matInput placeholder="保税仓" readonly type="text" formControlName="product" />
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field appearance="outline" floatLabel="never">
+                    <mat-select formControlName="isFreight">
+                      <mat-option value="1">Yes</mat-option>
+                      <mat-option value="0">No</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field appearance="outline" floatLabel="never">
+                    <input matInput type="number" formControlName="price" />
+                  </mat-form-field>
+                </td>
+                <td>
+                  <button class="mat-icon-button" mat-stroked-button (click)="deleteRow(i)">
+                    <div class="mat-icon-div">
+                      <mat-icon>delete_forever</mat-icon>
+                    </div>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <!--                      <div>-->
+        <!--                        {{ getFormControls.value | json }}-->
+        <!--                        {{userTable.valid}}-->
+        <!--                      </div>-->
+        <div class="action-container">
+          <button mat-raised-button type="button" (click)="addRow()" color="warn">
+            Add row
+          </button>
+          <button mat-raised-button [disabled]="userTable.invalid || isSaved" type="submit" (click)="submitForm()" color="warn">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

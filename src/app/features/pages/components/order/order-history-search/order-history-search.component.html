@@ -1,0 +1,45 @@
+<mat-card>
+  <mat-card-content>
+    <div class="headTitle">
+      <h1 style="font-weight: 600; position: relative; top: 1rem;">Audit Trail</h1>
+      <div style="display: flex; justify-content: flex-end; align-items: baseline; position: relative; top: 0.5rem;">
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Enter order number...</mat-label>
+            <input matInput [formControl]="orderNoFormControl" />
+          </mat-form-field>
+        </div>
+        <button style="margin-left: 1rem;" mat-flat-button color="warn" (click)="getData()">
+          Extract data
+        </button>
+      </div>
+    </div>
+    <div class="mt-2 mb-2">
+      <app-order-functions [isShowUpload]="false" [isSqueeze]="false" (filteredValue)="getFilteredValue($event)"></app-order-functions>
+    </div>
+    <mat-form-field style="max-width: 300px;" appearance="outline">
+      <mat-label>Column Show selection </mat-label>
+      <mat-select [formControl]="tableColumnDisplaySelection" multiple>
+        <mat-checkbox
+          style="margin-left: 16px; margin-top: 8px;"
+          [(ngModel)]="tableColumnsAllSelected"
+          (click)="toggleAllColumnSelection(tableColumnsAllSelected)"
+          >select all</mat-checkbox
+        >
+        <ng-container *ngFor="let column of availableColumns">
+          <mat-option [value]="column.value">
+            {{ column.name }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+    <div>
+      <app-order-table
+        [displayColumns]="tableColumnDisplaySelection.value"
+        [isHistoryData]="true"
+        [filterData]="filteredValue"
+        [tableData]="tableData"
+      ></app-order-table>
+    </div>
+  </mat-card-content>
+</mat-card>

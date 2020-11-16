@@ -1,0 +1,165 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+    <ng-container matColumnDef="client">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Customer</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.WholeSaleInvoiceInfo">
+          <app-card-customer
+            class="link-text"
+            [name]="element.WholeSaleInvoiceInfo.CustomerCode + ' -- ' + element.WholeSaleInvoiceInfo.CustomerName"
+            [id]="element.WholeSaleInvoiceInfo.CustomerId"
+          ></app-card-customer>
+        </div>
+        <div *ngIf="element.SelfGoodsDetail">
+          <app-card-customer
+            class="link-text"
+            [name]="element.SelfGoodsDetail.CustomerCode + ' -- ' + element.SelfGoodsDetail.CustomerName"
+            [id]="element.SelfGoodsDetail.CustomerId"
+          ></app-card-customer>
+        </div>
+        <div *ngIf="element.LostEventInfo">
+          <app-card-customer
+            class="link-text"
+            [name]="element.LostEventInfo.CustomerCode + ' -- ' + element.LostEventInfo.CustomerName"
+            [id]="element.LostEventInfo.CustomerId"
+          ></app-card-customer>
+        </div>
+        <div *ngIf="element.FreightDetail">
+          <app-card-customer
+            class="link-text"
+            [name]="element.FreightDetail.CustomerCode + ' -- ' + element.FreightDetail.CustomerName"
+            [id]="element.FreightDetail.CustomerId"
+          ></app-card-customer>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dates">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Date
+      </th>
+      <td mat-cell *matCellDef="let element">{{ getLocateDateString(element.CreateAt) | date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Type
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.WholeSaleInvoiceInfo">Wholesale unpaid freight</div>
+        <div *ngIf="element.SelfGoodsDetail">Customers buy</div>
+        <div *ngIf="element.LostEventInfo">Local sales or loss reporting</div>
+        <div *ngIf="element.FreightDetail">Air to sea transport</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="invoiceNo">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Invoice No
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div>{{ element.InvoiceNo }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="invoice">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Invoice Info
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div><span style="font-weight: 600; font-style: italic;">UserName：</span>{{ element.UserName }}</div>
+        <div *ngIf="element.WholeSaleInvoiceInfo">
+          <div><span style="font-weight: 600; font-style: italic;">Status：</span>{{ element.WholeSaleInvoiceInfo.Status }}</div>
+          <div>
+            <span style="font-weight: 600; font-style: italic;">GST：</span>{{ element.WholeSaleInvoiceInfo.InclGst ? '' : 'Not-' }}Included GST
+          </div>
+          <div><span style="font-weight: 600; font-style: italic;">Comment：</span>{{ element.WholeSaleInvoiceInfo.WholeSaleOrderComment }}</div>
+          <div>
+            <hr />
+          </div>
+          <div>
+            <span style="font-weight: 600; font-style: italic;">Product details：</span>
+            <ol>
+              <li *ngFor="let row of element.WholeSaleInvoiceInfo.WholeSaleInvoiceDetails">
+                <app-card-product class="link-text" [name]="row.ProductName" [id]="row.BaseProductId" [isBaseProduct]="true"></app-card-product>
+                <span style="margin-left: 0.5rem; font-weight: 600; font-style: italic;">Quantity：</span>{{ row.Quantity }} （{{
+                  row.InclFreight ? '' : 'No'
+                }}
+                Include Freight）
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div *ngIf="element.SelfGoodsDetail">
+          <div>
+            <span style="font-weight: 600; font-style: italic;">Product：</span>
+            <app-card-product
+              class="link-text"
+              [name]="element.SelfGoodsDetail.BaseProductCode + ' -- ' + element.SelfGoodsDetail.BaseProductName"
+              [id]="element.SelfGoodsDetail.BaseProductId"
+              [isBaseProduct]="true"
+            ></app-card-product>
+          </div>
+          <div><span style="font-weight: 600; font-style: italic;">Quantity：</span>{{ element.SelfGoodsDetail.Quantity }}</div>
+          <div><span style="font-weight: 600; font-style: italic;">Comment：</span>{{ element.SelfGoodsDetail.Comment }}</div>
+        </div>
+        <div *ngIf="element.LostEventInfo">
+          <div><span style="font-weight: 600; font-style: italic;">Lost Type：</span>{{ element.LostEventInfo.LostType }}</div>
+          <div><span style="font-weight: 600; font-style: italic;">Comment：</span>{{ element.LostEventInfo.Comment }}</div>
+          <div>
+            <hr />
+          </div>
+          <div>
+            <span style="font-weight: 600; font-style: italic;">Product details：</span>
+            <ol>
+              <li *ngFor="let row of element.LostEventInfo.LostEventDetails">
+                <app-card-product
+                  class="link-text"
+                  [name]="row.BaseProductCode + ' -- ' + row.BaseProductName"
+                  [id]="row.BaseProductId"
+                  [isBaseProduct]="true"
+                ></app-card-product>
+                <span style="margin-left: 0.5rem; font-weight: 600; font-style: italic;">Qty：</span>{{ row.Qty }}
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div *ngIf="element.FreightDetail">
+          <div>
+            <span style="font-weight: 600; font-style: italic;">Product：</span>
+            <app-card-product
+              class="link-text"
+              [name]="element.FreightDetail.BaseProductCode + ' -- ' + element.FreightDetail.BaseProductName"
+              [id]="element.FreightDetail.BaseProductId"
+              [isBaseProduct]="true"
+            ></app-card-product>
+          </div>
+          <div>
+            <span style="font-weight: 600; font-style: italic;">Quantity/Per package：</span>{{ element.FreightDetail.QuantityPerPackage }}
+            <span style="margin-left: 0.5rem; font-weight: 600; font-style: italic;">Quantity of Package：</span
+            >{{ element.FreightDetail.QuantityPackage }}
+          </div>
+          <div>
+            <span style="font-weight: 600; font-style: italic;">Unit weight：</span>{{ element.FreightDetail.GrossWeightOfUnit }}
+            <span style="margin-left: 0.5rem; font-weight: 600; font-style: italic;">Weight：</span>{{ element.FreightDetail.GrossWeight }}
+            <span style="margin-left: 0.5rem; font-weight: 600; font-style: italic;">NetWeight：</span>{{ element.FreightDetail.NetWeight }}
+          </div>
+          <div><span style="font-weight: 600; font-style: italic;">Place of origin：</span>{{ element.FreightDetail.PlaceOfOriginName }}</div>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="isread">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Checked
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox [disabled]="element.IsConfirmed == 1" [(ngModel)]="element.IsConfirmed"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

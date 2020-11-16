@@ -1,0 +1,28 @@
+<div class="information-card-title">
+  <span *ngIf="name" [matMenuTriggerFor]="menuCustomer" (click)="showCard()">
+    {{ name }}
+  </span>
+</div>
+<mat-menu #menuCustomer="matMenu" class="cardMatMenu mat-elevation-z8" (click)="$event.preventDefault()">
+  <div *ngIf="content" (click)="$event.stopPropagation()">
+    <div class="customerCardImg">
+      <img src="{{ content.Image }}" alt="{{ content.CustomerName | uppercase }}" height="100" />
+    </div>
+    <hr />
+    <div class="cardContent">
+      <div class="customerName"><span>Company Name: </span>{{ content.CustomerName }} | {{ content.FirstName }}</div>
+      <div class="customerShortName"><span>Customer Code: </span>{{ content.CustomerCode }}</div>
+      <div class="phone"><span>Tel: </span>{{ content.Phone }}</div>
+      <div class="level">
+        <span>Classification: </span>
+        {{ content.CustomerGroup1 }} | {{ content.CustomerGroup2 }} | {{ content.CustomerGroup3 }}
+      </div>
+      <div class="deliveryAddress"><span>Delivery Address: </span>{{ content.DeliveryAddress }}</div>
+      <div class="billingEmail"><span>Billing email: </span>{{ content.BillingEmail }}</div>
+      <div class="billingAddress"><span>Billing Address: </span>{{ content.BillingAddress }}</div>
+    </div>
+    <!--    <div *ngIf="true" class="linkDiv">-->
+    <!--      <a href="#" target="_blank">查看详细信息</a>-->
+    <!--    </div>-->
+  </div>
+</mat-menu>

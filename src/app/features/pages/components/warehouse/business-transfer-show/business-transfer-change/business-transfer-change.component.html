@@ -1,0 +1,112 @@
+<mat-icon class="close" style="cursor: pointer;" mat-dialog-close>clear</mat-icon>
+<!--<button (click)="test()">test</button>-->
+<h2 style="padding-bottom: 0px;" class="section-title">Update inventory transfer</h2>
+<div style="text-align: right;">
+  <button (click)="changeImages()" mat-raised-button color="primary" class="m-2">Edit attachments</button>
+  <button (click)="newImages()" mat-raised-button color="primary" class="m-2">Upload new attachments</button>
+</div>
+<p>
+  Created At: {{ rowObject.CreatedAt }} &nbsp;&nbsp; Customer(From): {{ rowObject.FromCuctomerName }} ---
+  {{ rowObject.FromCuctomerCode }} &nbsp;&nbsp; Customer(To): {{ rowObject.ToCuctomerName }} --- {{ rowObject.ToCuctomerCode }}
+</p>
+<br />
+Selected Product:
+<br />
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="currentDataSource" matSort cdkDropList cdkDropListOrientation="horizontal">
+    <ng-container matColumnDef="产品">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Product</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.ProductName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="已选择仓库/数量">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Selected warehouse/quantity</th>
+      <td mat-cell *matCellDef="let element; let index = index">
+        <div *ngFor="let detail of element.CurrentDetails">
+          {{ detail.TransportNo ? detail.TransportNo : detail.WarehouseName }} -- {{ detail.Quantity }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="已选择产品总数">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Total products selected</th>
+      <td mat-cell *matCellDef="let element; let index = index">
+        {{ element.TotalQuantity }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="可选择仓库转库/数量">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Available warehouse transfer/quantity</th>
+      <td mat-cell *matCellDef="let element; let index = index">
+        <app-search-selection
+          [data]="3"
+          [isStockWarehouse]="true"
+          [baseProductIdStockWarehouse]="element.BaseProductId"
+          [fromCustomerIdStockWarehouse]="fromCustomerId"
+          [formControl]="element.WarehouseControl"
+        ></app-search-selection>
+
+        <!-- <app-business-transfer-change-warehouse-list [row]="element" [isWarehouse]="true"> </app-business-transfer-change-warehouse-list> -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="stockQuantity">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Quantity
+      </th>
+      <td mat-cell *matCellDef="let element; let index = index">
+        <app-product-quantity (outputData)="getWarehouseQuantity(element, $event)"></app-product-quantity>
+      </td>
+    </ng-container>
+
+    <!--    <ng-container matColumnDef="可选择运输转库/数量">-->
+    <!--      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Available transportation transfer/quantity</th>-->
+    <!--      <td mat-cell *matCellDef="let element; let index = index">-->
+    <!--        <app-transfer-warehouse-transport-->
+    <!--          [outCustomerId]="fromCustomerId"-->
+    <!--          [ProductId]="element.BaseProductId"-->
+    <!--          [isWarehouse]="false"-->
+    <!--          (outputData)="getOutputDataForTransport(element, $event)"-->
+    <!--        ></app-transfer-warehouse-transport>-->
+
+    <!--        &lt;!&ndash; <app-business-transfer-change-warehouse-list [row]="element" [isWarehouse]="false"> </app-business-transfer-change-warehouse-list> &ndash;&gt;-->
+    <!--      </td>-->
+    <!--    </ng-container>-->
+
+    <!--    <ng-container matColumnDef="transportQuantity">-->
+    <!--      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>-->
+    <!--        Transport Quantity-->
+    <!--      </th>-->
+    <!--      <td mat-cell *matCellDef="let element; let index = index">-->
+    <!--        <app-product-quantity (outputData)="getTransportQuantity(element, $event)"></app-product-quantity>-->
+    <!--      </td>-->
+    <!--    </ng-container>-->
+
+    <ng-container matColumnDef="产品总数(新)">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Total products (new)</th>
+      <td mat-cell *matCellDef="let element; let index = index">
+        <span *ngIf="element.newTotalQuantity != element.TotalQuantity">
+          {{ element.newTotalQuantity }}
+        </span>
+
+        <span *ngIf="element.newTotalQuantity == element.TotalQuantity">
+          <p style="color: blue;">
+            {{ element.newTotalQuantity }}
+          </p>
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="currentColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: currentColumns"></tr>
+  </table>
+</div>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+<br />
+<!-- 新增产品:
+    <app-business-transfer-generate-new-product #newProductTable [outCustomer]="outCustomer"></app-business-transfer-generate-new-product> -->
+<div style="text-align: right;">
+  <button mat-flat-button type="submit" class="m-2" color="warn" (click)="confirmChange()">Confirm</button>
+</div>

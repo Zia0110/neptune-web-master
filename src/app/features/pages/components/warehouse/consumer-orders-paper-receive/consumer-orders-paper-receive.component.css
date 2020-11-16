@@ -1,0 +1,11 @@
+table {
+  width: 100%;
+}
+
+mat-grid-tile {
+  background: lightblue;
+}
+
+td {
+  font-size: 12px !important;
+}

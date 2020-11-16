@@ -1,0 +1,23 @@
+/* mat-grid-tile {
+  background: lightblue;
+}
+ */
+.button-delete-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.product-detail-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: yellow;
+}
+.close.mat-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  min-width: auto;
+}

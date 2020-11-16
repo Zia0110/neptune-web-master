@@ -1,0 +1,123 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Order financial approval</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+      <mat-checkbox style="margin-top: 8px;" [(ngModel)]="includeCredits" (change)="creditChange()">Credit issue ticket approval </mat-checkbox>
+      &nbsp; &nbsp; &nbsp;
+      <mat-checkbox style="margin-top: 8px;" (change)="markAllCheck()" [(ngModel)]="confirm">Confirm all orders</mat-checkbox>
+      &nbsp; &nbsp; &nbsp;
+      <mat-checkbox style="margin-top: 8px;" (change)="markAllApprove()" [(ngModel)]="approve">Normal order approval</mat-checkbox>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+
+      <!-- <button (click)="markAllCheck()" mat-stroked-button color="primary">全部订单确认</button>
+      &nbsp; &nbsp;
+      <button (click)="markAllApprove()" mat-stroked-button color="accent">正常订单批准</button>
+      &nbsp; &nbsp; -->
+      <button (click)="financeTable.openGroupEditDialog()" mat-stroked-button color="accent">Order bulk modification</button>
+      &nbsp; &nbsp;
+      <app-export-excel [isShowLabel]="false" #excelExporter [data]="exportExcelData"></app-export-excel>
+      <app-upload-excel
+        #uploadExcel
+        [label]="'Excel Upload'"
+        (outputData)="excelOutput($event)"
+        matTooltip="上传EXCEL文件，包括：订单号、价格、备注，三列为必填"
+        matTooltipPosition="below"
+        matTooltipHideDelay="100000"
+      ></app-upload-excel>
+      <button [disabled]="isDisableBatchUpload" (click)="confirmBatchUpdate()" mat-flat-button color="warn" style="margin: 0 1rem;">
+        Batch update
+      </button>
+      <button [disabled]="!normalOrderData.length" mat-flat-button color="primary" (click)="exportToExcel()">Generate Excel</button>
+      &nbsp; &nbsp;
+      <button (click)="saveDataToApi()" mat-flat-button color="warn">Save Changes</button>
+      &nbsp; &nbsp;
+      <button (click)="initObjects()" mat-flat-button color="warn">Cancel Changes</button>
+    </div>
+
+    <div style="justify-content: flex-end;">
+      <app-order-functions
+        [isSqueeze]="true"
+        [financeCustomerArray]="customerArray"
+        [isFinance]="true"
+        [dateLabel]="'Financial date selection'"
+        [isNewDate]="false"
+        [financeData]="financeData"
+        [isShowDatePicker]="true"
+        (filteredValue)="passFilteredValue($event)"
+      >
+      </app-order-functions>
+    </div>
+    <span style="display: flex;">
+      <span class="" *ngIf="data && data.CustomerCredits && data.CustomerCredits.length">
+        <a class="link-text" (click)="creditInfoShow = !creditInfoShow"
+          >Current Minus Credit Client <mat-icon style="position: absolute;">keyboard_arrow_down</mat-icon></a
+        >
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <br />
+        <span *ngIf="creditInfoShow">
+          <span *ngFor="let customer of data.CustomerCredits">
+            <span style="font-size: 12px;" *ngIf="customer.Balance < 0">
+              <app-card-customer style="font-size: inherit;" class="popover-link" [name]="customer.CustomerName" [id]="customer.CustomerId">
+              </app-card-customer>
+              &nbsp; {{ customer.Balance | currency }} &nbsp; &nbsp; {{ customer.Orders }} orders
+              <br />
+            </span>
+          </span>
+        </span>
+      </span>
+
+      <span *ngIf="suspended && suspended.length">
+        <a class="link-text" (click)="productInfoShow = !productInfoShow"
+          >Current Stop Product <mat-icon style="position: absolute;">keyboard_arrow_down</mat-icon></a
+        >
+        <br />
+        <span *ngIf="productInfoShow">
+          <span style="font-size: 12px;" *ngFor="let product of suspended">
+            <app-card-product
+              style="font-size: inherit;"
+              class="popover-link"
+              [name]="product.ProductName"
+              [id]="product.ProductId"
+            ></app-card-product>
+            &nbsp;
+            <span style="font-size: inherit;" *ngIf="product.Orders"> {{ product.Orders }} orders <br /></span>
+          </span>
+        </span>
+      </span>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+      <mat-form-field style="max-width: 300px;" appearance="outline">
+        <mat-label>Column Display Selection </mat-label>
+        <mat-select [formControl]="tableColumnDisplaySelection" multiple>
+          <mat-checkbox
+            style="margin-left: 16px; margin-top: 8px;"
+            [(ngModel)]="tableColumnsAllSelected"
+            (click)="toggleAllColumnSelection(tableColumnsAllSelected)"
+            >select all</mat-checkbox
+          >
+          <ng-container *ngFor="let column of availableColumns">
+            <mat-option [value]="column.value">
+              {{ column.name }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <span>Confirmed Orders Count:</span>
+      <span style="font: bold;">{{ comfirmedQty }}</span>
+      &nbsp; &nbsp; &nbsp;
+
+      <!-- <span style="margin-top: 10px; color: red;" *ngIf="financeTable.orderGroupChanged">
+        Orders have changed, please remember to save !
+      </span> -->
+    </span>
+  </div>
+
+  <app-finance-order-table
+    #financeTable
+    [filterData]="filteredValue"
+    [displayColumns]="tableColumnDisplaySelection.value"
+    [suspendedProducts]="suspended"
+    [tableData]="normalOrderData"
+    (confirmedQtyChange)="updateConfirmedQty($event)"
+  >
+  </app-finance-order-table>
+</mat-card>

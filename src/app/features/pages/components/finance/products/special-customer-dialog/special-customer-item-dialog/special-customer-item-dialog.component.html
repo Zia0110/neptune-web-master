@@ -1,0 +1,41 @@
+<h2>{{ prjectName }} Project</h2>
+<div>
+  <span>Customer：</span>
+  <div *ngIf="prjectName === 'Add'">
+    <app-search-selection [isShowLabel]="false" [data]="2" [formControl]="customerFormControl"></app-search-selection>
+  </div>
+  <div *ngIf="prjectName !== 'Add'">
+    <app-search-selection [data]="2" [selectionPlaceholder]="data.customerName" [formControl]="customerFormControl"></app-search-selection>
+  </div>
+</div>
+<div>
+  <span>Product：</span>
+  <div *ngIf="prjectName === 'Add'">
+    <app-search-selection [isShowLabel]="false" [data]="1" [formControl]="productFormControl"></app-search-selection>
+  </div>
+  <div *ngIf="prjectName !== 'Add'">
+    <app-search-selection [data]="1" [selectionPlaceholder]="data.productName" [formControl]="productFormControl"></app-search-selection>
+  </div>
+</div>
+<div>
+  <span>Price：</span>
+  <div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input type="number" matInput [(ngModel)]="price" />
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>Date selection：</span>
+  <div>
+    <app-search-date-range-picker (outputData)="dateRangePickerOutput($event)"></app-search-date-range-picker>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Save
+  </button>
+</div>

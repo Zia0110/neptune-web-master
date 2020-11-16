@@ -1,0 +1,55 @@
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>X</button>
+</mat-dialog-actions>
+<h2 style="display: flex; align-items: flex-end;">
+  Order details
+  <button *ngIf="isExport" mat-button color="warn" style="margin-left: 1rem;" (click)="addToBatch(3)">Add to Batch 3</button>
+  <button *ngIf="isExport" mat-button color="warn" style="margin-left: 1rem;" (click)="addToBatch(4)">Add to Batch 4</button>
+  <button *ngIf="isExport" mat-button color="warn" style="margin-left: 1rem;" (click)="addToBatch(5)">Add to Batch 5</button>
+  <app-export-excel
+    *ngIf="!isExport"
+    style="margin-left: 1rem;"
+    [label]="'Generate Excel'"
+    [fileName]="'订单详情表'"
+    [data]="filteredexcelExportValue"
+  ></app-export-excel>
+  <button *ngIf="salesOrderNo && salesOrderNo.type" mat-button color="primary" style="margin-left: 1rem;" (click)="bulkProductUpdate()">
+    CONFIRM TO UPDATE
+  </button>
+</h2>
+<div class="mb-3">
+  <app-order-functions
+    [isSqueeze]="false"
+    (filteredValue)="getFilteredValue($event)"
+    [isShowStockCustomer]="false"
+    [isShowUpload]="false"
+    [isCin7Export]="isExport"
+    [isExpand]="isExport"
+    [comment1Array]="comment1Array"
+    [comment2Array]="comment2Array"
+    [comment3Array]="comment3Array"
+  ></app-order-functions>
+</div>
+<mat-form-field style="max-width: 300px;" appearance="outline">
+  <mat-label>Column Display Selection </mat-label>
+  <mat-select [formControl]="tableColumnDisplaySelection" multiple>
+    <mat-checkbox
+      style="margin-left: 16px; margin-top: 8px;"
+      [(ngModel)]="tableColumnsAllSelected"
+      (click)="toggleAllColumnSelection(tableColumnsAllSelected)"
+      >select all</mat-checkbox
+    >
+    <ng-container *ngFor="let column of availableColumns">
+      <mat-option [value]="column.value">
+        {{ column.name }}
+      </mat-option>
+    </ng-container>
+  </mat-select>
+</mat-form-field>
+<app-order-table
+  [tableData]="tableData"
+  [isTrackingInfo]="true"
+  [displayColumns]="tableColumnDisplaySelection.value"
+  [filterData]="filteredValue"
+  (outputCin7Order)="getFilteredOrders($event)"
+></app-order-table>

@@ -1,0 +1,65 @@
+/* You can add global styles to this file, and also import other style files */
+.function-headings {
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 34px;
+}
+
+/* Styles for tab labels */
+.mat-tab-label {
+  min-width: 25px !important;
+  padding: 5px;
+  background-color: transparent;
+}
+
+/* Styles for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+  color: #1370eb;
+}
+
+.formError {
+  border-color: red;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 14.5px;
+}
+
+.detailTypeName {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.close.mat-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  min-width: auto;
+  cursor: pointer;
+}
+
+.link-text {
+  color: #0088ff !important;
+  cursor: pointer;
+}
+
+.note-text {
+  font-size: 80%;
+  color: #4a4a4a;
+  font-weight: 700 !important;
+}
+.tab-custom-overflow .mat-tab-body-wrapper {
+  overflow: visible !important;
+}
+.tab-custom-overflow .mat-tab-body-active {
+  overflow: visible !important;
+}
+.tab-custom-overflow .mat-tab-body-content {
+  overflow: visible !important;
+}
+
+@import '~saturn-datepicker/theming';
+@import './assets/styles/swal2.scss';

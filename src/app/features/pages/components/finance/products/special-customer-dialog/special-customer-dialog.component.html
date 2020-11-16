@@ -1,0 +1,8 @@
+<div style="display: flex; align-items: baseline; flex-wrap: nowrap; position: relative; height: 1rem;">
+  <mat-dialog-actions align="end" style="position: absolute; right: 0;">
+    <button mat-button mat-dialog-close style="font-size: 1.5rem; color: rgba(0, 0, 0, 0.9);">X</button>
+  </mat-dialog-actions>
+</div>
+<div *ngIf="isShowTable">
+  <app-special-customer-table [data]="tableData"></app-special-customer-table>
+</div>

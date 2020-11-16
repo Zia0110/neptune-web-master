@@ -1,0 +1,39 @@
+<mat-icon class="close" style="cursor: pointer;" mat-dialog-close>clear</mat-icon>
+
+<h2>Customer inventory transfer</h2>
+<br />
+<div style="flex-wrap: wrap; display: flex; justify-content: flex-start;">
+  <app-simple-dropdown
+    [data]="customersDropDown"
+    [label]="'Transfer out customer name or code'"
+    (outputData)="getOutputCustomer($event)"
+  ></app-simple-dropdown
+  >&nbsp;&nbsp;
+  <app-simple-dropdown
+    [data]="customersDropDown"
+    [label]="'Transfer in customer name or code'"
+    (outputData)="getInputCustomer($event)"
+  ></app-simple-dropdown>
+</div>
+<br />
+<!-- <div class="col-6" *ngIf="showOutCustomer">
+      <p>转出客户全称: {{ outCustomer['CustomerName'] }}</p>
+      <p>联系电话: {{ outCustomer['Phone'] }}</p>
+      <p>Email: {{ outCustomer['Email'] }}</p>
+    </div> -->
+
+<br />
+<!-- <div class="col-6" *ngIf="showInCustomer">
+      <p>转入客户全称: {{ inCustomer['CustomerName'] }}</p>
+      <p>联系电话: {{ inCustomer['Phone'] }}</p>
+      <p>Email: {{ inCustomer['Email'] }}</p>
+    </div> -->
+
+<app-business-transfer-generate-new-product #newProductTable [outCustomer]="outCustomer"></app-business-transfer-generate-new-product>
+
+<!-- <button (click)="test()">TEST</button> -->
+<div style="text-align: right;">
+  <button (click)="addImages()" mat-raised-button color="accent" class="m-2">Upload Attachment</button>
+  <button (click)="showImages()" mat-raised-button color="accent" class="m-2">View uploaded attachments</button>
+  <button mat-flat-button type="submit" color="warn" class="m-2" (click)="confirmTransfer()">Confirm</button>
+</div>

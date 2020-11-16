@@ -1,0 +1,34 @@
+<mat-card>
+  <div class="function-headings">
+    <mat-form-field class="w-25">
+      <mat-label>Mapping management</mat-label>
+      <mat-select [(ngModel)]="selectedValue" name="food">
+        <mat-option *ngFor="let option of options" [value]="option.value">
+          {{ option.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <!-- <div style="width: 13rem; padding: 24px 24px 0;"> -->
+  <br />
+  <!-- <mat-form-field appearance="outline" floatLabel="never">
+      <mat-label>名称管理类型选择</mat-label>
+      <mat-select [(value)]="selected">
+        <mat-option value="customer">客户</mat-option>
+        <mat-option value="product">产品</mat-option>
+      </mat-select>
+    </mat-form-field> -->
+  <!-- </div> -->
+  <div *ngIf="selectedValue == 'product'" style="position: relative; top: -2rem;">
+    <app-product-name-management></app-product-name-management>
+  </div>
+  <div *ngIf="selectedValue == 'customer'" style="position: relative; top: -2rem;">
+    <app-client-name-management></app-client-name-management>
+  </div>
+  <div *ngIf="selectedValue == 'wholesaleCustomer'" style="position: relative; top: -2rem;">
+    <app-stock-customer-mapping-management></app-stock-customer-mapping-management>
+  </div>
+  <div *ngIf="selectedValue == 'distributionRule'" style="position: relative; top: -2rem;">
+    <app-distribution-rule-management></app-distribution-rule-management>
+  </div>
+</mat-card>

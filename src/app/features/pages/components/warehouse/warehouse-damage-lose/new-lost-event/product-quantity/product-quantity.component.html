@@ -1,0 +1,10 @@
+<form class="example-form" (change)="submit()">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Please enter quantity</mat-label>
+    <input matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher" />
+    <mat-error *ngIf="quantityFormControl.hasError('pattern') && !quantityFormControl.hasError('required')">
+      Please enter numbers only {{ quantityFormControl.hasError('pattern') }}
+    </mat-error>
+    <mat-error *ngIf="quantityFormControl.hasError('required')"> Quantity is <strong>required</strong> </mat-error>
+  </mat-form-field>
+</form>

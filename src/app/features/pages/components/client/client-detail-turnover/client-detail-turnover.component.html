@@ -1,0 +1,55 @@
+<mat-card>
+  <mat-card-content>
+    <div>
+      <h2>今年&去年销售量</h2>
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [legend]="legend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [timeline]="timeline"
+        [results]="multi"
+        [legendPosition]="legendPosition"
+        (select)="onSelect($event)"
+        (activate)="onActivate($event)"
+        (deactivate)="onDeactivate($event)"
+      >
+      </ngx-charts-line-chart>
+    </div>
+    <div>
+      <ngx-charts-gauge
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="single"
+        [legend]="legend"
+        [legendPosition]="legendPosition"
+        [min]="min"
+        [max]="max"
+        (select)="onSelect($event)"
+        (activate)="onActivate($event)"
+        (deactivate)="onDeactivate($event)"
+      >
+      </ngx-charts-gauge>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- <p>
+	Start editing to see some magic happen :)
+</p>
+
+<input type="file" (change)="onFileChange($event)" />
+
+<div id="output"></div>
+<br>
+<div *ngIf="willDownload">
+	<a id="download"> Download JSON File </a>
+</div> -->
+
+<input type="file" accept=".xls, .xlsx" (change)="onFileChange2($event)" />
+<label id="jsonObject"> JSON : </label>

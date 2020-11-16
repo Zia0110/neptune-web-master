@@ -1,0 +1,78 @@
+table {
+  max-width: 98%;
+  min-width: 50%;
+  margin: 1rem auto;
+}
+
+th {
+  color: rgba(0, 0, 0, 0.8) !important;
+  border-top: 0;
+}
+
+.detail-div span {
+  font-weight: 600;
+}
+
+.formTable mat-icon {
+  color: #e91e63;
+  font-size: 3.2rem;
+  position: relative;
+  left: -0.55rem;
+  top: 0;
+  cursor: pointer;
+}
+
+.formTable .mat-icon-button {
+  height: 4rem;
+  border-radius: 2rem;
+  width: 4rem;
+  border: 0;
+}
+
+.formTable .mat-icon-div {
+  display: flex;
+  width: 2rem;
+  margin: 0 auto;
+}
+
+.action-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.action-container button {
+  margin-left: 20px;
+}
+
+.output {
+  padding: 20px;
+}
+
+.info-div {
+  margin: 1rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.info-div > div {
+  display: flex;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.info-div > div:first-of-type {
+  align-items: baseline;
+  margin-bottom: 0;
+}
+
+.noticeText {
+  color: #e91e63;
+  margin-bottom: 2rem !important;
+  margin-top: 0 !important;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 13px;
+}

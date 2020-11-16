@@ -1,0 +1,164 @@
+<!-- <div class="top-bar">
+        <button class="btn btn-primary btn-add" (click)="addNewData_dialog(false)">+Add</button>
+        <div fxLayout fxLayoutAlign="center center">
+            <mat-form-field fxFlex="40%">
+            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+        </div>
+    </div>
+ -->
+<mat-card>
+  <div class="function-headings">
+    <mat-button-toggle-group name="fontStyle">
+      <mat-button-toggle (click)="changeTable('base')">Base Product List</mat-button-toggle>
+      <mat-button-toggle (click)="changeTable('detail')">Sell Product List</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div *ngIf="selected === 'base'">
+    <div class="function-headings">
+      <h2 style="float: left;" class="section-title">Base Product List</h2>
+      <div style="display: flex; justify-content: flex-end;">
+        <input type="text" style="max-width: 300px;" (keyup)="doFilter($event.target.value)" class="form-control" placeholder="Search" />
+        &nbsp; &nbsp;
+        <button mat-stroked-button (click)="addNewData_dialog(false)" color="primary">Add new product</button>
+      </div>
+    </div>
+    <table mat-table [dataSource]="dataSourceBase" class="mat-elevation-z8">
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">
+          <span> {{ element.ProductCode }} --- {{ element.ProductName }} </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.CategoryId1Name }} &nbsp; &nbsp; {{ element.CategoryId2Name }} &nbsp; &nbsp;
+          {{ element.CategoryId3Name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="placeOfOrigin">
+        <th mat-header-cell *matHeaderCellDef>Place Of Origin</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.PlaceOfOriginName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef>Photo</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.Image">
+            <img src="{{ element.Image }}" class="productImage" />
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="barCode">
+        <th mat-header-cell *matHeaderCellDef>BarCode</th>
+        <td mat-cell *matCellDef="let element">{{ element.barCode }}</td>
+      </ng-container>
+      <ng-container matColumnDef="buttons">
+        <th mat-header-cell *matHeaderCellDef>Operating</th>
+        <td mat-cell *matCellDef="let element">
+          <!--          <span class="link-text" (click)="getRowData_dialog(element, true)">View</span>-->
+          <!--          &nbsp; &nbsp; &nbsp; &nbsp;-->
+          <span class="link-text" (click)="getRowData_dialog(element, false)">Edit</span>
+          &nbsp; &nbsp; &nbsp; &nbsp;
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsBase"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsBase"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 30, 50]" showFirstLastButtons></mat-paginator>
+  </div>
+  <div *ngIf="selected === 'detail'">
+    <div class="function-headings">
+      <h2 style="float: left;" class="section-title">Sell Product List</h2>
+      <div style="display: flex; justify-content: flex-end;">
+        <input type="text" style="max-width: 300px;" (keyup)="doFilter($event.target.value)" class="form-control" placeholder="Search" />
+        &nbsp; &nbsp;
+        <button mat-stroked-button (click)="addNewData_dialog(false)" color="primary">Add new product</button>
+      </div>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      <!--      <ng-container matColumnDef="productId">-->
+      <!--        <th mat-header-cell *matHeaderCellDef>产品ID</th>-->
+      <!--        <td mat-cell *matCellDef="let element">{{ element.ProductId }}</td>-->
+      <!--      </ng-container>-->
+      <!-- productName Column -->
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.ProductCode }} --- {{ element.ProductName }}
+          <span style="cursor: pointer; color: #0088ff;" (click)="openPriceView(element)">
+            （price view）
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- productCode Column -->
+      <!-- <ng-container matColumnDef="productCode">
+        <th mat-header-cell *matHeaderCellDef>产品编码</th>
+        <td mat-cell *matCellDef="let element">{{ element.ProductCode }}</td>
+      </ng-container> -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>category</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.BaseProductCategoryId1 }} &nbsp; &nbsp; {{ element.BaseProductCategoryId2 }} &nbsp; &nbsp;
+          {{ element.BaseProductCategoryId3 }}
+        </td>
+      </ng-container>
+      <!--      <ng-container matColumnDef="placeOfOrigin">-->
+      <!--        <th mat-header-cell *matHeaderCellDef>产地</th>-->
+      <!--        <td mat-cell *matCellDef="let element">-->
+      <!--          {{ element.PlaceOfOriginName }}-->
+      <!--        </td>-->
+      <!--      </ng-container>-->
+
+      <ng-container matColumnDef="productType">
+        <th mat-header-cell *matHeaderCellDef>Product Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.ProductTypeName }}</td>
+      </ng-container>
+
+      <!-- UOM Column -->
+      <ng-container matColumnDef="uom">
+        <th mat-header-cell *matHeaderCellDef>Uom</th>
+        <td mat-cell *matCellDef="let element">{{ element.Uom }}</td>
+      </ng-container>
+
+      <!-- image Column -->
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef>Photo</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.BaseProductImage">
+            <img src="{{ element.BaseProductImage }}" class="productImage" />
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- BarCode Column -->
+      <ng-container matColumnDef="barCode">
+        <th mat-header-cell *matHeaderCellDef>BarCode</th>
+        <td mat-cell *matCellDef="let element">{{ element.BaseProductBarCode }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="buttons">
+        <th mat-header-cell *matHeaderCellDef>Operation</th>
+        <td mat-cell *matCellDef="let element">
+          <!--          <span class="link-text" (click)="getRowData_dialog(element, true)">View</span>-->
+          <!--          &nbsp; &nbsp; &nbsp; &nbsp;-->
+          <span class="link-text" (click)="getRowData_dialog(element, false)">Edit</span>
+          &nbsp; &nbsp; &nbsp; &nbsp;
+          <!--        <span style="color: red !important;" class="link-text" (click)="deleteProduct(element)">删除</span>-->
+          <!-- <mat-icon class="icons" matTooltip="More Details" (click)="getRowData_dialog(element, true)">reorder </mat-icon>
+          <mat-icon class="icons" matTooltip="Edit" (click)="getRowData_dialog(element, false)">edit</mat-icon> -->
+          <!-- <mat-icon class="icons" matTooltip="Delete" (click)='deleteRowData()'>delete</mat-icon> -->
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 30, 50]" showFirstLastButtons></mat-paginator>
+  </div>
+</mat-card>

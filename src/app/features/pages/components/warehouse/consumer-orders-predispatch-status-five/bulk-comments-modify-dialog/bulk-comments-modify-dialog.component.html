@@ -1,0 +1,24 @@
+<div>
+  <span>Repository notes：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <textarea matInput [rows]="6" [(ngModel)]="comment1"></textarea>
+    </mat-form-field>
+  </div>
+</div>
+<div>
+  <span>Repository notes2：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <textarea matInput [rows]="6" [(ngModel)]="comment2"></textarea>
+    </mat-form-field>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Confirm
+  </button>
+</div>

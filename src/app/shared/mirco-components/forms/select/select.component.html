@@ -1,0 +1,25 @@
+<mat-form-field
+  *ngIf="!appSearchSelection"
+  class="demo-full-width margin-top"
+  [formGroup]="group"
+  [ngClass]="field.class"
+  [ngStyle]="field.style"
+  appearance="outline"
+>
+  <mat-label>{{ field.label }}</mat-label>
+  <mat-select [placeholder]="field.label" [formControlName]="field.name" [disabled]="field.disabled">
+    <mat-option *ngFor="let item of field.options" [value]="item.value">{{ item.view }}</mat-option>
+  </mat-select>
+</mat-form-field>
+<div *ngIf="appSearchSelection" [formGroup]="group" [ngClass]="field.class" [ngStyle]="field.style">
+  <p class="m-0 p-0" style="font-size: 0.5rem;">{{ field.label }} :</p>
+  <app-search-selection
+    [data]="field.appSearchSelections.data"
+    [isStockCustomer]="field.appSearchSelections.isStockCustomer"
+    [isShowLabel]="field.appSearchSelections.isShowLabel"
+    [selectionPlaceholder]="field.appSearchSelections.placeHolder"
+    [formControl]="formControl"
+    [isReadOnly]="field.disabled"
+    [formControlName]="field.name"
+  ></app-search-selection>
+</div>

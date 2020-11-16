@@ -1,0 +1,9 @@
+<style>
+  content {
+    font-size: 14px;
+    max-width: 300px !important;
+  }
+</style>
+<button *ngIf="label" (click)="exportAsXLSX()" mat-flat-button color="warn">
+  {{ label }}
+</button>

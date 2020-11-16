@@ -1,0 +1,52 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>User Notification Subscription Config</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="pb-5">
+    <div class="row">
+      <div class="col-xl-2"></div>
+      <!-- 用户列表 -->
+      <div class="col-lg-6 col-xl-4">
+        <h5>所有用户</h5>
+        <div style="max-height: 500px; overflow-y: auto; margin-top: 20px; width: 80%;">
+          <mat-divider [inset]="true"></mat-divider>
+          <div *ngFor="let user of users" class="pt-1" style="top: 0; bottom: 0;">
+            <div class="user" (click)="trigger(user)" [class.selected]="userSelected && user.UserId == selectedUser.UserId">
+              <span>{{ user.UserName + ' - ' + user.DeptName }}</span>
+            </div>
+          </div>
+          <mat-divider [inset]="true"></mat-divider>
+        </div>
+      </div>
+      <!-- 配置面板 -->
+      <div class="col-lg-6 col-xl-4">
+        <div class="card mt-2">
+          <div class="card-header">
+            <span *ngIf="selectedUser">
+              <h5>为用户 {{ selectedUser.UserName }}</h5>
+            </span>
+            <h5>配置通知</h5>
+            <span *ngIf="isDisabled" style="color: lightcoral; font-size: 10px; margin-left: 20px;">
+              请选择用户
+            </span>
+          </div>
+          <div class="card-body" style="overflow: auto;">
+            <div class="mb-2">
+              <mat-checkbox [disabled]="isDisabled" (change)="onSelectAll($event.checked)" [checked]="isSelectAll()">
+                全选
+              </mat-checkbox>
+            </div>
+            <div *ngFor="let event of events" class="mb-2">
+              <mat-checkbox [disabled]="isDisabled" (change)="onCheck($event.checked, event)" [checked]="ckeckbox(event.EventTypeId)">
+                {{ event.EventTypeName }}
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2"></div>
+    </div>
+  </mat-card-content>
+</mat-card>

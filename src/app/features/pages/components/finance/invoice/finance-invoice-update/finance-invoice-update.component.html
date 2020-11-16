@@ -1,0 +1,28 @@
+<mat-card>
+  <mat-card-content>
+    <h1 style="position: relative; margin-top: 1rem;">
+      Wholesale order warehouse modification
+      <span style="display: flex; align-items: baseline; position: absolute; right: 0; top: -1rem;">
+        <mat-checkbox [formControl]="showNonCompleteFC">
+          <span style="font-size: 1rem; font-style: normal; font-weight: 400; margin-right: 1rem;">
+            Only show non-complete
+          </span>
+        </mat-checkbox>
+        <app-search-date-range-picker
+          [label]="'Search date period (optional)'"
+          (outputData)="dateRangePickerOutput($event)"
+        ></app-search-date-range-picker>
+        <button style="margin-left: 1rem; position: relative; top: 0;" mat-flat-button color="warn" (click)="getRequest()">
+          Extract data
+        </button>
+        <app-export-excel style="margin-left: 1rem;" [fileName]="'WholeSaleModification'" [data]="excelExportValue"></app-export-excel>
+      </span>
+    </h1>
+    <div style="display: flex; justify-content: flex-end;">
+      <app-upload-excel style="margin-top: 1rem;" [label]="'Excel Upload'" (outputData)="excelOutput($event)"></app-upload-excel>
+    </div>
+    <div style="margin-top: 1rem;" *ngIf="isShowTable">
+      <app-invoice-update-table (deleteOutData)="deleteRow($event)" [data]="tableData" (outData)="tableEmit($event)"></app-invoice-update-table>
+    </div>
+  </mat-card-content>
+</mat-card>

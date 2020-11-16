@@ -1,0 +1,98 @@
+<mat-card>
+  <mat-card-content>
+    <h2 style="padding-bottom: 0px; float: left;" class="section-title">Local Sale & Lost</h2>
+    <div style="flex-wrap: wrap; display: flex; justify-content: flex-end;">
+      <app-search-selection style="margin-top: -2px;" [data]="3" [formControl]="pickedWarehouseFormControl"></app-search-selection>
+      &nbsp;&nbsp;
+      <app-search-datepicker (outputData)="getStartDate($event)" [label]="'Select start date'"></app-search-datepicker>
+      &nbsp;&nbsp;
+      <app-search-datepicker (outputData)="getEndDate($event)" [label]="'Select end date'"></app-search-datepicker>
+      &nbsp; &nbsp;
+      <button style="top: -8px;" (click)="newLostEvent()" mat-raised-button color="warn" class="m-2">New Local Sale & Lost</button>
+    </div>
+  </mat-card-content>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal">
+      <ng-container matColumnDef="客户">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Customer</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.CustomerName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="仓库">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Warehouse</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.WarehouseName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="创建时间">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Created date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getLocateDateString(element.CreatedAt) | date }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="类型">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.LostTypeName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="原因">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Reason</th>
+        <td mat-cell *matCellDef="let element; let index = index">
+          {{ element.Comments }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="创建人">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Created staff</th>
+        <td mat-cell *matCellDef="let element; let index = index">
+          {{ element.UserName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="handle">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <div style="width: 100%; display: flex; justify-content: center;">
+            <button mat-stroked-button color="warn" (click)="deleteRow(element.EventId)">Delete</button>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="产品明细">
+        <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Details</th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let property of element.LostProperty">
+            {{ property.ProductName }} -- Quantity: {{ property.Qty }}
+            <!-- <button (click)="showImages(property.LostPropertyImage)" mat-raised-button color="accent" class="m-2">查看图片</button> -->
+            <!-- <span class="popover-link" (click)="showImages(property.LostPropertyImage)">
+                查看图片
+              </span> -->
+            <span
+              style="cursor: pointer;"
+              *ngIf="property.LostPropertyImage && property.LostPropertyImage.length"
+              class="popover-link"
+              (click)="showImages(property)"
+            >
+              Images
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons></mat-paginator>
+</mat-card>
+
+<!-- <button (click)="test()" mat-raised-button color="warn" class="m-2">test</button>
+
+{{this.pickedWarehouseFormControl.value}} -->

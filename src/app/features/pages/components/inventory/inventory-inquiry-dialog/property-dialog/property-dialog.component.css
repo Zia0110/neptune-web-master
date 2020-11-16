@@ -1,0 +1,17 @@
+mat-table {
+  width: 98%;
+  margin: 0 auto;
+  margin-top: 0.5rem !important;
+}
+
+.mat-column-position {
+  flex: 0 0 10%;
+}
+
+.tableDiv span {
+  font-weight: bold;
+}
+
+.popover-link {
+  color: #0088ff;
+}

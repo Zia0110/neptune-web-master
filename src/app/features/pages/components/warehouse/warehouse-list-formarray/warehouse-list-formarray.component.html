@@ -1,0 +1,131 @@
+<mat-card>
+  <section style="padding: 24px;">
+    <h2 style="float: left;" class="section-title">Warehouse List</h2>
+    <div style="display: flex; justify-content: flex-end;">
+      <!-- <input type="text" style="max-width:300px; " class="form-control" placeholder="Search">
+        &nbsp; &nbsp; -->
+      <button mat-stroked-button (click)="addNewRow()" color="primary">Add new warehouse</button>
+    </div>
+  </section>
+
+<form [formGroup]="userTable">
+  <table class="mat-elevation-z8 table" >
+    <thead class="text"> 
+        <th>No.<span dragableColumn> </span></th>
+        <th>Warehouse Name<span dragableColumn> </span></th>
+        <th>Contact Person<span dragableColumn> </span></th>
+        <th>Phone<span dragableColumn> </span></th>
+        <th>Email<span dragableColumn> </span></th>
+        <th>Fax<span dragableColumn> </span></th>
+        <th>Website<span dragableColumn> </span></th>
+        <th>Type<span dragableColumn> </span></th>
+        <th>Handle<span dragableColumn> </span></th>  
+    </thead>
+    <tbody>
+      <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i=index">
+        <tr *ngIf="group.get('isEditable').value" [formGroupName]="i">
+          <td>
+            <mat-form-field>
+              <input matInput type="text" formControlName="WarehouseId">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type="text" formControlName="WarehouseName">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type="text" formControlName="ContactPerson">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type="text" formControlName="Phone">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type="text" formControlName="Email">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type="text" formControlName="Fax">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type="text" formControlName="Website">
+            </mat-form-field>
+          </td>
+          <td> 
+            <mat-form-field >
+              <mat-select formControlName="WarehouseTypeName">
+                <mat-option value="1">中国</mat-option>
+                <mat-option value="2">新西兰</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+
+          <td>
+
+            <button  mat-mini-fab [hidden]="group.get('isNew').value" (click)="updateWarehouse(group)">
+              <mat-icon class="done">done</mat-icon>
+            </button>
+            <button  mat-mini-fab *ngIf="group.get('isNew').value" (click)="addNewWarehouse(group)">
+              <mat-icon class="add_circle">add_circle</mat-icon>
+            </button>
+            <!-- <mat-icon class="delete" (click)="deleteRow(i)">delete</mat-icon> -->
+            <!-- <mat-icon class="ml-5 done" (click)="doneRow(group)">delete</mat-icon> -->
+          </td>
+        </tr>
+        <tr *ngIf="!group.get('isEditable').value">
+          <td>
+            {{group.get('WarehouseId').value}}
+          </td>
+          <td>
+            {{group.get('WarehouseName').value}}
+          </td>
+          <td>
+            {{group.get('ContactPerson').value}}
+          </td>
+          <td>
+            {{group.get('Phone').value}}
+          </td>
+          <td>
+            {{group.get('Email').value}}
+          </td>
+          <td>
+            {{group.get('Fax').value}}
+          </td>
+          <td>
+            {{group.get('Website').value}}
+          </td>
+          <td>
+            {{group.get('WarehouseTypeName').value}}
+          </td>
+          <td>
+            <button class="ml-2 action" [hidden]="group.get('isNew').value" (click)="editWarehouse(group)" mat-mini-fab color="accent">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button class="ml-2" mat-mini-fab color="warn" [hidden]="group.get('isNew').value" (click)="deleteWarehouse(group.get('WarehouseId').value)">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <div class="action-container">
+    <!-- <button mat-raised-button type="submit" (click)="addRow()">Add row</button> -->
+    <!-- <button mat-raised-button [disabled]="userTable.invalid" type="submit" (click)="submitForm()">Submit</button> -->
+  </div>
+</form>
+<!-- <div class="output">
+  <p>Form Data: {{userTable.value | json}}</p>
+  <p>Is Valid: {{userTable.valid}}</p>
+</div> -->
+</mat-card>
+ 

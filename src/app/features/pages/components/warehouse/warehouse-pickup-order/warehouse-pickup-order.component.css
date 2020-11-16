@@ -1,0 +1,85 @@
+table {
+  width: 100%;
+}
+
+h1 {
+  font-weight: 600;
+  font-style: italic;
+  width: 100%;
+  margin: 1px auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  padding-bottom: 1rem;
+}
+
+.addOrderSpan {
+  font-size: 1.2rem;
+  position: relative;
+  top: 0.5rem;
+  letter-spacing: 0.1rem;
+  font-weight: 500;
+}
+
+.headerWrap {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.summaryTable {
+  width: 60%;
+}
+
+.addOrderWrap {
+  display: flex;
+  flex-wrap: wrap;
+  width: 35%;
+  margin-top: 0.5rem;
+}
+
+.addOrderWrap > div {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.addOrderWrap > div > div {
+  width: 60%;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 13px;
+}
+
+.addOrderWrap ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0.2rem;
+}
+
+.arrowRightMatIcon {
+  font-size: 2.2rem;
+  position: relative;
+  top: -0.36rem;
+  left: -0.4rem;
+}
+
+.addCircleMatIcon {
+  font-size: 1.1rem;
+  position: relative;
+  top: 0.2rem;
+}
+
+.mat-label-class {
+  position: relative;
+  bottom: 0;
+  padding-left: 6px;
+}
+
+.duplicateDiv ::ng-deep .mat-badge-medium.mat-badge-above .mat-badge-content {
+  top: -4px;
+}
+
+::ng-deep .cdk-overlay-pane {
+  max-width: 95vw !important;
+}

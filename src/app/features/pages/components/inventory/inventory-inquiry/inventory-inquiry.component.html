@@ -1,0 +1,102 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Inventory &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</h2>
+
+    <div style="display: flex;">
+      <!--      <app-simple-dropdown [data]="customersDropDown" [label]="'请选择客户（必选）'" (outputData)="getCustomer($event)"> </app-simple-dropdown>-->
+      <app-search-selection [data]="2" [isStockCustomer]="true" [formControl]="customerFC"></app-search-selection>
+      <div style="margin-left: 1rem;" *ngIf="showWarehouseAndProductTable">
+        <app-simple-dropdown
+          [pickedCustomerId]="pickedCustomerId"
+          [data]="warehousesDropDown"
+          [label]="'Select a warehouse'"
+          (outputData)="getWarehouse($event)"
+        ></app-simple-dropdown>
+      </div>
+      <div style="margin-left: 1rem;" *ngIf="showWarehouseAndProductTable">
+        <app-search-selection
+          [pickedCustomerId]="pickedCustomerId"
+          [data]="1"
+          [isBaseProduct]="true"
+          [isShowLabel]="true"
+          [formControl]="productFormControl"
+          (ngModelChange)="getProduct()"
+        ></app-search-selection>
+      </div>
+      <button
+        class="m-2"
+        style="top: -8px; margin-left: 2rem;"
+        mat-raised-button
+        color="accent"
+        *ngIf="showWarehouseAndProductTable"
+        (click)="openInventoryOutputManagement()"
+      >
+        Inventory export management
+      </button>
+      <button
+        style="margin-left: 1rem; top: -8px;"
+        mat-raised-button
+        color="accent"
+        class="m-2"
+        *ngIf="validWarehouse && validProduct"
+        (click)="openHistory()"
+      >
+        View historical information
+      </button>
+      <app-export-excel
+        style="margin-left: 1rem;"
+        *ngIf="showProductDetailTable"
+        [label]="'Generate Excel'"
+        [fileName]="'库存查询'"
+        [data]="excelExportValue"
+      ></app-export-excel>
+    </div>
+  </div>
+
+  <div class="mat-elevation-z8" *ngIf="showProductWarehouseTable">
+    <table mat-table [dataSource]="productWarehouseDataSource">
+      <ng-container [matColumnDef]="warehouse" *ngFor="let warehouse of displayedWarehouseColumns">
+        <th mat-header-cell *matHeaderCellDef>{{ warehouse }}</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style]="element[0][warehouse] && element[0][warehouse]['id'] ? 'cursor: pointer' : ''"
+          (click)="openHistoryFromCell(element, element[0][warehouse] ? element[0][warehouse]['id'] : 0)"
+        >
+          {{ element[0][warehouse] ? element[0][warehouse]['data'] : '' }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedWarehouseColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedWarehouseColumns; let element; let i = index"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 100, 500]" showFirstLastButtons></mat-paginator>
+  </div>
+
+  <div class="mat-elevation-z8" *ngIf="showProductDetailTable">
+    <table mat-table [dataSource]="productDetailDataSource">
+      <ng-container [matColumnDef]="detail" *ngFor="let detail of displayedDetailColumns">
+        <th mat-header-cell *matHeaderCellDef>{{ detail }}</th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="detail !== '正在转出' && detail !== '正在销售' && detail !== '虚拟库存'">
+            {{ element[0][detail] }}
+          </div>
+          <div *ngIf="detail === '正在转出' || detail === '正在销售'">
+            <span *ngIf="element[0][detail] !== 0 && detail === '正在销售'" style="color: red;">-{{ element[0][detail] }}</span>
+            <span *ngIf="element[0][detail] !== 0 && detail === '正在转出'" style="color: red;">{{ element[0][detail] }}</span>
+            <span *ngIf="element[0][detail] === 0" style="color: red;">{{ element[0][detail] }}</span>
+          </div>
+          <div *ngIf="detail === '虚拟库存'">
+            <span style="color: red;">{{ element[0][detail] }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedDetailColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedDetailColumns; let i = index"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons></mat-paginator>
+  </div>
+</mat-card>
+
+<br />

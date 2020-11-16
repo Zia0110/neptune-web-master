@@ -1,0 +1,80 @@
+<div *ngIf="appConfigStore.appSettings" class="main-container">
+  <!-- Topbar - style you can find in header.scss -->
+  <!-- <mat-toolbar  style="justify-content: space-evenly; height:50px; padding:0px; font-size:15px !important;" color="primary" class="topbar telative"> -->
+  <!-- Logo - style you can find in header.scss -->
+  <!-- <div class="navbar-header"> -->
+  <!-- <a class="" style="width:140px;" routerLink="/admin" href="index.html">
+      <img src="assets/images/flyexpresslogo.png" class="light-logo" style="width: 100%;" alt="homepage">
+  </a> -->
+  <!-- </div> -->
+  <!-- <button mat-icon-button (click)="snav.toggle()" value="sidebarclosed">
+      <mat-icon>menu</mat-icon>
+  </button> -->
+  <!-- <span fxFlex></span> -->
+  <app-header></app-header>
+  <!-- <a mat-button [routerLink]="'/accounts'"> Accounts </a>
+  <a mat-button [routerLink]="'/create-account'"> Create Account </a>
+  <a mat-button [routerLink]="'/contacts'"> Contacts </a>
+  <a mat-button [routerLink]="'/create-contact'"> Create Contact </a>
+  <a mat-button [routerLink]="'/activities'"> Activities </a>
+  <a mat-button [routerLink]="'/create-activity'"> Create Activity </a> -->
+  <!-- <a *ngFor="let menuitem of currentMenuItems">
+  <a style="cursor: pointer;" [matMenuTriggerFor]="menu" *ngIf="menuitem.Children" > -->
+  <!-- <mat-icon>{{ menuitem.Icon }}</mat-icon> -->
+  <!-- <span>{{ menuitem.GroupName }}</span><mat-icon style="position: absolute; padding-left:5px; padding-top:4px;">keyboard_arrow_down</mat-icon> -->
+  <!-- <span fxFlex></span> -->
+  <!-- </a>
+  <mat-menu #menu="matMenu">
+      <a mat-menu-item *ngFor="let child of menuitem.Children"  href="" [routerLink]="child.Url" style="border: 0;background-color:transparent; outline: none;" >
+          {{child.PageName}}
+      </a>
+  </mat-menu>
+</a>
+  <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5">
+      <img src="assets/images/users/1.jpg" alt="user" class="profile-pic">
+  </button>
+  <mat-menu #profile="matMenu" class="mymegamenu">
+      <button mat-menu-item><mat-icon>settings</mat-icon> Settings 设置</button>
+      <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon> Sign Out 注销</button> -->
+  <!-- <button mat-menu-item><mat-icon>account_box</mat-icon> Profile </button>
+  <button mat-menu-item><mat-icon>notifications_off</mat-icon> Disable notifications </button> -->
+
+  <!-- </mat-menu>
+</mat-toolbar> -->
+  <!-- End Topbar - style you can find in pages.scss -->
+  <mat-sidenav-container style="height: 100vh;" class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+    <!-- Sidebar - style you can find in sidebar.scss -->
+    <!-- <mat-sidenav #snav id="snav" class="dark-sidebar pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches"> -->
+
+    <!-- <app-sidebar></app-sidebar> -->
+
+    <!-- </mat-sidenav> -->
+    <!-- Sidebar - style you can find in sidebar.scss -->
+    <!-- <mat-card-content> -->
+    <!-- Page container - style you can find in pages.scss -->
+    <!-- <mat-sidenav-content class="page-wrapper"> -->
+    <!-- <app-spinner></app-spinner> -->
+    <!-- <div class="page-content"> -->
+    <!-- Top section here to display current page location with Material breadcrumbs -->
+    <!-- 1. Get menu items,  -->
+    <!-- 2. Get menu  -->
+    <!-- 3. If there is an menu children, loop children -->
+    <!-- 4. Display the menu and children together with links -->
+    <!-- <div class="row">
+          <div class="col-md-4">
+              <app-breadcrumbs></app-breadcrumbs>
+          </div>
+          <div class="col-md-8">
+              <app-error-log></app-error-log>
+          </div>
+      </div> -->
+    <router-outlet>
+      <!-- <app-spinner></app-spinner> -->
+    </router-outlet>
+    <br /><br />
+    <!-- </mat-card-content> -->
+    <!-- </div> -->
+    <!-- </mat-sidenav-content> -->
+    <!-- Page container - style you can find in pages.scss -->
+  </mat-sidenav-container>
+</div>

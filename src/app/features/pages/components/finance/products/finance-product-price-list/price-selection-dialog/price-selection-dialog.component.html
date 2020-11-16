@@ -1,0 +1,32 @@
+<div *ngIf="!data.isSaveForm">
+  <span>Date selection：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <mat-label>Price search</mat-label>
+      <mat-select [(value)]="orderProjectNameSelected">
+        <mat-option value="0">latest price</mat-option>
+        <mat-option [value]="i + 1" *ngFor="let row of data; let i = index">
+          {{ row.EffectiveDate | date }} - {{ row.ExpiryDate | date }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<div *ngIf="data.isSaveForm">
+  <span>Effective date selection：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <input matInput [formControl]="dateFormControl" [matDatepicker]="picker" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Confirm
+  </button>
+</div>

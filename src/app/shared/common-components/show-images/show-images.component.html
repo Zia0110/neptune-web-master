@@ -1,0 +1,19 @@
+<!-- <mat-icon *ngIf="!inputData" class="close" [mat-dialog-close]="data.urlsArray" mat-button mat-dialog-close>clear </mat-icon> -->
+<!-- <mat-icon class="close" [mat-dialog-close]="data.urlsArray">clear</mat-icon> -->
+<h1 *ngIf="!inputData && !data.ProductName" mat-dialog-title>Batch upload images</h1>
+<h1 *ngIf="!inputData && data.ProductName" mat-dialog-title>{{ data.ProductName }} Losses and local sales photos</h1>
+
+<mat-grid-list cols="2" rowHeight="2:1">
+  <!-- <span style="flex-wrap: wrap; display: flex;"> -->
+  <div style="max-width: 500px;" *ngFor="let url of data.urlsArray">
+    <mat-grid-tile>
+      <p *ngIf="!inputData && !this.data.deleteAllowed" class="product-detail-image">{{ data.ProductName }} -- {{ data.Qty }}</p>
+      <button *ngIf="this.data.deleteAllowed" class="button-delete-image" (click)="deleteImage(url)">X</button>
+      <img style="width: 100%;" [src]="url.ImageUrl ? url.ImageUrl : url" (click)="zoomImage(url.ImageUrl ? url.ImageUrl : url)" />
+    </mat-grid-tile>
+  </div>
+  <div style="display: flex; justify-content: flex-end; position: relative; top: -4rem;">
+    <button style="margin: 1rem;" mat-flat-button color="warn" [mat-dialog-close]="returnedData">Confirm</button>
+  </div>
+  <!-- </span> -->
+</mat-grid-list>

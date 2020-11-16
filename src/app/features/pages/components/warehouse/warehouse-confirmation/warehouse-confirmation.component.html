@@ -1,0 +1,105 @@
+<mat-card>
+  <mat-card-content>
+    <div>
+      <h1>Wholesale warehouse allocation</h1>
+      <div style="display: inline-block; float: right; margin-right: 1.5rem;">
+        <button mat-raised-button color="warn" type="button" (click)="getData()">
+          Get data
+        </button>
+      </div>
+    </div>
+    <div *ngIf="!isInit" class="spinner-wrapper">
+      <mat-progress-spinner [strokeWidth]="7" [diameter]="150" class="spinner-div" color="warn" mode="indeterminate"></mat-progress-spinner>
+      <span>Loading&hellip;</span>
+    </div>
+    <div class="info-div" style="{{ 'display:' + isShowList }}">
+      <mat-paginator [pageSizeOptions]="[3, 5, 10]" showFirstLastButtons></mat-paginator>
+      <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+        <ng-container matColumnDef="{{ column }}" *ngFor="let column of columnsToDisplay">
+          <div *ngIf="column === 'Position'">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let element" (click)="handleExpandedElement(element)">{{ element[column] }}</td>
+          </div>
+          <div *ngIf="column === 'CustomerName'">
+            <th mat-header-cell *matHeaderCellDef>Customer Name</th>
+            <td mat-cell *matCellDef="let element" (click)="handleExpandedElement(element)">
+              <app-card-customer [id]="element.CustomerId" [name]="element.CustomerName" (click)="$event.stopPropagation()"></app-card-customer>
+            </td>
+          </div>
+          <div *ngIf="column === 'IsStockCustomer'">
+            <th mat-header-cell *matHeaderCellDef>Is Goto Customer's Inventory</th>
+            <td mat-cell *matCellDef="let element" (click)="handleExpandedElement(element)">
+              <div *ngIf="element.IsStockCustomerSale">Yes</div>
+              <div *ngIf="!element.IsStockCustomerSale">No</div>
+            </td>
+          </div>
+          <div *ngIf="column === 'CreatedAt'">
+            <th mat-header-cell *matHeaderCellDef>Created At</th>
+            <td mat-cell *matCellDef="let element" (click)="handleExpandedElement(element)">{{ getLocateDateString(element[column]) | date }}</td>
+          </div>
+          <div *ngIf="column === 'Comment'">
+            <th mat-header-cell *matHeaderCellDef>Comment</th>
+            <td mat-cell *matCellDef="let element" (click)="handleExpandedElement(element)">{{ element[column] }}</td>
+          </div>
+          <div *ngIf="column === 'IsComplete'">
+            <th mat-header-cell *matHeaderCellDef>isComplete</th>
+            <td mat-cell *matCellDef="let element" (click)="handleExpandedElement(element)">
+              <div>
+                <mat-icon class="{{ element[column] }}">check_box</mat-icon>
+              </div>
+            </td>
+          </div>
+          <div *ngIf="column === 'Operation'">
+            <th mat-header-cell *matHeaderCellDef>Operation</th>
+            <td mat-cell *matCellDef="let element" (click)="handleExpandedElement(element)">
+              <div>
+                <button (click)="modifyOrder(element)" style="margin-right: 1rem;" mat-stroked-button color="accent">Modify</button>
+              </div>
+            </td>
+          </div>
+
+          <div *ngIf="column === 'IsSelected'">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element" (click)="handleExpandedElement(element)">
+              <div>
+                <mat-icon style="font-size: 2.5rem;" *ngIf="element[column]">code</mat-icon>
+              </div>
+            </td>
+          </div>
+        </ng-container>
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+              <div
+                class="detail-div example-element-description"
+                *ngFor="let itemDetail of element.WarehouseConfirmWholeSaleOrderDetailModel; let j = index"
+              >
+                <div>
+                  <app-card-product [id]="itemDetail['ProductId']" [name]="itemDetail['ProductName']"></app-card-product>：<span>{{
+                    itemDetail['Quantity']
+                  }}</span
+                  >&nbsp;Tins
+                </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: columnsToDisplay"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+      </table>
+    </div>
+    <app-wholesale-order-table
+      *ngIf="isGetData && isClickStep && isInitTable && isShowTable && (lastClick ? lastClick.isNotSubmit : true)"
+      [data]="dataToTable"
+      [IsStockCustomerSale]="IsStockCustomerSale"
+      (tableResultEmit)="getTableResultEmit($event)"
+    ></app-wholesale-order-table>
+  </mat-card-content>
+</mat-card>

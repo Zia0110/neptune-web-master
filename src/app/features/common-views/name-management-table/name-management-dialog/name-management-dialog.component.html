@@ -1,0 +1,28 @@
+<div *ngIf="data === '新建客户'">
+  <span>Client name：</span>
+  <div>
+    <app-search-selection [data]="2" [isShowLabel]="false" [formControl]="nameFormControl"></app-search-selection>
+  </div>
+</div>
+<div *ngIf="data === '新建产品'">
+  <span>Product name：</span>
+  <div>
+    <app-search-selection [data]="1" [isShowLabel]="false" [formControl]="nameFormControl"></app-search-selection>
+  </div>
+</div>
+<div>
+  <span>Mapping name：</span>
+  <div>
+    <mat-form-field floatLabel="never" appearance="outline">
+      <input matInput [formControl]="mappingFormControl" />
+    </mat-form-field>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Confirm
+  </button>
+</div>

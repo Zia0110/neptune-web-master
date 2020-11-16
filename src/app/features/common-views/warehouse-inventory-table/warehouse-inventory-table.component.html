@@ -1,0 +1,77 @@
+<table
+  class="mat-elevation-z8"
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  (cdkDropListDropped)="drop($event)"
+>
+  <ng-container matColumnDef="ProductId">
+    <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>产品号</th>
+    <td mat-cell *matCellDef="let element">
+      <!-- <div *ngIf="element.ProductId"> -->
+      {{ element.ProductId }}
+      <!-- </div> -->
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ProductName">
+    <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>品名</th>
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="element.ProductName">
+        {{ element.ProductName }}
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ProductCode">
+    <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>名称</th>
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="element.ProductCode">
+        {{ element.ProductCode }}
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Uom">
+    <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>包装UOM</th>
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="element.Uom">
+        {{ element.Uom }}
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Weight">
+    <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>重量</th>
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="element.Weight">
+        {{ Weight }}
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Quantity">
+    <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>数量</th>
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="element.Quantity">
+        {{ element.Quantity }}
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Image">
+    <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>照片</th>
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="element.Image">
+        <img style="width: 120px;" [src]="element.Image" />
+        <!-- {{element.Image}} -->
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

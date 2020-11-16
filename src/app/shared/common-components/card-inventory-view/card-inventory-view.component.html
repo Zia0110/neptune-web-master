@@ -1,0 +1,21 @@
+<span class="information-card-title" *ngIf="name" [matMenuTriggerFor]="menuInventoryView" style="background-color: pink;">
+  {{ name }}
+</span>
+<mat-menu #menuInventoryView="matMenu" class="cardMatMenu mat-elevation-z8" (click)="$event.preventDefault()">
+  <div *ngIf="data" (click)="$event.stopPropagation()">
+    <div class="name">
+      <div class="warehouseName">{{ data.WarehouseName }}</div>
+    </div>
+    <hr />
+    <div class="cardContent">
+      <div class="detailCard">
+        <div *ngIf="data.Quantity"><span>Quantity：</span>{{ data.Quantity }}</div>
+        <div *ngIf="data.AvaliableStock"><span>Avaliable Stock：</span>{{ data.AvaliableStock }}</div>
+        <div *ngIf="data.PreSellQty"><span>Pre-Sell Quantity：</span>{{ data.PreSellQty }}</div>
+        <div *ngIf="data.PreBuyQty"><span>Pre-Buy Quantity：</span>{{ data.PreBuyQty }}</div>
+        <div *ngIf="data.PreTranInQty"><span>Pre-transfer-in Quantity：</span>{{ data.PreTranInQty }}</div>
+        <div *ngIf="data.PreTranOutQty"><span>Pre-transfer-out Quantity：</span>{{ data.PreTranOutQty }}</div>
+      </div>
+    </div>
+  </div>
+</mat-menu>

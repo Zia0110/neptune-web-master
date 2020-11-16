@@ -1,0 +1,57 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Admin User Authorisation</h2>
+    <div style="display: flex; justify-content: flex-end;">
+      <button mat-stroked-button (click)="addNewRole()" color="primary">Add new position</button>
+    </div>
+  </div>
+  <br />
+
+  <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" #tabs>
+    <mat-tab #tab *ngFor="let tab of roleDatas; let index = index">
+      <ng-template matTabLabel>
+        <span style="font-size: 12px;"> &nbsp; &nbsp; {{ tab.RoleName }} &nbsp; &nbsp; {{ tab.Users.length }} users &nbsp; &nbsp; </span>
+      </ng-template>
+      <ng-template matTabContent>
+        <div style="width: 97%; margin: 20px;" class="row">
+          <div class="col-md-12 col-lg-4">
+            <h3 style="font-size: 28px;">User</h3>
+            <br />
+            <span *ngFor="let user of tab.Users">
+              <span>Username: </span>{{ user.UserName }} &nbsp; &nbsp;
+              <span style="position: absolute; right: 25px;"> <span>Created: </span>{{ user.CreatedAt | date }}</span>
+              <br />
+            </span>
+            <br />
+            <button mat-stroked-button (click)="deleteRole(tab)" color="warn">Delete this position</button>
+            <br /><br /><br />
+          </div>
+
+          <div class="col-md-12 col-lg-8">
+            <h3 style="font-size: 28px;">Function authorisation</h3>
+            <br />
+            <div class="card-columns" *ngIf="allPages">
+              <div class="card" *ngFor="let group of allPages">
+                <div class="card-header">
+                  <h4 *ngIf="group.GroupName">{{ group.GroupName }}</h4>
+                </div>
+                <div class="card-body">
+                  <span *ngIf="group.Pages">
+                    <span *ngFor="let page of group.Pages">
+                      <mat-checkbox
+                        (change)="rolePageTrigger($event.checked, tab.RoleId, page.PageId, tab.RolePageMappings)"
+                        [checked]="checkPageMarked(page.Url, tab.RolePageMappings)"
+                        >{{ page.PageName }} &nbsp;
+                      </mat-checkbox>
+                      <a style="position: absolute; right: 14px;" [routerLink]="page.Url">Page</a> <br />
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

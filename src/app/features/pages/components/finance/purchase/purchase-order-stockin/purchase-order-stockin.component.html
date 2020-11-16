@@ -1,0 +1,88 @@
+<mat-card>
+  <mat-card-content>
+    <div class="headTitle">
+      <h1 style="font-weight: 600; position: relative; top: 0.5rem;">Purchase orders</h1>
+      <div style="display: flex; justify-content: flex-end; align-items: baseline; position: relative; top: 0.5rem;">
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>General Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" #input />
+          </mat-form-field>
+        </div>
+        <div style="margin-left: 1rem;">
+          <app-search-date-range-picker
+            [label]="'Choose start and end dates'"
+            (outputData)="dateRangePickerOutput($event)"
+          ></app-search-date-range-picker>
+        </div>
+        <button style="margin-left: 1rem;" mat-flat-button color="warn" (click)="getData()">
+          Extract data
+        </button>
+      </div>
+    </div>
+
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-3 tableStockin">
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef>No</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.position }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="supplier">
+        <mat-header-cell *matHeaderCellDef>Supplier</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.SupplierName }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="comment">
+        <mat-header-cell *matHeaderCellDef>Comment</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.ApplyComments }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="orderno">
+        <mat-header-cell *matHeaderCellDef>OrderNo</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.OrderNo }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="summaryInfo">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <div>
+            <div>{{ element.summaryInfo.StatusName }}</div>
+          </div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="priceInfo">
+        <mat-header-cell *matHeaderCellDef>Price info</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <div>
+            <div *ngFor="let row of element.priceInfo.PurchaseOrderDetail; let i = index">
+              {{ i + 1 }}、 <span>Product：</span><app-card-product [id]="row.ProductId" [name]="row.ProductCode"></app-card-product
+              ><span> Expired Date：</span>{{ row.ProductExp ? (getLocateDateString(row.ProductExp) | date) : '' }} <br />
+              <span style="margin-left: 1.3rem;">Price：</span>${{ row.UnitPrice }} * {{ row.Quantity }} tins = ${{ row.TotalPrice }}
+            </div>
+            <hr />
+            <div><span style="margin-left: 1.3rem;">Total price：</span>${{ element.priceInfo.PurchaseOrderPrice }}</div>
+          </div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="confirmCol">
+        <mat-header-cell *matHeaderCellDef>Others</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <div>
+            <div><span>Created At：</span>{{ getLocateDateString(element.confirmCol.CreatedAt) | date }}</div>
+            <div><span>Contact Person：</span>{{ element.confirmCol.ContactPerson }}</div>
+            <div><span>Phone：</span>{{ element.confirmCol.Phone }}</div>
+            <div><span>Email：</span>{{ element.confirmCol.Email }}</div>
+            <div><span>User Name：</span>{{ element.confirmCol.UserName }}</div>
+          </div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="handle">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <div style="width: 100%; display: flex; justify-content: center;">
+            <button mat-stroked-button color="warn" (click)="deleteRow(element.OrderNo)">Delete</button>
+          </div>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[10, 30, 50]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>

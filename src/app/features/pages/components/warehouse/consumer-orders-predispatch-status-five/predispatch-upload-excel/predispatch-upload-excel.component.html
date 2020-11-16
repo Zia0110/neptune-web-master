@@ -1,0 +1,10 @@
+<!-- This is used to up load excel file with order numbers, note 1 and note 2 -->
+<!-- <p>predispatch-upload-excel works!</p> -->
+
+<app-upload-excel [label]="'Excel Upload'" (outputData)="excelOutput($event)"></app-upload-excel>
+<!-- <p style="font-size: smaller; color: red;">Excel Column Names Must Be: "OrderNo", "Notes1", "Notes2"</p> -->
+
+<!-- <div style="max-width: 300px;" class="custom-file">
+    <input id="uploadFile" (change)="onFileChange($event)" type="file" class="custom-file-input" />
+    <label class="custom-file-label" for="customFile">Excel Upload</label>
+</div> -->

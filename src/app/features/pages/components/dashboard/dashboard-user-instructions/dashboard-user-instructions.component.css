@@ -1,0 +1,39 @@
+/* Styles for tab labels */
+.mat-step-label {
+  min-width: 25px !important;
+  padding: 5px;
+  background-color: transparent;
+}
+
+.mat-vertical-stepper-header {
+  padding: 10px !important;
+}
+
+.mat-vertical-content {
+  padding: 5px !important;
+}
+
+/* Styles for the active tab label */
+.mat-step-label.mat-step-label-active {
+  /* min-width: 25px !important; */
+  /* padding: 5px; */
+  background-color: transparent;
+  color: #1370eb;
+  font-weight: 500;
+  font-size: 16px;
+}
+/* Styles for tab labels */
+.mat-tab-label {
+  min-width: 25px !important;
+  padding: 5px;
+  background-color: transparent;
+}
+
+/* Styles for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+  /* min-width: 25px !important;
+        padding: 5px;
+        background-color: transparent; */
+  color: #1370eb;
+  /* font-weight: 700; */
+}

@@ -1,0 +1,111 @@
+button:active {
+  outline: none;
+  border: none;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.upload-text-class {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.input-class {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  width: 10.5rem;
+  overflow: hidden;
+  position: relative;
+  height: 2.2rem;
+  align-items: flex-start;
+  border: 1px solid rgb(224, 224, 224);
+  border-radius: 0.3rem 0 0 0.3rem;
+  transition-property: border, background-color;
+  transition-duration: 0.4s;
+  pointer-events: none;
+}
+
+.input-class:hover {
+  border: 1px solid #b2b2b2;
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+.input-class > input {
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  left: -5.7rem;
+  font-weight: 400;
+  font-style: italic;
+  width: 13.8rem;
+  font-size: 0.85rem;
+  display: none;
+}
+
+.input-class > div {
+  cursor: pointer;
+  position: absolute;
+  bottom: 0.37rem;
+  left: 0.2rem;
+  font-weight: 300;
+  font-style: italic;
+  width: 6.9rem;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.input-class > label {
+  cursor: pointer;
+  position: relative;
+  left: 7.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 4rem;
+  width: 10rem;
+  background-color: rgb(224, 224, 224);
+  color: rgba(0, 0, 0, 1);
+  font-size: 0.5rem;
+  transition-property: background-color;
+  transition-duration: 0.4s;
+  pointer-events: auto;
+}
+
+.input-class:hover > label {
+  background-color: #b2b2b2;
+}
+
+.input-class > label > span {
+  position: relative;
+  top: 0.5rem;
+  left: -3.6rem;
+  font-size: 0.7rem;
+}
+
+.button-class {
+  width: 4rem;
+  font-size: 0.7rem;
+  height: 2.2rem;
+  border-radius: 0 0.3rem 0.3rem 0;
+  background-color: rgb(224, 224, 224);
+  transition-property: background-color;
+  transition-duration: 0.4s;
+}
+
+.button-class:hover {
+  background-color: #b2b2b2;
+}
+
+.span-class {
+  position: relative;
+  bottom: 0.11rem;
+  left: -0.42rem;
+}

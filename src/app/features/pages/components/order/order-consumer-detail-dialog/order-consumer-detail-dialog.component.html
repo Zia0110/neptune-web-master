@@ -1,0 +1,45 @@
+<!-- <div style="position: absolute; z-index: 9; top: 0; right: 0; padding: 2rem;">
+      <button class="mx-3" mat-icon-button (click)="onNoClick()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div> -->
+<mat-icon class="close" (click)="onNoClick()" mat-button mat-dialog-close>clear</mat-icon>
+
+<h1 mat-dialog-title>Order details: {{ orderNo }}</h1>
+
+<mat-tab-group *ngIf="orderData" [selectedIndex]="orderData.Status === 1 ? 1 : 0">
+  <mat-tab label="Order information">
+    <br />
+    <app-order-consumer-detail-info [orderNo]="orderNo" [orderData]="orderData"> </app-order-consumer-detail-info>
+  </mat-tab>
+
+  <mat-tab label="Order information modification">
+    <br />
+    <!-- <div style="position: absolute; z-index: 9; top: 0; right: 0; padding: 2.3rem;">
+      <mat-slide-toggle [(ngModel)]="editModeOn">修改</mat-slide-toggle>
+    </div> -->
+    <app-order-consumer-detail-edit [orderNo]="orderNo" [editMode]="editModeOn" (editedNewData)="editedOutput($event)" [orderData]="orderData">
+    </app-order-consumer-detail-edit>
+  </mat-tab>
+
+  <mat-tab label="Single image">
+    <app-order-consumer-detail-photocopy [orderNo]="orderNo" [editMode]="editModeOn" [imageType]="1"> </app-order-consumer-detail-photocopy>
+  </mat-tab>
+
+  <mat-tab label="Attachment image">
+    <app-order-consumer-detail-photocopy [orderNo]="orderNo" [editMode]="editModeOn" [imageType]="2"> </app-order-consumer-detail-photocopy>
+  </mat-tab>
+
+  <mat-tab label="Customer Service Record" *ngIf="orderId">
+    <ng-template matTabLabel>
+      Customer Service Record &nbsp;
+      <span *ngIf="orderData.Ticket" style="font-size: 12px;"> {{ orderData.Ticket.length }} tickets </span>
+    </ng-template>
+
+    <app-order-consumer-detail-customer-service [orderId]="orderId"></app-order-consumer-detail-customer-service>
+  </mat-tab>
+
+  <mat-tab *ngIf="orderData.Status != 9" (click)="cancelOrderDialog()" label="Cancel Order">
+    <app-order-consumer-detail-cancel-dialog [orderData]="orderData"> </app-order-consumer-detail-cancel-dialog>
+  </mat-tab>
+</mat-tab-group>

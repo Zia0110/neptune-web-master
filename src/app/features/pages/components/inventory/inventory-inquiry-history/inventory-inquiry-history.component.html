@@ -1,0 +1,36 @@
+<div style="display: flex; align-items: baseline; flex-wrap: nowrap; position: relative;">
+  <mat-paginator [pageSizeOptions]="[10, 30, 50, 100]" showFirstLastButtons></mat-paginator>
+  <app-search-date-range-picker [label]="'Choose start and end dates'" (outputData)="dateRangePickerOutput($event)"></app-search-date-range-picker>
+  <button mat-flat-button (click)="onSearch()" color="warn" style="margin-left: 1rem;">Search</button>
+  <app-export-excel style="margin-left: 1rem;" [label]="'Generate Excel'" [fileName]="'库存历史'" [data]="excelExportValue"></app-export-excel>
+  <mat-dialog-actions align="end" style="position: absolute; right: 0;">
+    <button mat-button mat-dialog-close style="font-size: 1.5rem; color: rgba(0, 0, 0, 0.9);">X</button>
+  </mat-dialog-actions>
+</div>
+<div class="mat-elevation-z8" *ngIf="isShowTable">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+      <div *ngIf="column === '日期' || column === '实际库存'">
+        <th mat-header-cell *matHeaderCellDef style="font-size: 1rem; letter-spacing: 0.1rem;" mat-sort-header>{{ column }}</th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="column === '日期'">
+            {{ element[column] | date }}
+          </div>
+          <div *ngIf="column === '实际库存'">
+            {{ element[column] }}
+          </div>
+        </td>
+      </div>
+      <div *ngIf="column !== '日期' && column !== '实际库存'">
+        <th mat-header-cell *matHeaderCellDef class="tableHeader" mat-sort-header>{{ column }}</th>
+        <td mat-cell *matCellDef="let element" (click)="detailShow(element[column])" class="tableCell row-of-icons" matRipple>
+          <div *ngIf="element[column]">
+            {{ element[column].qty }}
+          </div>
+        </td>
+      </div>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

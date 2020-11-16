@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+.example-container {
+  height: 400px;
+  width: 1400px;
+  overflow: auto;
+}
+
+th,
+td {
+  overflow: hidden;
+  width: 600px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-right: 1px solid grey;
+  text-align: center;
+}

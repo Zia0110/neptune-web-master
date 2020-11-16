@@ -1,0 +1,50 @@
+table {
+  max-width: 98%;
+  min-width: 1080px;
+  margin: 1rem auto;
+}
+
+th {
+  color: rgba(0, 0, 0, 0.8) !important;
+  border-top: 0;
+}
+
+mat-icon {
+  color: #e91e63;
+  font-size: 3.2rem;
+  position: relative;
+  left: -0.55rem;
+  top: 0;
+  cursor: pointer;
+}
+
+.mat-icon-button {
+  height: 4rem;
+  border-radius: 2rem;
+  width: 4rem;
+  border: 0;
+}
+
+.mat-icon-div {
+  display: flex;
+  width: 2rem;
+  margin: 0 auto;
+}
+
+.action-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.action-container button {
+  margin-left: 20px;
+}
+
+.output {
+  padding: 20px;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 13px;
+}

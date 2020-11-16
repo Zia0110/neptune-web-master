@@ -1,0 +1,56 @@
+<mat-icon class="close" style="cursor: pointer;" mat-dialog-close>clear</mat-icon>
+
+<h2 style="padding-bottom: 0px; float: left;" class="section-title">
+  <p *ngIf="isRetail">Retail order details (amount/quantity)</p>
+  <p *ngIf="!isRetail">Wholesale order details (amount/quantity)</p>
+</h2>
+<div style="flex-wrap: wrap; display: flex; justify-content: flex-end;">
+  <app-export-excel #excelExporter [fileName]="data.customerName" [data]="excelExportValue"></app-export-excel>
+  <button style="height: 38px;" (click)="exportToExcel()" mat-flat-button color="primary">Generate Excel</button>
+</div>
+
+<br />
+<div class="example-container mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container [matColumnDef]="ProductName" *ngFor="let ProductName of displayedColumns; let index = index">
+      <th mat-header-cell *matHeaderCellDef>{{ ProductName }}</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element[ProductName] }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+<mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons></mat-paginator>
+
+<!-- <mat-icon class="close" style="cursor: pointer;" mat-dialog-close>clear</mat-icon>
+
+<mat-card>
+  <mat-card-content>
+    <h2 style="padding-bottom: 0px; float: left;" class="section-title">
+      <p *ngIf="isRetail">零售订单详情(金额/数量)</p>
+      <p *ngIf="!isRetail">批发订单详情(金额/数量)</p>
+    </h2>
+    <div style="flex-wrap: wrap; display: flex; justify-content: flex-end;">
+      <app-export-excel #excelExporter [fileName]="'excel导出'" [data]="excelExportValue"></app-export-excel>
+      <button style="height: 38px;" (click)="exportToExcel()" mat-flat-button color="primary">Generate Excel</button>
+    </div>
+  </mat-card-content>
+  <br />
+  <div class="example-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container [matColumnDef]="ProductName" *ngFor="let ProductName of displayedColumns; let index = index">
+        <th mat-header-cell *matHeaderCellDef>{{ ProductName }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element[ProductName] }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons></mat-paginator>
+</mat-card> -->

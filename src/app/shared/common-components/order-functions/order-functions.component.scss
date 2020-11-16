@@ -1,0 +1,74 @@
+.toggle-div {
+  position: relative;
+  z-index: 2;
+}
+
+.toggle-div div {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.88rem;
+  width: 7rem;
+  font-weight: 500;
+  padding: 0.3rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 0.1rem;
+  position: absolute;
+  right: 0;
+}
+
+.toggle-div div:hover {
+  background-color: transparent;
+}
+
+.toggle-div div mat-icon {
+  margin-right: 0.5rem;
+}
+
+.order-div {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: relative;
+}
+
+.no_selection {
+  user-select: none; /* standard syntax */
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -ms-user-select: none; /* IE10+ */
+}
+
+button:active {
+  outline: none;
+  border: none;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.orderFunctions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  height: 2.4rem;
+  position: relative;
+  right: 6rem;
+}
+
+.orderFunctions > div {
+  position: relative;
+  margin-right: 0.5rem;
+  top: 1.1rem;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 13px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em 0 0.5em 0 !important;
+  top: -0.25em;
+}

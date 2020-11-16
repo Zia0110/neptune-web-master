@@ -1,0 +1,126 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+    <ng-container matColumnDef="订单号">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Order No</th>
+      <td mat-cell *matCellDef="let element">
+        <div>{{ element.OrderNo }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="类型">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.CreditTypeName">{{ element.CreditTypeName }}</div>
+        <!-- <div *ngIf="element.SenderAddr">地址：{{ element.SenderAddr }}</div> -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="客户">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Customer</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.BillingCustomerId">
+          <app-card-customer class="popover-link" [name]="element.BillingCustomerName" [id]="element.BillingCustomerId"> </app-card-customer>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="原本订单信息">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Original Order Info</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.OrgProductId">
+          Product Name :
+          <app-card-product class="popover-link" [name]="element.OrgProductName" [id]="element.OrgProductId"> </app-card-product> &nbsp;
+          {{ element.OrgProductCode }}
+        </div>
+        <div *ngIf="element.OrgStockCustomerId">
+          Stock Customer :
+          <app-card-customer class="popover-link" [name]="element.OrgStockCustomerName" [id]="element.OrgStockCustomerId"></app-card-customer>
+        </div>
+        <div *ngIf="element.OrgOrderPrice">Order Price : {{ element.OrgOrderPrice | currency }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="新订单信息">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>New Order Info</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.NewProductId">
+          Product Name :
+          <app-card-product class="popover-link" [name]="element.NewProductName" [id]="element.NewProductId"> </app-card-product> &nbsp;
+          {{ element.NewProductCode }}
+        </div>
+        <div *ngIf="element.NewStockCustomerId">
+          Stock Customer :
+          <app-card-customer class="popover-link" [name]="element.NewStockCustomerName" [id]="element.NewStockCustomerId"></app-card-customer>
+        </div>
+        <div *ngIf="element.NewOrderPrice">Order Price : {{ element.NewOrderPrice | currency }}</div>
+        <span *ngIf="element.OrgProductId || element.OrgStockCustomerId">
+          No
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Credit">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Credit</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.Credit1">{{ element.Credit1 | currency }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="日期">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Created At
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.CreatedAt">{{ getLocateDateString(element.CreatedAt) | date }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="备注">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Comment
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.Comment3">{{ element.Comment3 }}</div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="CreditNo">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Credit No
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.CreditNo">{{ element.CreditNo }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Cin7No">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Cin7No
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.Cin7InvoiceNo">{{ element.Cin7InvoiceNo }}</div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="处理">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Handle
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.IsClosed">
+          Already processed
+        </span>
+        <span *ngIf="!element.IsClosed">
+          <button mat-stroked-button (click)="updateCloseCredit(element)" color="warn">Handle</button>
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      (click)="selectedRowIndex = row.OrderNo"
+      [ngClass]="{ highlight: selectedRowIndex == row.OrderNo }"
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+    ></tr>
+  </table>
+</div>
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

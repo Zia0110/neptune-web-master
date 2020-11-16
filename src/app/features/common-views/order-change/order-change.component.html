@@ -1,0 +1,99 @@
+<div *ngIf="form">
+  <div *ngIf="newProductDetails" style="display: flex; flex-wrap: wrap; line-height: 40px;">
+    <div><span class="detailTypeName">Unit Price：</span>{{ newProductDetails.UnitPrice | currency }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">Total Price：</span>{{ form.controls.totalPrice.value | currency }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">Current product packaging：</span>{{ newProductDetails.Uom }}</div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-6">
+      <span class="detailTypeName">Current product</span>
+      <app-search-selection
+        [data]="1"
+        [selectionPlaceholder]="data.ProductName"
+        [isStockWarehouse]="true"
+        [productIdStockWarehouse]="data.StockCustomerId"
+        [formControl]="form.controls.productId"
+      >
+      </app-search-selection>
+    </div>
+    <div class="col-md-6">
+      <span class="detailTypeName"
+        >Current order price
+        <span *ngIf="isNonDalProduct">（客户货，选填）</span>
+        <span *ngIf="!isNonDalProduct" style="color: red;">（DAL货，必填）</span>
+      </span>
+      <input class="form-control" [formControl]="form.controls.orderPrice" />
+    </div>
+
+    <!-- 库存客户 -->
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="detailTypeName" for="exampleFormControlSelect1">Current stock customer</label>
+        <select
+          class="form-control"
+          style="font-size: 13px; padding: 5px;"
+          [formControl]="form.controls.stockCustomerId"
+          id="exampleFormControlSelect1"
+        >
+          <!-- <ng-container *ngFor="let stockCustomer of stockCustomerSelection"> -->
+          <!-- <option
+              [ngValue]="stockCustomer.CustomerId"
+              *ngIf="
+                stockCustomer.CustomerId === 446 ||
+                stockCustomer.CustomerId === data.StockCustomerId ||
+                stockCustomer.CustomerId === data.BillingCustomerId
+              "
+            >
+              {{ stockCustomer.CustomerName }} &nbsp; &nbsp; {{ stockCustomer.stockAmount }} 可用
+            </option> -->
+          <ng-container *ngFor="let stockCustomer of stockCustomerSelectable">
+            <option [ngValue]="stockCustomer[0].CustomerId">
+              {{ stockCustomer[0].CustomerName }}, &nbsp;
+              <ng-container *ngFor="let stock of stockCustomer">
+                {{ stock.ProductName }}, {{ stock.Sum }} available &nbsp;
+                <span *ngIf="stock.StockError"> - {{ stock.StockError }} &nbsp; </span>
+              </ng-container>
+            </option>
+          </ng-container>
+
+          <!-- </ng-container> -->
+        </select>
+      </div>
+    </div>
+    <!-- <div class="col-md-12">
+      <div class="form-group">
+        <label class="detailTypeName">备注</label>
+        <textarea class="form-control" style="padding: 5px;" [formControl]="form.controls.comment1"> </textarea>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="detailTypeName">特殊情况</label>
+        <textarea class="form-control" style="padding: 5px;" [formControl]="form.controls.comment2"> </textarea>
+      </div>
+    </div> -->
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="detailTypeName">Comment1</label>
+        <textarea class="form-control" style="padding: 5px;" [formControl]="form.controls.comment1"> </textarea>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="detailTypeName">Financial comment</label>
+        <textarea class="form-control" style="padding: 5px;" [formControl]="form.controls.comment3"> </textarea>
+      </div>
+    </div>
+    <!-- <div *ngIf="stockCustomerSelection && displayStockCustomer" class="form-group">
+    <label for="exampleFormControlSelect2">库存客户 仓库库存</label>
+    <select multiple class="form-control" id="exampleFormControlSelect2">
+      <option *ngFor="let info of stockCustomerSelection[displayStockCustomer].StockInfos">
+        {{ info.WarehouseName }} &nbsp; &nbsp; &nbsp; {{ info.AvaliableQuantity }}
+      </option>
+    </select>
+  </div> -->
+  </div>
+</div>

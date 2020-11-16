@@ -1,0 +1,27 @@
+<div>
+  <span>Billing Customer selection：</span>
+  <div>
+    <app-search-selection
+      [data]="2"
+      [selectionPlaceholder]="data.billingCustomer.name"
+      [formControl]="billingCustomerFormControl"
+    ></app-search-selection>
+  </div>
+  <span>Stock Customer selection：</span>
+  <div>
+    <app-search-selection
+      [data]="2"
+      [isStockCustomer]="true"
+      [selectionPlaceholder]="data.stockCustomer.name"
+      [formControl]="stockCustomerFormControl"
+    ></app-search-selection>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button mat-flat-button color="primary" (click)="onClose(false)">
+    Cancel
+  </button>
+  <button mat-flat-button color="warn" style="margin-left: 0.5rem;" (click)="onClose(true)">
+    Confirm
+  </button>
+</div>

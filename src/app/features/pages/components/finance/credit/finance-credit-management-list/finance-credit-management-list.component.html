@@ -1,0 +1,55 @@
+<mat-card>
+  <!-- Headers area -->
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Finance Credit Management</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+      <mat-checkbox style="margin-top: 8px;" #isChecked (change)="isClosedChange($event.checked)">Check completed orders</mat-checkbox>
+      &nbsp; &nbsp;
+      <app-search-date-range-picker [label]="'Date range search'" (outputData)="dateRangePickerOutput($event)"> </app-search-date-range-picker>
+      &nbsp; &nbsp;
+      <app-simple-dropdown
+        style="margin-top: 3px;"
+        [data]="creditTypeList"
+        [label]="'Credit Type Search'"
+        (outputData)="creditTypeSearch($event)"
+      ></app-simple-dropdown>
+      &nbsp; &nbsp;
+      <app-search-selection [data]="2" [selectionPlaceholder]="'Customer Search'" [formControl]="clientSelected"> </app-search-selection>
+      &nbsp; &nbsp;
+      <span>
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput type="text" (keyup)="filter()" [(ngModel)]="filterString" />
+          <button mat-button *ngIf="filterString" matSuffix mat-icon-button aria-label="Clear" (click)="value = ''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </span>
+      <app-export-excel [fileName]="'CreditList'" [data]="excelExportValue"></app-export-excel>
+      <app-upload-excel [label]="'Excel Upload'" (outputData)="excelOutput($event)"></app-upload-excel>
+    </div>
+  </div>
+  <app-finance-credit-table [tableData]="tableData"></app-finance-credit-table>
+  <!-- <br /> -->
+  <!-- <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" #tabs>
+      <mat-tab *ngFor="let tab of batchDatas; let index = index">
+        <ng-template matTabLabel>
+          <span *ngIf="tab.current">当前需导出</span>
+          <span *ngIf="tab.CreatedAt">{{ tab.CreatedAt | date }} 导出</span> &nbsp;
+          <span *ngIf="tab.ClientId">
+            <app-card-customer class="popover-link" [name]="'客户'" [id]="tab.ClientId"></app-card-customer>
+          </span>
+          &nbsp;
+          <span *ngIf="tab.RetailOrderGroupBys" style="font-size: 12px;"> &nbsp; &nbsp; {{ tab.RetailOrderGroupBys.length }}个订单</span>
+          &nbsp; &nbsp;
+          <mat-icon (click)="removeTab(index)">clear</mat-icon>
+        </ng-template>
+
+        <ng-template matTabContent>
+          <span *ngIf="tab.RetailOrderGroupBys">
+            <app-finance-cin7-table [tableData]="tab.RetailOrderGroupBys"></app-finance-cin7-table>
+          </span>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group> -->
+</mat-card>

@@ -1,0 +1,60 @@
+<!-- ============================================================== -->
+<!-- sidebar -->
+<!-- ============================================================== -->
+<!-- <div class="user-profile" style="height:120px; background-position:center; background: url(assets/images/background/user-info.jpg) no-repeat;"> -->
+    <!-- User profile image -->
+    <!-- <div class="profile-img"> <img src="assets/images/users/profile.png" alt="user"> </div> -->
+    <!-- User profile text-->
+    <!-- ============================================================== -->
+    <!-- Profile - style you can find in header.scss -->
+    <!-- ============================================================== -->
+    <!-- <div class="profile-text"><a [matMenuTriggerFor]="sdprofile" class=""> John <i -->
+                <!-- class="ti-angle-down font-12 m-l-5"></i></a></div>
+    <mat-menu #sdprofile="matMenu" class="mymegamenu">
+        <button mat-menu-item>
+            <mat-icon>settings</mat-icon> Settings
+        </button>
+        <button mat-menu-item>
+            <mat-icon>account_box</mat-icon> Profile
+        </button>
+        <button mat-menu-item>
+            <mat-icon>notifications_off</mat-icon> Disable notifications
+        </button>
+        <button mat-menu-item>
+            <mat-icon>exit_to_app</mat-icon> Sign Out
+        </button>
+    </mat-menu>
+</div> -->
+<!-- <br> -->
+
+<!-- <mat-nav-list appAccordion> -->
+    <mat-list-item >
+    <a class=""  routerLink="/admin">
+        <mat-icon>  </mat-icon>
+        <span>Dashboard</span>
+    </a>
+    </mat-list-item>
+    <mat-list-item  *ngFor="let menuitem of currentMenuItems" routerLinkActive="selected" group="{{menuitem.state}}">
+        <!-- If item is a link, use simple link -->
+        <!-- <a class="" appAccordionToggle [routerLink]="menuitem.state" *ngIf="menuitem.type === 'link'" >
+            <mat-icon>{{ menuitem.icon }}</mat-icon>
+            <span>{{ menuitem.name }}</span>
+            <span fxFlex></span>
+            <span class="label label-{{ badge.type }}" *ngFor="let badge of menuitem.badge" >{{ badge.value }}</span>
+        </a> -->
+        <!-- if item is a group, use menu dropdown-->   
+        <a [matMenuTriggerFor]="menu" class=""  *ngIf="menuitem.Children">
+            <mat-icon>{{ menuitem.Icon }}</mat-icon>
+            <span>{{ menuitem.GroupName }}</span>
+            <!-- <span fxFlex></span> -->
+            <!-- <span class="label label-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span> -->
+        </a>
+        <mat-menu #menu="matMenu">
+            <a mat-menu-item *ngFor="let child of menuitem.Children"  href="" [routerLink]="child.Url" style="border: 0;background-color:transparent; outline: none;" >
+                <mat-icon>{{ child.Icon }}</mat-icon>
+                {{child.PageName}}
+            </a>
+        </mat-menu>
+
+    </mat-list-item>
+<!-- </mat-nav-list> -->

@@ -1,0 +1,14 @@
+<app-dynamic-form #dynamicForm [formFields]="formConfig" (warehouseSubmit)="getFormValues($event)"></app-dynamic-form>
+<!-- <span class="col-md-6"> -->
+<div *ngIf="transportRequirements">
+  Current transportation needs :
+  <span *ngFor="let requirement of transportRequirements">
+    <mat-checkbox [disabled]="formIsDisabled" [(ngModel)]="requirement.isCurrent"> </mat-checkbox>
+    {{ requirement.CustomerName }} &nbsp; - &nbsp; {{ requirement.ProductCode }} &nbsp; {{ requirement.ProductName }} - &nbsp;
+    {{ getLocateDateString(requirement.CreatedAt) | date }}
+    <br />
+  </span>
+</div>
+<span *ngIf="!transportRequirements">
+  Currently no transportation requirements
+</span>

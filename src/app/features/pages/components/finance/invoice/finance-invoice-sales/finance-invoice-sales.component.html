@@ -1,0 +1,92 @@
+<!-- Dynamic Button Demo  -->
+<!-- 
+<mat-card style="width: 80%; padding: 20px;">
+  <mat-card-header>
+    <mat-card-title>
+      <h3>Dynamic Button Demo</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-5">
+        <h5>Configure Dynamic Button:</h5>
+        <form [formGroup]="dynamicButtonConfigureForm" (ngSubmit)="onSubmit()">
+          <mat-form-field>
+            <mat-label>Button Name</mat-label>
+            <input matInput formControlName="name" placeholder="Enter the text dispalyed on button" />
+          </mat-form-field>
+          <app-search-selection [data]="1" formControlName="product"></app-search-selection>
+          <mat-form-field>
+            <mat-label>Button Performance (Button Usage)</mat-label>
+            <mat-select formControlName="usage">
+              <mat-option value="trigger">Event Trigger Button</mat-option>
+              <mat-option value="submit">Submit Button</mat-option>
+              <mat-option value="cancel">Cancel / Back Button</mat-option>
+              <mat-option value="search">Search Button</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Button Color Scheme</mat-label>
+            <mat-select formControlName="color">
+              <mat-option value="primary">Primary</mat-option>
+              <mat-option value="accent" selected>Accent</mat-option>
+              <mat-option value="warn">Warn</mat-option>
+              <mat-option value="basic">Basic</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small><em>Click 'Set' below to see result -></em></small
+          ><br />
+          <button mat-raised-button color="warn" type="submit" class="mt-2">Set</button>
+        </form>
+      </div>
+
+      <div class="col-md-1"></div>
+
+      <div class="col-md-4" style="padding-top: 8%; padding-left: 5%;">
+        <div style="margin-left: 100px;">
+          <app-dynamic-button [buttonConfig]="buttonConfig"> </app-dynamic-button>
+        </div>
+        <div class="row">
+          <div class="col-12 mt-4">
+            <span *ngIf="use == 'trigger'">
+              <small
+                ><i>This button is now set to <b>Trigger Button</b>,<br />an window alert will be displayed when click on this button.</i></small
+              >
+            </span>
+            <span *ngIf="use == 'submit'">
+              <small
+                ><i
+                  >This button is now set to <b>Submit Button</b>,<br />a console log message 'Successfully Submited!' will be displayed in
+                  console.</i
+                ></small
+              >
+            </span>
+            <span *ngIf="use == 'cancel'">
+              <small
+                ><i>This button is now set to <b>Cancel Button</b>,<br />an window alert will be displayed when click on this button.</i></small
+              >
+            </span>
+            <span *ngIf="use == 'search'">
+              <small
+                ><i>This button is now set to <b>Search Button</b>,<br />an window alert will be displayed when click on this button.</i></small
+              >
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<style>
+  span {
+    color: navy;
+  }
+  button:hover {
+    background-color: lightblue;
+  }
+</style> -->

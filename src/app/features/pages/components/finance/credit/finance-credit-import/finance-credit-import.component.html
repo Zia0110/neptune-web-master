@@ -1,0 +1,37 @@
+<mat-card>
+  <mat-card-content>
+    <h1>
+      Credit import
+    </h1>
+    <div style="margin-top: 1rem;">
+      <app-upload-excel [label]="'Excel Upload'" (outputData)="excelOutput($event)"></app-upload-excel>
+      <button [disabled]="isShowNotice" style="float: right;" mat-flat-button color="warn" (click)="onSubmit()">
+        Save
+      </button>
+    </div>
+    <div style="color: red; font-size: 0.6rem; font-style: italic; margin-bottom: 1rem;">
+      <span *ngIf="isShowNotice">*Please upload files in order of customer name, credit, balance.</span>
+    </div>
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+          <div *ngIf="column === 'position'">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+          </div>
+          <div *ngIf="column === 'customerName'">
+            <th mat-header-cell *matHeaderCellDef>Customer Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.customerName }}</td>
+          </div>
+          <div *ngIf="column !== 'customerName' && column !== 'position'">
+            <th mat-header-cell *matHeaderCellDef>{{ column | uppercase }}</th>
+            <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+          </div>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

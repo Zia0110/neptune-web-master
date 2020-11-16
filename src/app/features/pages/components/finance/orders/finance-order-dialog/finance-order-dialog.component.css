@@ -1,0 +1,19 @@
+.cdk-overlay-pane.my-dialog {
+  position: relative !important;
+}
+
+.close.mat-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  min-width: auto;
+}
+.popover-link {
+  color: #0088ff;
+}
+
+.detailTypeName {
+  font-size: 14px;
+  font-weight: 700;
+}

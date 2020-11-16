@@ -1,0 +1,35 @@
+.search-selection-input {
+  font-size: 0.8rem;
+  box-shadow: none;
+  background-color: transparent;
+  height: 1.2rem;
+  padding: 5px;
+}
+
+.mat-label-class {
+  position: relative;
+  bottom: 0;
+  padding-left: 6px;
+}
+
+.errorBorder {
+  /* border-color: red !important;
+  border:solid 1px; */
+}
+
+.input-group mat-form-field.mat-form-field {
+  font-size: 11px;
+}
+
+.input-group ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em 0 0.5em 0 !important;
+  top: -0.25em;
+}
+
+::ng-deep .mat-option-text {
+  font-size: 10px;
+}
+
+::ng-deep mat-option.mat-option {
+  height: 36px;
+}

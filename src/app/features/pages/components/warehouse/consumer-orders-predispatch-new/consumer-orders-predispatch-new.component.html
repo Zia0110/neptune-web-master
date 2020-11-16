@@ -1,0 +1,17 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Warehouse pre-distribution</h2>
+
+    <div style="display: flex; justify-content: flex-end;">
+      <button mat-raised-button color="accent" class="m-2" (click)="autoAssign()">Automatic pre-distribution</button>
+      <button mat-raised-button color="warn" class="m-2" (click)="confirmRules()">Submit pre-distribution</button>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end;">
+      <app-order-functions [isShowCustomer]="false" (filteredValue)="passFilteredValue($event)"></app-order-functions>
+    </div>
+  </div>
+
+  <app-predispatch-order-table #preDispatchTable [filterData]="filteredValue" [statusFourFromBackEnd]="statusFourFromBackEnd" [rulesData]="rulesData">
+  </app-predispatch-order-table>
+</mat-card>

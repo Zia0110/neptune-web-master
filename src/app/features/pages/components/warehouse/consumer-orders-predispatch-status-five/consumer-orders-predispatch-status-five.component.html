@@ -1,0 +1,44 @@
+<mat-card>
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Modify pre-distribution</h2>
+    <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <app-predispatch-upload-excel (outputData)="dataFromExcel($event)"></app-predispatch-upload-excel>
+      <p style="font-size: smaller; color: red;">Excel Column Names Must Be: "OrderNo", "Notes1", "Notes2"</p>
+      <button
+        *ngIf="showChangeRuleAndCommentFromExcelButton"
+        (click)="changeRuleAndCommentsFromExcel()"
+        mat-raised-button
+        color="primary"
+        class="m-2"
+      >
+        Modify All
+      </button>
+
+      <app-order-functions
+        [isShowCustomer]="false"
+        (filteredValue)="passFilteredValue($event)"
+        [isCin7Export]="true"
+        [isShowBatchSelection]="false"
+        [comment1Array]="comment1Array"
+        [comment2Array]="comment2Array"
+        [comment3Array]="comment3Array"
+        [isModifyPreDistribution]="true"
+        *ngIf="isShowOrderFunctions"
+      ></app-order-functions>
+      <button *ngIf="showChangeRuleAndCommentButton" (click)="changeRuleAndCommentFromTextFile()" mat-raised-button color="primary" class="m-2">
+        Modify the distribution rule and comment
+      </button>
+      <button (click)="onChangeComments()" mat-flat-button color="warn">Bulk comments modify</button>
+    </div>
+  </div>
+  <app-predispatch-order-five-table
+    #preDispatchFiveTable
+    [filterData]="filteredValue"
+    [excelData]="excelData"
+    [statusFiveFromBackEnd]="statusFiveFromBackEnd"
+    [rulesData]="rulesData"
+    (childEvent)="refreshBothTables()"
+    (outputSelectedOrder)="getFilteredOrders($event)"
+  ></app-predispatch-order-five-table>
+</mat-card>

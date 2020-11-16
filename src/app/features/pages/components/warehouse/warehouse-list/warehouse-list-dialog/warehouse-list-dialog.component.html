@@ -1,0 +1,67 @@
+<div>
+  <h3>
+    <span *ngIf="isNew == false">Edit warehouse information</span>
+    <span *ngIf="isNew == true">New warehouse</span>
+  </h3>
+  <mat-dialog-content>
+    <form [formGroup]="warehouseDetailForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field>
+            <input matInput formControlName="WarehouseName" placeholder="Warehouse Name" />
+            <mat-error *ngIf="WarehouseName.invalid">
+              {{ getErrorMessageWarehouseName() }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Warehouse Type</mat-label>
+            <mat-select formControlName="WarehouseType">
+              <mat-option value="1">中国</mat-option>
+              <mat-option value="2">新西兰</mat-option>
+            </mat-select>
+            <mat-error *ngIf="WarehouseType.invalid">
+              {{ getErrorMessageWarehouseType() }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="ContactPerson" placeholder="Contact Person" />
+            <mat-error *ngIf="ContactPerson.invalid">
+              {{ getErrorMessageContactPerson() }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Website" placeholder="Website" />
+            <mat-error *ngIf="Website.invalid">
+              {{ getErrorMessageWebsite() }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input matInput formControlName="Phone" placeholder="Phone" />
+            <mat-error *ngIf="Phone.invalid">
+              {{ getErrorMessagePhone() }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Email" placeholder="Email" />
+            <mat-error *ngIf="Email.invalid">
+              {{ getErrorMessageEmail() }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Fax" placeholder="Fax" />
+            <mat-error *ngIf="Fax.invalid">
+              {{ getErrorMessageFax() }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="mt-2">
+        <button *ngIf="isNew == false" mat-raised-button color="accent" type="submit">Save</button>
+        <button *ngIf="isNew == true" mat-raised-button color="accent" type="submit">Submit</button>
+        <button mat-raised-button color="warn" mat-dialog-close class="ml-3">Cancel</button>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

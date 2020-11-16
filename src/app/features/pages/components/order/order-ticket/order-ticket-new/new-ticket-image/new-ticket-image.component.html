@@ -1,0 +1,40 @@
+<!--
+This is used to upload an img to /api/Common/UploadImage
+It is a common-component, not only to be used for creating new ticket.
+-->
+
+<mat-icon class="close" [mat-dialog-close]="returnUrls" *ngIf="useType != 0">clear</mat-icon>
+<h3>Upload pictures (can be batched)</h3>
+<div style="display: inline;" *ngFor="let i of uploadedImagesForDisplaying">
+  <img class="p-2" [src]="i" height="200px" />
+</div>
+<div>
+  <input type="file" id="file" multiple (change)="getFileDetails($event)" />
+  <button class="btn btn-primary" (click)="uploadFiles()">Upload</button>
+</div>
+
+<!-- <mat-icon *ngIf="useType" class="close" [mat-dialog-close]="returnUrls" mat-button mat-dialog-close>clear</mat-icon>
+
+<p>上传图片</p>
+<span style="flex-wrap: wrap; display: flex;">
+  <div style="display: inline;" *ngFor="let i of images"> -->
+
+<!-- <img class="p-2" [src]="i.Url" height="300px" (click)="openImg(i)" /> -->
+
+<!-- <img class="p-2" [src]="i.Url" height="200px" />
+  </div>
+
+  <span>
+    <input type="file" accept="image/*" (change)="onFileChange($event)" #fileInput hidden />
+    <div *ngIf="confirmUpload">
+      <button class="m-3" type="button" mat-stroked-button color="primary" *ngIf="selectedFile" (click)="onUpload()">确定上传</button>
+      <img class="image mx-3" [src]="_img.bypassSecurityTrustUrl(imgSrc)" *ngIf="imgSelected" height="100px" />
+      <br />
+      <label *ngIf="imgSelected">FileName: {{ selectedFile.name }}</label>
+    </div>
+  </span>
+
+  <button mat-button style="display: inline;" type="button" (click)="fileInput.click()">
+    <img class="p-2" src="28f8e5df-f55e-4439-b64c-729c10e157cd" alt="添加图片" height="80px" />
+  </button>
+</span> -->

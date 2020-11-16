@@ -1,0 +1,31 @@
+<div style="min-height: 500px; width: 97%;" class="row">
+  <div class="col-6 col-lg-6 col-xl-6">
+    <ngx-charts-bar-vertical
+      [scheme]="colorScheme"
+      [results]="sumResult"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [legendTitle]="legendTitle"
+      [showDataLabel]="showDataLabel"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      (select)="sumSelect($event)"
+    >
+    </ngx-charts-bar-vertical>
+
+    <!-- <ngx-charts-line-chart [scheme]="colorScheme" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel" [xAxis]="showXAxis" [yAxis]="showYAxis" [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="sumResult" (select)="sumSelect($event)"
+      (activate)="onActivate($event)" (deactivate)="onDeactivate($event)" [yAxisTickFormatting]="yAxisFormat"
+      [xAxisTickFormatting]="xAxisFormat" [autoScale]="autoScale">
+    </ngx-charts-line-chart> -->
+  </div>
+
+  <div class="col-6 col-lg-6 col-xl-6">
+    <app-client-detail-single-view-piechart [sumPieChart]="sumPieChart"></app-client-detail-single-view-piechart>
+  </div>
+</div>

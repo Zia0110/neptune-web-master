@@ -1,0 +1,27 @@
+.logoImageClass {
+  max-width: 160px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.header1 {
+  justify-content: space-between;
+}
+
+html,
+body {
+  /* height: 100%; */
+}
+
+.as1 {
+  background-color: #e8e8e8;
+  height: 100vh !important;
+}
+
+.loginButton {
+  width: 100%;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  font-size: 16px !important;
+}

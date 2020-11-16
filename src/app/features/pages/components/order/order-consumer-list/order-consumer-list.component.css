@@ -1,0 +1,52 @@
+h1 {
+  font-weight: 600;
+  font-style: italic;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  margin-bottom: 0;
+  padding-bottom: 0.2rem;
+}
+
+.spinner-div {
+  margin: 3rem auto;
+}
+
+.spinner-wrapper {
+  text-align: center;
+}
+
+.spinner-wrapper > span {
+  position: relative;
+  top: -8.5rem;
+  color: #e42235;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+table {
+  width: 100%;
+}
+
+.list-table {
+  overflow: auto;
+}
+
+.list-table-abnormal {
+  overflow: auto;
+  font-size: 13px;
+}
+
+.product-abnormal-button,
+.customer-abnormal-button {
+  position: absolute;
+  z-index: 5000;
+  bottom: 40px;
+  right: 60px;
+}
+
+.list-radio-button {
+  margin-right: 2rem;
+}
+
+.list-radio-button:first-of-type {
+  margin-right: 1rem;
+}

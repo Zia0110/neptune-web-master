@@ -1,0 +1,32 @@
+.position-relative {
+  position: relative;
+}
+
+.add-contact {
+  position: absolute;
+  right: 17px;
+  top: 57px;
+}
+
+.information-card-test {
+  position: relative;
+  padding-bottom: 5rem;
+  padding-top: 3rem;
+
+  > div {
+    margin-left: 1rem;
+    float: left;
+  }
+}
+
+.selection-component-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-right: 2rem;
+  > div {
+    width: 40%;
+    margin-bottom: 4rem;
+    margin-right: 2rem;
+  }
+}

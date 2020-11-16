@@ -1,0 +1,9 @@
+table {
+  width: 100%;
+}
+.popover-link {
+  color: #0088ff;
+}
+.editedRow {
+  background: #69c8ff; /* green */
+}

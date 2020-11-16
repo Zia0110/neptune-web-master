@@ -1,0 +1,108 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+    <ng-container matColumnDef="TransportNo">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Transport No</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.TransportNo }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="WarehouseId">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Warehouse (To)</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.WarehouseId | WarehousePipe }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="FromWarehouseId">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Warehouse (From)</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.FromWarehouseId | WarehousePipe }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="TransportTypeName">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Transport Type</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.TransportTypeName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Status">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.Status | TransportStatusPipe }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Comment">
+      <th mat-header-cell cdkDrag *matHeaderCellDef>Comment</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.Comment">Comment: {{ element.Comment }}</div>
+        <div *ngIf="element.ConfirmedComments">Confirmed Comment: {{ element.ConfirmedComments }}</div>
+        <div *ngIf="element.UpdatedComments">Updated Comment: {{ element.UpdatedComments }}</div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="CreatedAt">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Created At</th>
+      <td mat-cell *matCellDef="let element">
+        {{ getLocateDateString(element.CreatedAt) | date }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="DepartureTime">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Departure Time</th>
+      <td mat-cell *matCellDef="let element">
+        {{ getLocateDateString(element.DepartureTime) | date }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="EstimatedArrivalTime">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Estimated Arrival Time</th>
+      <td mat-cell *matCellDef="let element">
+        {{ getLocateDateString(element.EstimatedArrivalTime) | date }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="ArrivalTime">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Arrival Time</th>
+      <td mat-cell *matCellDef="let element">
+        {{ getLocateDateString(element.ArrivalTime) | date }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="AppliedUserName">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Applied User Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.AppliedUserName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ComfirmUserName">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>Comfirm User Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.ComfirmUserName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell cdkDrag mat-sort-header *matHeaderCellDef>
+        Actions
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button *ngIf="element.Status == 1" mat-raised-button (click)="rowActionOpenDetails(element)" color="primary">Manage Modification</button>
+        <button *ngIf="element.Status == 2" mat-raised-button (click)="rowActionOpenDetails(element)" color="primary">Confirm Departure</button>
+        <button *ngIf="element.Status == 3" mat-raised-button (click)="rowActionOpenConfirm(element)" color="warn">Confirm Arrival</button>
+        <button *ngIf="element.Status == 3" mat-raised-button (click)="rowActionOpenDetails(element)" color="primary">Change</button>
+        <a class="link-text" *ngIf="element.Status == 3 || element.Status == 4" (click)="rowActionOpenStockDetails(element)"
+          >&nbsp; View inventory &nbsp;</a
+        >
+        <button *ngIf="element.Status == 4" mat-raised-button (click)="rowActionOpenDetails(element)" color="primary">View</button>
+        <button *ngIf="element.Status == 2 || element.Status == 3" mat-raised-button (click)="deleteRow(element.TransportId)" color="warn">
+          Delete
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

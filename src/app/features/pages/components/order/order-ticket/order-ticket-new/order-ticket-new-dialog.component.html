@@ -1,0 +1,56 @@
+<mat-icon class="close" style="cursor: pointer;" mat-button mat-dialog-close>clear</mat-icon>
+<h1 mat-dialog-title>Create customer service Ticket</h1>
+
+<div class="row">
+  <div class="col-md-6">
+    <div *ngIf="!orderIdandNoForNewTicket" style="max-width: 450px;" class="input-group">
+      <input
+        [formControl]="orderNumberFromInput"
+        (keyup.enter)="searchOrderNo()"
+        type="text"
+        class="form-control"
+        placeholder="订Order number entry单号录入"
+      />
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="button" (click)="searchOrderNo()">Order number confirmation</button>
+      </div>
+      <br />
+    </div>
+    <span style="display: flex; flex-wrap: wrap;">
+      <app-simple-dropdown [data]="ticketTypeDropDown" [label]="'Choose Ticket Type'" (outputData)="getTicketType($event)"> </app-simple-dropdown>
+      &nbsp; &nbsp; &nbsp;
+      <app-assign-user [label]="'Assign resolver'" (outputData)="getUser($event)"></app-assign-user>
+    </span>
+    <br />
+    <form [formGroup]="contentForm">
+      <mat-form-field appearance="outline" class="example-full-width">
+        <textarea matInput placeholder="Problem Description" formControlName="content"></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <div *ngIf="showValidOrder">
+      <p>Warehouse customers: {{ pickedOrderDetail[0]['StockCustomerFirstName'] }}</p>
+      <p>Warehouse: {{ pickedOrderDetail[0]['WarehouseName'] }}</p>
+      <p>Current order price: {{ pickedOrderDetail[0]['OrderPrice'] }}</p>
+      <p>Recipient: {{ pickedOrderDetail[0]['Recipient'] }}</p>
+      <p>Recipient's telephone: {{ pickedOrderDetail[0]['RecipientPhone'] }}</p>
+      <p>Order status: {{ pickedOrderDetail[0]['StatusName'] }}</p>
+    </div>
+  </div>
+</div>
+
+<app-new-ticket-image [useType]="0"></app-new-ticket-image>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close mat-raised-button color="accent" class="m-2">Cancel</button>
+  <button
+    [disabled]="!orderIdFromInputOrderNumber && !orderIdandNoForNewTicket"
+    (click)="confirmNewTicket()"
+    mat-raised-button
+    color="warn"
+    class="m-2"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

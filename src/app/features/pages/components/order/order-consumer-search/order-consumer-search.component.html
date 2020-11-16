@@ -1,0 +1,151 @@
+<mat-card>
+  <!-- Headers area -->
+  <div class="function-headings">
+    <h2 style="float: left;" class="section-title">Order Search</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+      <app-simple-dropdown [data]="orderStatusList" [label]="'Order status search'" (outputData)="orderStatusSearch($event)"> </app-simple-dropdown>
+      &nbsp; &nbsp;
+      <app-search-date-range-picker
+        style="margin-top: -4px; height: 20px;"
+        [label]="'Finance date range search'"
+        (outputData)="financeDateRangePickerOutput($event)"
+      >
+      </app-search-date-range-picker>
+      &nbsp; &nbsp;
+      <app-search-date-range-picker
+        style="margin-top: -4px; height: 20px;"
+        [label]="'Order outbound batch search'"
+        (outputData)="dateRangePickerOutput($event)"
+      >
+      </app-search-date-range-picker>
+      <span style="margin-top: -4px; height: 20px;" *ngIf="outStockBatchArray">
+        <mat-form-field appearance="outline">
+          <mat-label>outbound batch </mat-label>
+          <mat-select (openedChange)="outStockBatchTrigger($event)" [formControl]="outStockBatchQuery" multiple>
+            <mat-checkbox
+              style="margin-left: 16px; margin-top: 5px;"
+              #allSelected
+              [(ngModel)]="outStockAllSelected"
+              (click)="toggleAllSelection(outStockBatchQuery, outStockAllSelected)"
+              >select all</mat-checkbox
+            >
+            <mat-option *ngFor="let filters of outStockBatchArray" [value]="filters.OutStockBatchId" (click)="tosslePerOne(allSelected.viewValue)">
+              {{ getLocateDateString(filters.OperatedAt) | date }} &nbsp; &nbsp; {{ filters.WarehouseName }} outbound &nbsp; &nbsp; By
+              {{ filters.UserName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </span>
+      &nbsp; &nbsp;
+      <app-search-datepicker (outputData)="datepickerOutput($event)" [label]="'Order import history batch search'" [disabledDates]="">
+      </app-search-datepicker>
+      &nbsp; &nbsp;
+      <div style="max-width: 200px;" class="input-group">
+        <input
+          [formControl]="cin7NoSearchInput"
+          (keyup.enter)="cin7NumSearch()"
+          type="text"
+          class="form-control"
+          placeholder="Cin7 Invoice No Search"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-primary" type="button" (click)="cin7NumSearch()">Search</button>
+        </div>
+      </div>
+      &nbsp; &nbsp;
+      <div style="max-width: 200px;" class="input-group">
+        <input
+          [formControl]="orderNumSearchInput"
+          (keyup.enter)="orderNumSearch()"
+          type="text"
+          class="form-control"
+          placeholder="Order number search"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-primary" type="button" (click)="orderNumSearch()">Search</button>
+        </div>
+      </div>
+      <app-export-excel [isShowLabel]="false" #excelExporter [data]="exportExcelData"></app-export-excel>
+      &nbsp; &nbsp;
+
+      <button [disabled]="!batchDatas.length" mat-flat-button color="primary" (click)="exportToExcel()">Generate Excel</button>
+      <span *ngIf="userType == 'finance'">
+        <button
+          [disabled]="!batchDatas.length"
+          (click)="openGroupEditDialog()"
+          mat-stroked-button
+          color="warn"
+          matTooltip="同时修改产品和库存以及价格成为同一的产品、价格和库存客户"
+          matTooltipPosition="below"
+          matTooltipHideDelay="100000"
+        >
+          Bulk Modify
+        </button>
+      </span>
+      <app-upload-excel
+        [label]="'Bulk Update Stock Customer'"
+        (outputData)="excelOutput($event)"
+        matTooltip="上传EXCEL文件，包括订单号，库存客户，库存客户为客户Code"
+        matTooltipPosition="below"
+        matTooltipHideDelay="100000"
+      ></app-upload-excel>
+      <span *ngIf="userType == 'finance'">
+        <button
+          style="margin-left: 1rem;"
+          [disabled]="!batchDatas.length"
+          (click)="bulkProductModify()"
+          mat-stroked-button
+          color="warn"
+          matTooltip="根据最新的品名Mapping以及客户级别信息重新更新订单信息"
+          matTooltipPosition="below"
+          matTooltipHideDelay="100000"
+        >
+          Bulk Update
+        </button>
+        &nbsp; &nbsp;
+      </span>
+    </div>
+    <div style="justify-content: flex-end;">
+      <app-order-functions (filteredValue)="passFilteredValue($event)"></app-order-functions>
+    </div>
+
+    <mat-form-field style="max-width: 300px;" appearance="outline">
+      <mat-label>Column Show selection </mat-label>
+      <mat-select [formControl]="tableColumnDisplaySelection" multiple>
+        <mat-checkbox
+          style="margin-left: 16px; margin-top: 8px;"
+          [(ngModel)]="tableColumnsAllSelected"
+          (click)="toggleAllColumnSelection(tableColumnsAllSelected)"
+          >select all</mat-checkbox
+        >
+        <ng-container *ngFor="let column of availableColumns">
+          <mat-option [value]="column.value">
+            {{ column.name }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-tab-group class="tab-custom-overflow" [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" #tabs>
+    <mat-tab #tab *ngFor="let tab of batchDatas; let index = index">
+      <!-- <ng-container *ngFor="let item of tab | keyvalue"> -->
+      <ng-template style="position: sticky; top: 20px;" matTabLabel>
+        <span style="font-size: 12px;"> {{ tab.name }} &nbsp; &nbsp; {{ tab.orders.length }} orders </span>
+        &nbsp; &nbsp;
+        <mat-icon (click)="removeTab(index)">clear</mat-icon>
+      </ng-template>
+
+      <ng-template matTabContent>
+        <app-order-table
+          #tables
+          [filterData]="filteredValue"
+          [displayColumns]="tableColumnDisplaySelection.value"
+          [tableData]="tab.orders"
+          [isShowBatchCancelOrder]="true"
+        ></app-order-table>
+      </ng-template>
+      <!-- </ng-container> -->
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

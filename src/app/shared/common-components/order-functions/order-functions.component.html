@@ -1,0 +1,274 @@
+<div>
+  <div class="toggle-div clearfix">
+    <div matRipple [matRippleAnimation]="animation" [ngStyle]="applyDisplayStyle().button" (click)="applyDisplayStyle()">
+      <mat-icon class="no_selection">tune</mat-icon><span class="no_selection">FILTER</span>
+    </div>
+  </div>
+  <div class="order-div" [ngStyle]="applyDisplayStyle().display">
+    <div class="orderFunctions">
+      <!-- <div *ngIf="isFinance" style="{{ divWith }}">
+        <mat-form-field appearance="outline">
+          <mat-label>停卖产品</mat-label>
+          <mat-select [formControl]="suspendedProducts">
+            <mat-option value="0">全部</mat-option>
+            <mat-option value="1">只看停卖</mat-option>
+            <mat-option value="2">不看停卖</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+
+      <!-- <div *ngIf="isFinance" style="{{ divWith }}">
+        <mat-form-field appearance="outline">
+          <mat-label>Credit 问题</mat-label>
+          <mat-select [formControl]="creditCondition">
+            <mat-option value="0">全部</mat-option>
+            <mat-option value="1">Credit 负值</mat-option>
+            <mat-option value="2">Credit 正值</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+
+      <div *ngIf="isFinance && financeData" style="{{ divWith }}">
+        <mat-form-field appearance="outline">
+          <mat-label>Minus Credit Client </mat-label>
+          <mat-select [formControl]="creditConditionsArray" multiple>
+            <mat-checkbox
+              style="margin-left: 16px; margin-top: 5px;"
+              #allSelected
+              [(ngModel)]="creditAllSelected"
+              (click)="toggleAllSelection(creditConditionsArray, creditAllSelected, 'creditInfo', 'CustomerId')"
+              >select all</mat-checkbox
+            >
+            <ng-container *ngFor="let filters of financeData.creditInfo">
+              <mat-option *ngIf="filters.Balance < 0" [value]="filters.CustomerId" (click)="tosslePerOne(allSelected.viewValue)">
+                {{ filters.CustomerName }} &nbsp; {{ filters.Balance | currency }}， &nbsp; {{ filters.Orders }} orders
+              </mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="isFinance && financeData" style="{{ divWith }}">
+        <mat-form-field appearance="outline">
+          <mat-label>Stop Product Order </mat-label>
+          <mat-select [formControl]="productConditionsArray" multiple>
+            <mat-checkbox
+              style="margin-left: 16px; margin-top: 5px;"
+              #allSelected
+              [(ngModel)]="productAllSelected"
+              (click)="toggleAllSelection(productConditionsArray, productAllSelected, 'productInfo', 'ProductId')"
+              >select all</mat-checkbox
+            >
+            <mat-option *ngFor="let filters of financeData.productInfo" [value]="filters.ProductId" (click)="tosslePerOne(allSelected.viewValue)">
+              {{ filters.ProductName }} &nbsp; &nbsp; {{ filters.Orders }} orders
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="isShowGeneral" style="{{ divWith }}">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">General Filter</mat-label>
+          <input style="padding-left: 2px;" matInput [formControl]="allFilter" placeholder="Typing..." />
+          <button mat-button *ngIf="allFilter.value" matSuffix mat-icon-button aria-label="Clear" (click)="allFilter.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isShowProject" style="width: 7%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label>Order Type</mat-label>
+          <mat-select [formControl]="orderProjectNameFilter" [(value)]="orderProjectNameSelected">
+            <mat-option>None</mat-option>
+            <mat-option value="1">Electric</mat-option>
+            <mat-option value="2">Paper</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isShowProduct" style="{{ 'top: 0.9rem;' + divWith }}">
+        <app-search-selection [data]="1" [formControl]="productIdSelected"></app-search-selection>
+      </div>
+      <div *ngIf="isShowCustomer" style="{{ 'top: 0.9rem;' + divWith }}">
+        <app-search-selection [data]="2" [formControl]="customerIdSelected"></app-search-selection>
+      </div>
+      <div *ngIf="isShowStockCustomer" style="{{ 'top: 0.9rem;' + divWith }}">
+        <app-search-selection [data]="2" [isStockCustomer]="true" [formControl]="stockCustomerIdSelected"> </app-search-selection>
+      </div>
+      <div *ngIf="isFinance" style="{{ divWith }}">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">Table Customers</mat-label>
+          <mat-select [formControl]="financeCustomers" multiple>
+            <mat-option *ngFor="let financeCustomer of financeCustomerArray" [value]="financeCustomer.id">
+              {{ financeCustomer.customerString }} --- {{ financeCustomer.firstName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isCin7Export && comment1Array.length" style="width: 7%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">Comment1</mat-label>
+          <mat-select [formControl]="comment1Arrays" multiple>
+            <mat-option *ngFor="let comment1 of comment1Array" [value]="comment1">
+              {{ comment1 }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isCin7Export && comment2Array.length && !isModifyPreDistribution" style="width: 7%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">Comment2</mat-label>
+          <mat-select [formControl]="comment2Arrays" multiple>
+            <mat-option *ngFor="let comment2 of comment2Array" [value]="comment2">
+              {{ comment2 }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isCin7Export && comment3Array.length && !isModifyPreDistribution" style="width: 7%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">Financial Comment</mat-label>
+          <mat-select [formControl]="comment3Arrays" multiple>
+            <mat-option *ngFor="let comment3 of comment3Array" [value]="comment3">
+              {{ comment3 }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isFinance" style="width: 7%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">Product Check</mat-label>
+          <mat-select [formControl]="isProductCheckEnough">
+            <mat-option [value]="0">
+              No-selection
+            </mat-option>
+            <mat-option [value]="1">
+              Product Check：够
+            </mat-option>
+            <mat-option [value]="2">
+              Product Check：不够
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isFinance" style="width: 7%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">Self Stock</mat-label>
+          <mat-select [formControl]="isSelfStock">
+            <mat-option [value]="0">
+              No-selection
+            </mat-option>
+            <mat-option [value]="1">
+              Self Stock：有（大于0）
+            </mat-option>
+            <mat-option [value]="2">
+              Self Stock：无
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isModifyPreDistribution" style="width: 3%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">isDisplay Comment1</mat-label>
+          <mat-select [formControl]="isDisplayComment1">
+            <mat-option [value]="0">
+              No-selection
+            </mat-option>
+            <mat-option [value]="1">
+              Display Comment1
+            </mat-option>
+            <mat-option [value]="2">
+              None-display Comment1
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!--      <div *ngIf="isModifyPreDistribution" style="width: 3%;">-->
+      <!--        <mat-form-field floatLabel="never" appearance="outline">-->
+      <!--          <mat-label style="padding-left: 2px;">isDisplay Comment2</mat-label>-->
+      <!--          <mat-select [formControl]="isDisplayComment2">-->
+      <!--            <mat-option [value]="0">-->
+      <!--              No-selection-->
+      <!--            </mat-option>-->
+      <!--            <mat-option [value]="1">-->
+      <!--              Display Comment2-->
+      <!--            </mat-option>-->
+      <!--            <mat-option [value]="2">-->
+      <!--              None-display Comment2-->
+      <!--            </mat-option>-->
+      <!--          </mat-select>-->
+      <!--        </mat-form-field>-->
+      <!--      </div>-->
+      <div *ngIf="false" style="width: 3%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">isDisplay Financial Comment</mat-label>
+          <mat-select [formControl]="isDisplayComment3">
+            <mat-option [value]="0">
+              No-selection
+            </mat-option>
+            <mat-option [value]="1">
+              Display Financial Comment
+            </mat-option>
+            <mat-option [value]="2">
+              None-display Financial Comment
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isModifyPreDistribution" style="width: 3%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">isDisplay Repository notes</mat-label>
+          <mat-select [formControl]="isDisplayDispatchComment">
+            <mat-option [value]="0">
+              No-selection
+            </mat-option>
+            <mat-option [value]="1">
+              Display Repository notes
+            </mat-option>
+            <mat-option [value]="2">
+              None-display Repository notes
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isModifyPreDistribution" style="width: 3%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">isDisplay Repository notes2</mat-label>
+          <mat-select [formControl]="isDisplayDispatchComment2">
+            <mat-option [value]="0">
+              No-selection
+            </mat-option>
+            <mat-option [value]="1">
+              Display Repository notes2
+            </mat-option>
+            <mat-option [value]="2">
+              None-display Repository notes2
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isCin7Export && isShowBatchSelection" style="width: 7%;">
+        <mat-form-field floatLabel="never" appearance="outline">
+          <mat-label style="padding-left: 2px;">Batch Selection</mat-label>
+          <mat-select [formControl]="batchSelection" multiple>
+            <mat-option *ngFor="let batch of [1, 2, 3, 4, 5]" [value]="'-' + batch">
+              {{ 'batch ' + batch }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isShowDatePicker" style="{{ divWith }}">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ dateLabel ? dateLabel : 'Choose a date' }}</mat-label>
+          <input [formControl]="dateFormControl" matInput [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isShowUpload" style="top: 0.8rem; padding-bottom: 1rem;">
+        <app-upload-text (outputTextFileData)="uploadTextToArray($event)"></app-upload-text>
+      </div>
+    </div>
+  </div>
+</div>

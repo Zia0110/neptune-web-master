@@ -1,0 +1,10 @@
+<mat-icon class="close" style="cursor: pointer;" (click)="closeDialog()">clear</mat-icon>
+<h2 mat-dialog-title>
+  <span *ngIf="data.dialogLabel"> {{ data.dialogLabel }} </span> 删除
+</h2>
+
+<span *ngIf="data">
+  {{ data.name }}
+  <br /><br />
+</span>
+<button mat-raised-button (click)="confirmDelete()" color="warn">确定删除</button>

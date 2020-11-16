@@ -1,0 +1,52 @@
+<div *ngIf="isRetail">
+  <div style="min-height: 500px; width: 97%;" class="row">
+    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+      <ngx-charts-bar-vertical
+        [scheme]="colorScheme"
+        [results]="retailResult"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [legendTitle]="legendTitle"
+        [showDataLabel]="showDataLabel"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="retailSelect($event)"
+      >
+      </ngx-charts-bar-vertical>
+    </div>
+    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+      <app-client-detail-single-view-piechart [retailPieChart]="retailPieChart"> </app-client-detail-single-view-piechart>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!isRetail">
+  <div style="min-height: 500px; width: 97%;" class="row">
+    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+      <ngx-charts-bar-vertical
+        [scheme]="colorScheme"
+        [results]="wholeSaleResult"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [legendTitle]="legendTitle"
+        [showDataLabel]="showDataLabel"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="wholeSaleSelect($event)"
+      >
+      </ngx-charts-bar-vertical>
+    </div>
+
+    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+      <app-client-detail-single-view-piechart [wholeSalePieChart]="wholeSalePieChart"> </app-client-detail-single-view-piechart>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+
+<div style="width:100%;" class="input-group">
+    <input type="text" class="form-control" placeholder="Search here" [formControl]="searchBox" [matAutocomplete]="auto"
+        (keydown.enter)="submit(searchBox)">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+        </mat-option>
+    </mat-autocomplete>
+    <div class="input-group-append">
+        <button mat-flat-button color="primary" (click)="submit(searchBox)" type="button">Button</button>
+    </div>
+</div>
+

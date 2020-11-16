@@ -1,0 +1,47 @@
+.information-card-title {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.customerCardImg {
+  text-align: center;
+  padding: 1rem 2rem 0;
+  color: black;
+  font-weight: 600;
+}
+
+.linkDiv {
+  padding: 0 2rem 1rem;
+  text-align: center;
+}
+
+.cardContent {
+  padding: 0 2rem 0.5rem;
+  width: 100%;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.cardContent > div {
+  margin-bottom: 0.5rem;
+}
+
+.cardContent span {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
+
+::ng-deep .cardMatMenu {
+  width: 400px !important;
+  min-height: 300px !important;
+  border-radius: 1rem;
+  background-color: #fdfbfb;
+}
+
+hr {
+  width: 85%;
+}

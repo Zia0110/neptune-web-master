@@ -1,0 +1,45 @@
+<table class="mat-elevation-z8" mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="originCustomer">
+    <th mat-header-cell *matHeaderCellDef>Customer (From)</th>
+    <td mat-cell *matCellDef="let element">
+      <app-card-customer class="popover-link" [name]="element.FromCustomerCode" [id]="element.FromCustomerId"> </app-card-customer>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="destinationCustomer">
+    <th mat-header-cell *matHeaderCellDef>Customer (To)</th>
+    <td mat-cell *matCellDef="let element">
+      <app-card-customer class="popover-link" [name]="element.ToCustomerCode" [id]="element.ToCustomerId"> </app-card-customer>
+    </td>
+  </ng-container>
+
+  <!-- <ng-container matColumnDef="warehouse">
+    <th mat-header-cell  *matHeaderCellDef>仓库</th>
+    <td mat-cell *matCellDef="let element">
+      <app-card-warehouse class="popover-link" [name]="element.WarehouseName" [id]="element.WarehouseId">
+      </app-card-warehouse>
+    </td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="product">
+    <th mat-header-cell *matHeaderCellDef>Product Code</th>
+    <td mat-cell *matCellDef="let element">
+      <app-card-product class="popover-link" [name]="element.ProductCode" [id]="element.ProductId"> </app-card-product>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="quantity">
+    <th mat-header-cell *matHeaderCellDef>Quantity</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.Quantity }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Handle</th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

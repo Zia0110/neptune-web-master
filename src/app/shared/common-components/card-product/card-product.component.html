@@ -1,0 +1,43 @@
+<div class="information-card-title">
+  <span *ngIf="name" [matMenuTriggerFor]="menuProduct" (click)="showCard()">
+    {{ name }}
+  </span>
+</div>
+<mat-menu class="cardMatMenu mat-elevation-z8" #menuProduct="matMenu" (click)="$event.preventDefault()">
+  <div *ngIf="content" (click)="$event.stopPropagation()">
+    <div class="title">
+      <div class="productCardImg">
+        <img src="{{ content.BaseProductImage }}" alt="" height="100" />
+      </div>
+      <div class="barCode">
+        {{ content.BaseProductBarCode }}
+      </div>
+    </div>
+    <hr />
+    <div class="cardContent">
+      <div class="detailCard">
+        <div class="productName"><span>Product Name：</span>{{ content.ProductName }}</div>
+        <div class="standardName"><span>Product Code：</span>{{ content.ProductCode }}</div>
+        <div *ngIf="content.BaseProductWeight" class="weight"><span>Weight：</span>{{ content.BaseProductWeight }}g</div>
+      </div>
+      <div class="category">
+        <span>Category：</span>
+        {{ content.BaseProductCategoryId1 }} | {{ content.BaseProductCategoryId2 }} |
+        {{ content.BaseProductCategoryId3 }}
+      </div>
+      <div class="warehouse" *ngIf="isBaseProduct">
+        <div *ngFor="let value of content.WarehouseInfo">
+          <span><app-card-warehouse [id]="value.WarehouseId" [name]="value.WarehouseName"></app-card-warehouse>：</span>{{ value.Quantity }}
+        </div>
+      </div>
+      <div class="priceList" *ngIf="!isBaseProduct">
+        <div *ngFor="let value of content.CustomerProductPrice">
+          <span>{{ value.CustomerGroupName }}：</span>{{ value.Price }}
+        </div>
+      </div>
+    </div>
+    <!--    <div *ngIf="true" class="linkDiv">-->
+    <!--      <a href="#" target="_blank">查看客户库存</a>-->
+    <!--    </div>-->
+  </div>
+</mat-menu>

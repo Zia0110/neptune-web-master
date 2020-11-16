@@ -1,0 +1,102 @@
+<mat-icon class="close" style="cursor: pointer;" (click)="closeDialog()">clear</mat-icon>
+<h2 mat-dialog-title>Transport order actual inventory</h2>
+<app-export-excel [fileName]="'TransportOrderActualInventory'" [data]="excelExportValue"></app-export-excel>
+
+<mat-dialog-content *ngIf="data">
+  <div style="display: flex; flex-wrap: wrap; line-height: 40px;">
+    <div><span class="detailTypeName">Transport No：</span>{{ data.TransportNo }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">To：</span>{{ data.WarehouseId | WarehousePipe }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">From：</span>{{ data.FromWarehouseId | WarehousePipe }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">Type：</span>{{ data.TransportTypeName }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">Status：</span>{{ data.StatusName }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">Created At：</span>{{ data.CreatedAt | date }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">Departure Time：</span>{{ data.DepartureTime | date }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">Updated At：</span>{{ data.UpdatedAt | date }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">Estimated Arrival Time：</span>{{ data.EstimatedArrivalTime | date }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div *ngIf="data.Status == 4">
+      <span class="detailTypeName">Arrival Time：</span>{{ data.ArrivalTime | date }}
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </div>
+    <div *ngIf="data.UpdatedComments">
+      <span class="detailTypeName">Updated Comments：</span>{{ data.UpdatedComments }}
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </div>
+
+    <div><span class="detailTypeName">ConfirmedComments：</span>{{ data.ConfirmedComments }}</div>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <div><span class="detailTypeName">Comment：</span>{{ data.Comment }}</div>
+  </div>
+
+  <br />
+  <span>Initial Inventory - {{ data.FromWarehouseId | WarehousePipe }} </span>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="originData">
+      <ng-container matColumnDef="customer">
+        <th mat-header-cell *matHeaderCellDef>Customer</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.CustomerId | ClientPipe }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="product">
+        <th mat-header-cell *matHeaderCellDef>Product</th>
+        <td mat-cell *matCellDef="let element">{{ element.ProductCode }} - {{ element.BaseProductId | BaseProductPipe }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="QuantityPackage">
+        <th mat-header-cell *matHeaderCellDef>Package Qty</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.QuantityPackage }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="QuantityOfProduct">
+        <th mat-header-cell *matHeaderCellDef>Total Qty</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.QuantityOfProduct }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; let index; columns: displayedColumns1"></tr>
+    </table>
+  </div>
+
+  <br />
+  <span *ngIf="data.Status == 3">Current inventory</span>
+  <span *ngIf="data.Status == 4">Arrival inventory - {{ data.WarehouseId | WarehousePipe }}</span>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="realtimeData">
+      <ng-container matColumnDef="customer">
+        <th mat-header-cell *matHeaderCellDef>Customer</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.CustomerId | ClientPipe }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="product">
+        <th mat-header-cell *matHeaderCellDef>Product</th>
+        <td mat-cell *matCellDef="let element">{{ element.ProductCode }} - {{ element.BaseProductId | BaseProductPipe }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Total Qty</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.Quantity }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; let index; columns: displayedColumns2"></tr>
+    </table>
+  </div>
+</mat-dialog-content>
