@@ -68,7 +68,7 @@ export class WarehouseListFormarrayComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        WarehouseId: [''],
+        WarehouseId: 0,
         WarehouseName: [''],
         ContactPerson: [''],
         Phone: [''],
@@ -81,7 +81,7 @@ export class WarehouseListFormarrayComponent implements OnInit {
         isNew: [true]
       });
     }
-    
+
   }
 
 
@@ -104,12 +104,16 @@ export class WarehouseListFormarrayComponent implements OnInit {
     this.warehouseEndpoint._newWarehouse(group.value).subscribe(
       (success) => {
         console.log('Create Success!', success)
+        this.getWarehouseList()
         this.sweetAlertService.showSuccessMessage('Successfully added warehouse！')
+        group.get('isNew').setValue(false)
+        group.get('isEditable').setValue(false);
       },
       (error) => {
         this.sweetAlertService.showSweetAlert('Sorry, create failed！')
         console.log(error)
       })
+    
   }
 
   deleteWarehouse(warehouseId: any) {
@@ -135,22 +139,23 @@ export class WarehouseListFormarrayComponent implements OnInit {
   updateWarehouse(group: FormGroup) {
     console.log(group.value);
     console.log(group.value.WarehouseId);
+    let warehouseId = group.value.WarehouseId
     // console.log(group.get('WarehouseID').value);
+    // group.get('WarehouseId').setValue(0);
     group.get('isEditable').setValue(false);
 
-    this.warehouseEndpoint._updateWarehouse(group.value, group.value.WarehouseId).subscribe(
+    this.warehouseEndpoint._updateWarehouse(group.value, warehouseId).subscribe(
       (success) => {
+        this.getWarehouseList()
         console.log('Create Success!', success)
-        this.sweetAlertService.showSuccessMessage('Successfully created warehouse！')
+        this.sweetAlertService.showSuccessMessage('Successfully updated warehouse！')
       },
       (error) => {
-        this.sweetAlertService.showSweetAlert('Sorry, create failed！')
+        this.sweetAlertService.showSweetAlert('Sorry, update failed！')
         console.log(error)
       })
 
-      if(group.get('isNew').value) {
-        group.get('isNew').setValue(false);
-      }
+
 
 
   }
