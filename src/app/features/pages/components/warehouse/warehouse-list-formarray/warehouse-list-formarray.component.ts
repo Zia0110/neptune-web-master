@@ -61,8 +61,8 @@ export class WarehouseListFormarrayComponent implements OnInit {
         Email: [row.Email],
         Fax: [row.Fax],
         Website: [row.Website],
+        WarehouseType: [row.WarehouseTypeId],
         WarehouseTypeName: [row.WarehouseTypeName],
-        WarehouseTypeId: 1,
         isEditable: [false],
         isNew: [false]
       });
@@ -75,8 +75,8 @@ export class WarehouseListFormarrayComponent implements OnInit {
         Email: [''],
         Fax: [''],
         Website: [''],
+        WarehouseType: [''],
         WarehouseTypeName: [''],
-        WarehouseTypeId: 1,
         isEditable: [true],
         isNew: [true]
       });
@@ -113,7 +113,6 @@ export class WarehouseListFormarrayComponent implements OnInit {
         this.sweetAlertService.showSweetAlert('Sorry, create failed！')
         console.log(error)
       })
-    
   }
 
   deleteWarehouse(warehouseId: any) {
@@ -137,14 +136,35 @@ export class WarehouseListFormarrayComponent implements OnInit {
 
 
   updateWarehouse(group: FormGroup) {
-    console.log(group.value);
-    console.log(group.value.WarehouseId);
-    let warehouseId = group.value.WarehouseId
-    // console.log(group.get('WarehouseID').value);
-    // group.get('WarehouseId').setValue(0);
+
+    let warehouseTypeName
+    switch (group.value['WarehouseType']) {
+      case 1:
+        warehouseTypeName = '中国'
+        break
+      case 2:
+        warehouseTypeName = '新西兰'
+        break
+    }
+
+    let newWarehouseDetail = {
+      warehouseName: group.value['WarehouseName'],
+      contactPerson: group.value['ContactPerson'],
+      phone: group.value['Phone'],
+      email: group.value['Email'],
+      fax: group.value['Fax'],
+      website: group.value['Website'],
+      warehouseTypeName: warehouseTypeName,
+      warehouseTypeId: group.value['WarehouseType'],
+      isActive: 1,     
+    }
+    console.log(group)
+    console.log(group.value['WarehouseType']);
+    console.log(newWarehouseDetail);
+
     group.get('isEditable').setValue(false);
 
-    this.warehouseEndpoint._updateWarehouse(group.value, warehouseId).subscribe(
+    this.warehouseEndpoint._updateWarehouse(newWarehouseDetail, group.value.WarehouseId).subscribe(
       (success) => {
         this.getWarehouseList()
         console.log('Create Success!', success)
@@ -154,10 +174,6 @@ export class WarehouseListFormarrayComponent implements OnInit {
         this.sweetAlertService.showSweetAlert('Sorry, update failed！')
         console.log(error)
       })
-
-
-
-
   }
 
   saveUserDetails() {
@@ -166,8 +182,8 @@ export class WarehouseListFormarrayComponent implements OnInit {
 
   get getFormControls() {
     const control = this.userTable.get('tableRows') as FormArray;
-    console.log(control);
-    console.log(control.controls);
+    // console.log(control);
+    // console.log(control.controls);
     return control;
   }
 
@@ -186,7 +202,7 @@ export class WarehouseListFormarrayComponent implements OnInit {
   // onSubmit(group: FormGroup) {
   //   this.doneRow(group);
   //   let warehouseTypeName
-  //   switch (this.warehouseDetailForm.value['WarehouseType']) {
+  //   switch (group.value['WarehouseType']) {
   //     case 1:
   //       warehouseTypeName = '中国'
   //       break
@@ -195,18 +211,18 @@ export class WarehouseListFormarrayComponent implements OnInit {
   //       break
   //   }
   //   this.newWarehouseDetail = {
-  //     warehouseName: this.warehouseDetailForm.value['WarehouseName'],
-  //     contactPerson: this.warehouseDetailForm.value['ContactPerson'],
-  //     phone: this.warehouseDetailForm.value['Phone'],
-  //     email: this.warehouseDetailForm.value['Email'],
-  //     fax: this.warehouseDetailForm.value['Fax'],
-  //     website: this.warehouseDetailForm.value['Website'],
+  //     warehouseName: group.value['WarehouseName'],
+  //     contactPerson: group.value['ContactPerson'],
+  //     phone: group.value['Phone'],
+  //     email: group.value['Email'],
+  //     fax: group.value['Fax'],
+  //     website: group.value['Website'],
   //     warehouseTypeName: warehouseTypeName,
-  //     warehouseTypeId: this.warehouseDetailForm.value['WarehouseType'],
+  //     warehouseTypeId: group.value['WarehouseType'],
   //     isActive: 1,
   //   }
   //   // if (this.isNew == false) {
-  //   //   console.log('表单', this.warehouseDetailForm)
+  //   //   console.log('表单', group)
   //   //   console.log('更新后信息', this.newWarehouseDetail)
   //   //   this.warehouseEndpoint._updateWarehouse(this.newWarehouseDetail, this.warehouse['WarehouseId']).subscribe(
   //   //     (success) => {

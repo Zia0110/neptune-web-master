@@ -152,8 +152,9 @@ export class WarehouseListDialogComponent implements OnInit {
       website: this.warehouseDetailForm.value['Website'],
       warehouseTypeName: warehouseTypeName,
       warehouseTypeId: this.warehouseDetailForm.value['WarehouseType'],
-      isActive: 1,
+      isActive: 1,     
     }
+    
     if (this.isNew == false) {
       console.log('表单', this.warehouseDetailForm)
       console.log('更新后信息', this.newWarehouseDetail)

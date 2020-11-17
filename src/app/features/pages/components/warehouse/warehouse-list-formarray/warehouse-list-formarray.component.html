@@ -61,7 +61,7 @@
           </td>
           <td> 
             <mat-form-field >
-              <mat-select formControlName="WarehouseTypeName">
+              <mat-select formControlName="WarehouseType">
                 <mat-option value="1">中国</mat-option>
                 <mat-option value="2">新西兰</mat-option>
               </mat-select>
@@ -76,8 +76,7 @@
             <button  mat-mini-fab *ngIf="group.get('isNew').value" (click)="addNewWarehouse(group)">
               <mat-icon class="add_circle">add_circle</mat-icon>
             </button>
-            <!-- <mat-icon class="delete" (click)="deleteRow(i)">delete</mat-icon> -->
-            <!-- <mat-icon class="ml-5 done" (click)="doneRow(group)">delete</mat-icon> -->
+
           </td>
         </tr>
         <tr *ngIf="!group.get('isEditable').value">
@@ -105,6 +104,7 @@
           <td>
             {{group.get('WarehouseTypeName').value}}
           </td>
+
           <td>
             <button class="ml-2 action" [hidden]="group.get('isNew').value" (click)="editWarehouse(group)" mat-mini-fab color="accent">
               <mat-icon>edit</mat-icon>
